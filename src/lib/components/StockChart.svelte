@@ -12,7 +12,7 @@
   onMount(() => {
     chart = createChart(chartContainer, {
       width: chartContainer.clientWidth,
-      height: 400,
+      height: 500,
       layout: {
         background: { type: ColorType.Solid, color: '#ffffff' },
         textColor: '#333',
@@ -23,12 +23,12 @@
       },
       timeScale: {
         timeVisible: true,
-        minBarSpacing: 5,
-        rightOffset: 10,
+        minBarSpacing: 4,
+        rightOffset: 5,
       },
     });
 
-    candlestickSeries = chart.addCandlestickSeries();
+    candlestickSeries = chart.addBarSeries();
     updateChartData();
 
     const handleResize = () => {
