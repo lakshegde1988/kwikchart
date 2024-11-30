@@ -55,5 +55,5 @@
   }
 </script>
 
-<div bind:this={chartContainer} class="w-full h-[400px]"></div>
+<div bind:this={chartContainer} class="w-full h-[500px]"></div>
 
