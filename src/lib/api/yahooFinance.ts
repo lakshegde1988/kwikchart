@@ -7,34 +7,21 @@ export async function fetchYahooFinanceData(symbol: string, interval: string, ra
   try {
     const nsSymbol = symbol.endsWith('.NS') ? symbol : `${symbol}.NS`;
     
-    console.log(`Fetching data for symbol: ${nsSymbol}, interval: ${interval}, range: ${range}`);
-    
     const response = await axios.get(`${BASE_URL}/${nsSymbol}`, {
       params: {
-        interval: interval,
-        range: range,
+        interval,
+        range,
         includePrePost: false,
         events: 'div,split'
-      },
-      headers: {
-        'Accept': 'application/json'
       }
     });
     
-    if (typeof response.data === 'string') {
-      throw new Error('Received HTML instead of JSON. Proxy might not be working correctly.');
-    }
-
-    if (!response.data || !response.data.chart || !Array.isArray(response.data.chart.result) || response.data.chart.result.length === 0) {
-      throw new Error('Invalid data structure received from Yahoo Finance');
+    // Your existing data processing logic
+    if (!response.data || !response.data.chart || !response.data.chart.result) {
+      throw new Error('Invalid response structure');
     }
 
     const result = response.data.chart.result[0];
-    
-    if (!result.timestamp || !result.indicators || !result.indicators.quote || !Array.isArray(result.indicators.quote) || result.indicators.quote.length === 0) {
-      throw new Error('Missing required data fields from Yahoo Finance response');
-    }
-
     return processYahooFinanceData(result);
   } catch (error) {
     console.error('Error fetching Yahoo Finance data:', error);
@@ -55,4 +42,3 @@ function processYahooFinanceData(data: any): StockData[] {
     volume: quote.volume[index]
   }));
 }
-
