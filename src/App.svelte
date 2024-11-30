@@ -83,9 +83,13 @@
 
 <main class="min-h-screen bg-gray-100 p-4 md:p-8">
   <div class="max-w-7xl mx-auto">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-      <IndexSelector on:select={handleIndexSelect} />
-      <IntervalSelector on:change={handleIntervalChange} />
+    <div class="flex flex-col sm:flex-row gap-4 mb-6">
+      <div class="w-full sm:w-1/2">
+        <IndexSelector on:select={handleIndexSelect} />
+      </div>
+      <div class="w-full sm:w-1/2">
+        <IntervalSelector on:change={handleIntervalChange} />
+      </div>
     </div>
     {#if $currentStock}
       <div class="bg-white rounded-lg shadow-md p-4 mb-6">
