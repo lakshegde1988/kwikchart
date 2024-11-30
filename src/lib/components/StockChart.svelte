@@ -23,7 +23,8 @@
       },
       timeScale: {
         timeVisible: true,
-        secondsVisible: false,
+        minBarSpacing: 5,
+        rightOffset: 10,
       },
     });
 
