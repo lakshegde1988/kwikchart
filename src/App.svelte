@@ -93,7 +93,7 @@
 </div>
     {#if $currentStock}
       <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-        <h2 class="text-xl font-semibold text-gray-700">{$currentStock["Company Name"]} ({$currentStock.Symbol})</h2>
+        <h2 class="text-xl font-semibold text-gray-700">{$currentStock["Company Name"]}</h2>
       </div>
     {/if}
     {#if $loading}
