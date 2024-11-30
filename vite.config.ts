@@ -10,6 +10,12 @@ export default defineConfig({
       plugins: [tailwindcss(), autoprefixer()],
     },
   },
+  resolve: {
+    alias: {
+      '@lib': '/src/lib',
+      '@components': '/src/lib/components',
+    },
+  },
   server: {
     proxy: {
       '/yahoo-finance': {
@@ -18,10 +24,14 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/yahoo-finance/, ''),
         secure: false,
         headers: {
-          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-        }
-      }
-    }
-  }
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+        },
+      },
+    },
+  },
+  build: {
+    sourcemap: false,
+    outDir: 'dist',
+    minify: 'esbuild',
+  },
 });
-
