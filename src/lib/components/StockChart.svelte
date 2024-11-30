@@ -22,8 +22,8 @@
         horzLines: { color: '#f0f0f0' },
       },
       timeScale: {
-        timeVisible: true,
-        minBarSpacing: 4,
+        timeVisible: false,
+        minBarSpacing: 3,
         rightOffset: 5,
       },
     });
