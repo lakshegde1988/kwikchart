@@ -105,7 +105,7 @@
         <p>{$error}</p>
       </div>
     {:else if $stockData.length > 0}
-      <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+      <div class="bg-white rounded-lg shadow-md p-1 mb-6">
         <StockChart data={$stockData} />
       </div>
     {/if}
