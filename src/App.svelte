@@ -91,7 +91,7 @@
         <p>{$error}</p>
       </div>
     {:else if $stockData.length > 0 && $currentStock}
-      <!-- The chart takes full height of remaining space -->
+      <!-- Ensure the chart fills available space -->
       <div class="flex-grow flex bg-white rounded-lg shadow-md p-4">
         <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
       </div>
