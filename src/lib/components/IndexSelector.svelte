@@ -12,7 +12,6 @@
 </script>
 
 <div class="relative inline-block">
-  <label for="index-select" class="block text-sm font-medium text-gray-700 mb-1">Select Index</label>
   <select
     id="index-select"
     class="block w-auto pl-3 pr-8 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md shadow-sm"
