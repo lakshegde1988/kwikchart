@@ -94,8 +94,15 @@
       upColor: '#26a69a',
       downColor: '#ef5350',
     });
-
+    candlestickSeries.priceScale().applyOptions({
+      scaleMargins: {
+        top: 0.2,
+        bottom: 0.2,
+      }
+    });
+    chart.timeScale().fitContent();
     updateChartData();
+
     setInitialLegend();
 
     chart.subscribeCrosshairMove(updateLegend);
@@ -121,6 +128,7 @@
       });
     }
   }
+
 </script>
 
 <div class="chart-container relative flex-grow">
