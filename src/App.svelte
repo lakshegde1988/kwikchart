@@ -3,10 +3,10 @@
   import IndexSelector from './lib/components/IndexSelector.svelte';
   import IntervalSelector from './lib/components/IntervalSelector.svelte';
   import StockChart from './lib/components/StockChart.svelte';
-  import PaginationControls from './lib/components/PaginationControls.svelte';
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
-  import type { Stock, StockData, Interval } from './lib/types';
   import { stocks, currentStock, stockData, loading, error } from './lib/stores/stockStore';
+  import type { Stock, StockData, Interval } from './lib/types';
+  import { FaArrowLeft, FaArrowRight } from 'svelte-icons/fa'; // FontAwesome icons
 
   let currentIndex = 0;
   let selectedFile = '';
@@ -83,7 +83,6 @@
   <!-- Content Area -->
   <div class="flex-grow">
     <div class="h-full flex flex-col">
-      <!-- Chart or Loading/Error -->
       {#if $loading}
         <div class="flex justify-center items-center flex-grow">
           <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
@@ -101,22 +100,31 @@
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-20 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
-    <div class="max-w-7xl mx-auto px-4 h-full flex flex-wrap sm:flex-nowrap justify-between items-center space-y-2 sm:space-y-0">
+  <footer class="h-16 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between space-x-4">
       <!-- Left: Selectors -->
-      <div class="flex flex-wrap items-center space-x-2 sm:space-x-4">
-        <IndexSelector class="text-sm sm:text-base" on:select={handleIndexSelect} />
-        <IntervalSelector class="text-sm sm:text-base" on:change={handleIntervalChange} />
+      <div class="flex items-center space-x-2 sm:space-x-4">
+        <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
+        <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
       </div>
 
       <!-- Right: Pagination Controls -->
-      <PaginationControls 
-        class="text-sm sm:text-base space-x-2"
-        {currentIndex}
-        {totalStocks}
-        on:previous={handlePrevious}
-        on:next={handleNext}
-      />
+      <div class="flex items-center space-x-4">
+        <button
+          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
+          on:click={handlePrevious}
+          disabled={currentIndex === 0}
+        >
+          <FaArrowLeft class="w-5 h-5" />
+        </button>
+        <button
+          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
+          on:click={handleNext}
+          disabled={currentIndex === totalStocks - 1}
+        >
+          <FaArrowRight class="w-5 h-5" />
+        </button>
+      </div>
     </div>
   </footer>
 </main>
