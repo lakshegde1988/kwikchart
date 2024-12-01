@@ -27,7 +27,7 @@
 
       const previousDataPoint = data[data.indexOf(dataPoint) - 1];
       const previousClose = previousDataPoint ? previousDataPoint.close : dataPoint.open;
-      
+
       const priceChange = validData.close - previousClose;
       const percentageChange = (priceChange / previousClose) * 100;
       const isPositive = priceChange >= 0;
@@ -45,81 +45,88 @@
               </span>
             </div>
           </div>
-          
         </div>
-      `;  
+      `;
     }
   }
 
   onMount(() => {
-  chart = createChart(chartContainer, {
-    width: chartContainer.clientWidth,
-    height: 500,
-    layout: {
-      background: { type: ColorType.Solid, color: '#ffffff' },
-      textColor: '#333',
-    },
-    grid: {
-      vertLines: { color: '#f0f0f0' },
-      horzLines: { color: '#f0f0f0' },
-    },
-    timeScale: {
-      timeVisible: false,
-      rightOffset: 5,
-      minBarSpacing: 2,
-    },
+    initializeChart();
+
+    // Handle resizing dynamically
+    const handleResize = () => {
+      const containerHeight = chartContainer.parentElement?.clientHeight || 500;
+      chart.applyOptions({
+        width: chartContainer.clientWidth,
+        height: containerHeight,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize(); // Initial resize
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      chart.remove();
+    };
   });
 
-  candlestickSeries = chart.addCandlestickSeries({
-    upColor: '#26a69a',
-    downColor: '#ef5350',
-    borderVisible: false,
-    wickUpColor: '#26a69a',
-    wickDownColor: '#ef5350',
-  });
+  function initializeChart() {
+    chart = createChart(chartContainer, {
+      width: chartContainer.clientWidth,
+      height: chartContainer.parentElement?.clientHeight || 500,
+      layout: {
+        background: { type: ColorType.Solid, color: '#ffffff' },
+        textColor: '#333',
+      },
+      grid: {
+        vertLines: { color: '#f0f0f0' },
+        horzLines: { color: '#f0f0f0' },
+      },
+      timeScale: {
+        timeVisible: false,
+        rightOffset: 5,
+        minBarSpacing: 2,
+      },
+    });
 
-  updateChartData();
-  setInitialLegend(); // Initialize legend with the latest data
+    candlestickSeries = chart.addCandlestickSeries({
+      upColor: '#26a69a',
+      downColor: '#ef5350',
+      borderVisible: false,
+      wickUpColor: '#26a69a',
+      wickDownColor: '#ef5350',
+    });
 
-  chart.subscribeCrosshairMove(updateLegend);
+    updateChartData();
+    setInitialLegend();
 
-  chartContainer.addEventListener('mouseleave', () => {
-    setInitialLegend(); // Reset legend to the latest data
-  });
+    chart.subscribeCrosshairMove(updateLegend);
 
-  const handleResize = () => {
-    chart.applyOptions({ width: chartContainer.clientWidth });
-  };
-
-  window.addEventListener('resize', handleResize);
-
-  return () => {
-    window.removeEventListener('resize', handleResize);
-    chart.remove();
-  };
-});
-
-function updateChartData() {
-  if (candlestickSeries && data && data.length > 0) {
-    candlestickSeries.setData(data);
-    chart.timeScale().fitContent();
-    setInitialLegend(); // Update legend after data is set
-  }
-}
-
-function setInitialLegend() {
-  if (data && data.length > 0) {
-    const lastDataPoint = data[data.length - 1];
-    updateLegend({
-      seriesData: new Map([[candlestickSeries, lastDataPoint]]),
+    chartContainer.addEventListener('mouseleave', () => {
+      setInitialLegend();
     });
   }
-}
 
+  function updateChartData() {
+    if (candlestickSeries && data && data.length > 0) {
+      candlestickSeries.setData(data);
+      chart.timeScale().fitContent();
+      setInitialLegend();
+    }
+  }
+
+  function setInitialLegend() {
+    if (data && data.length > 0) {
+      const lastDataPoint = data[data.length - 1];
+      updateLegend({
+        seriesData: new Map([[candlestickSeries, lastDataPoint]]),
+      });
+    }
+  }
 </script>
 
-<div class="chart-container relative">
-  <div bind:this={chartContainer} class="w-full h-[500px]"></div>
+<div class="chart-container relative flex-grow">
+  <div bind:this={chartContainer} class="w-full h-full"></div>
   <div bind:this={legendContainer} class="absolute top-1 left-1 z-10 font-sans p-1"></div>
 </div>
-
