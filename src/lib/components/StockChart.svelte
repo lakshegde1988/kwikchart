@@ -55,7 +55,7 @@
 
     // Handle resizing dynamically
     const handleResize = () => {
-      const containerHeight = chartContainer.parentElement?.clientHeight || 730;
+      const containerHeight = chartContainer.parentElement?.clientHeight || 750;
       chart.applyOptions({
         width: chartContainer.clientWidth,
         height: containerHeight,
@@ -74,7 +74,7 @@
   function initializeChart() {
     chart = createChart(chartContainer, {
       width: chartContainer.clientWidth,
-      height: chartContainer.parentElement?.clientHeight || 730,
+      height: chartContainer.parentElement?.clientHeight || 750,
       layout: {
         background: { type: ColorType.Solid, color: '#ffffff' },
         textColor: '#333',
@@ -86,16 +86,13 @@
       timeScale: {
         timeVisible: false,
         rightOffset: 5,
-        minBarSpacing: 2,
+        minBarSpacing: 3,
       },
     });
 
-    candlestickSeries = chart.addCandlestickSeries({
+    candlestickSeries = chart.addBarSeries({
       upColor: '#26a69a',
       downColor: '#ef5350',
-      borderVisible: false,
-      wickUpColor: '#26a69a',
-      wickDownColor: '#ef5350',
     });
 
     updateChartData();
