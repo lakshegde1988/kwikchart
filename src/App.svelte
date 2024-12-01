@@ -81,36 +81,43 @@
   });
 </script>
 
-<main class="min-h-screen bg-gray-100 p-4 md:p-8">
-  <div class="max-w-6xl mx-auto">
-    <div class="flex flex-row items-center gap-4 mb-6">
-      <div class="w-1/2">
+<main class="h-screen flex flex-col">
+  <!-- Content Area -->
+  <div class="flex-grow">
+    <div class="h-full flex flex-col">
+      <!-- Chart or Loading/Error -->
+      {#if $loading}
+        <div class="flex justify-center items-center flex-grow">
+          <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+      {:else if $error}
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mx-4" role="alert">
+          <p>{$error}</p>
+        </div>
+      {:else if $stockData.length > 0 && $currentStock}
+        <div class="flex-grow">
+          <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
+        </div>
+      {/if}
+    </div>
+  </div>
+
+  <!-- Sticky Footer -->
+  <footer class="h-20 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-4 h-full">
+      <!-- Left: Selectors -->
+      <div class="flex space-x-4">
         <IndexSelector on:select={handleIndexSelect} />
-      </div>
-      <div class="w-1/2">
         <IntervalSelector on:change={handleIntervalChange} />
       </div>
+
+      <!-- Right: Pagination Controls -->
+      <PaginationControls 
+        {currentIndex}
+        {totalStocks}
+        on:previous={handlePrevious}
+        on:next={handleNext}
+      />
     </div>
-
-    {#if $loading}
-      <div class="flex justify-center items-center h-64">
-        <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    {:else if $error}
-      <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
-        <p>{$error}</p>
-      </div>
-    {:else if $stockData.length > 0 && $currentStock}
-      <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-        <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
-      </div>
-    {/if}
-    <PaginationControls 
-      {currentIndex}
-      {totalStocks}
-      on:previous={handlePrevious}
-      on:next={handleNext}
-    />
-  </div>
+  </footer>
 </main>
-
