@@ -55,7 +55,7 @@
 
     // Handle resizing dynamically
     const handleResize = () => {
-      const containerHeight = chartContainer.parentElement?.clientHeight || 700;
+      const containerHeight = chartContainer.parentElement?.clientHeight || 730;
       chart.applyOptions({
         width: chartContainer.clientWidth,
         height: containerHeight,
@@ -74,7 +74,7 @@
   function initializeChart() {
     chart = createChart(chartContainer, {
       width: chartContainer.clientWidth,
-      height: chartContainer.parentElement?.clientHeight || 700,
+      height: chartContainer.parentElement?.clientHeight || 730,
       layout: {
         background: { type: ColorType.Solid, color: '#ffffff' },
         textColor: '#333',
