@@ -77,6 +77,33 @@
       loadStocksFromFile(selectedFile);
     }
   });
+let isFullscreen = false;
+
+// Toggle Fullscreen
+function toggleFullscreen() {
+  const appElement = document.getElementById('app');
+  if (!isFullscreen && appElement) {
+    appElement.requestFullscreen().catch((err) => {
+      console.error("Failed to enable fullscreen:", err);
+    });
+  } else if (document.fullscreenElement) {
+    document.exitFullscreen().catch((err) => {
+      console.error("Failed to exit fullscreen:", err);
+    });
+  }
+}
+// Listen for Fullscreen Changes
+onMount(() => {
+  const handleFullscreenChange = () => {
+    isFullscreen = !!document.fullscreenElement;
+  };
+
+  document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+  return () => {
+    document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  };
+});
 </script>
 
 <main class="flex flex-col h-[100dvh] bg-gray-100 overflow-hidden">
