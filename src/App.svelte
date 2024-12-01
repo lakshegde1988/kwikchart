@@ -8,8 +8,6 @@
   import type { Stock, StockData, Interval } from './lib/types';
   import { stocks, currentStock, stockData, loading, error } from './lib/stores/stockStore';
 
-  import './app.css';
-
   let currentIndex = 0;
   let selectedFile = '';
   let selectedInterval: Interval = { label: 'Daily', value: '1d', range: '1y' };
@@ -81,7 +79,7 @@
   });
 </script>
 
-<main class="h-screen flex flex-col">
+<main class="flex flex-col h-[100dvh] bg-gray-100">
   <!-- Content Area -->
   <div class="flex-grow">
     <div class="h-full flex flex-col">
