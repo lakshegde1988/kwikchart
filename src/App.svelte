@@ -95,38 +95,46 @@
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-16 flex-shrink-0 bg-white border-t border-gray-200 shadow-md landscape:h-12">
-    <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between space-x-4">
-      <!-- Left: Selectors -->
-      <div class="flex items-center space-x-2 sm:space-x-4">
-        <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
-        <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
-      </div>
-
-      <!-- Right: Pagination Controls -->
-      <div class="flex items-center space-x-4">
-        <!-- Previous Button -->
-        <button
-          class="p-2 text-base text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
-          on:click={handlePrevious}
-          disabled={currentIndex === 0}
-        >
-          <div class="w-6 h-6">
-            <FaArrowLeft />
-          </div>
-        </button>
-      
-        <!-- Next Button -->
-        <button
-          class="p-2 text-base text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
-          on:click={handleNext}
-          disabled={currentIndex === totalStocks - 1}
-        >
-          <div class="w-6 h-6">
-            <FaArrowRight />
-          </div>
-        </button>
-      </div>
+  <footer class="h-16 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
+  <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between space-x-4">
+    <!-- Left: Selectors -->
+    <div class="flex items-center space-x-2 sm:space-x-4">
+      <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
+      <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
     </div>
-  </footer>
+
+    <!-- Right: Pagination + Fullscreen Button -->
+    <div class="flex items-center space-x-4">
+      <!-- Pagination Controls -->
+      <button
+        class="p-2 text-base text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
+        on:click={handlePrevious}
+        disabled={currentIndex === 0}
+      >
+        <div class="w-6 h-6">
+          <FaArrowLeft />
+        </div>
+      </button>
+
+      <button
+        class="p-2 text-base text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
+        on:click={handleNext}
+        disabled={currentIndex === totalStocks - 1}
+      >
+        <div class="w-6 h-6">
+          <FaArrowRight />
+        </div>
+      </button>
+
+      <!-- Fullscreen Button (visible only on mobile) -->
+      <button
+        class="p-2 bg-blue-500 text-white rounded-md sm:hidden"
+        on:click={toggleFullscreen}
+      >
+        Full Screen
+      </button>
+    </div>
+  </div>
+</footer>
+
 </main>
