@@ -50,25 +50,35 @@
     }
   }
 
-  onMount(() => {
+ onMount(() => {
   initializeChart();
 
-  const handleResize = () => {
-    const containerHeight = chartContainer.parentElement?.clientHeight || window.innerHeight - 64; // Footer height (16rem) converted to pixels
+  // Use ResizeObserver for smooth transitions
+  const resizeObserver = new ResizeObserver(() => {
+    adjustChartSize();
+  });
+
+  if (chartContainer) {
+    resizeObserver.observe(chartContainer);
+  }
+
+  return () => {
+    resizeObserver.disconnect();
+    chart.remove();
+  };
+});
+
+function adjustChartSize() {
+  if (chart && chartContainer) {
+    const containerHeight =
+      chartContainer.parentElement?.clientHeight || window.innerHeight - 64; // 64px is the footer height
     chart.applyOptions({
       width: chartContainer.clientWidth,
       height: containerHeight,
     });
-  };
+  }
+}
 
-  window.addEventListener('resize', handleResize);
-  handleResize(); // Initial resize
-
-  return () => {
-    window.removeEventListener('resize', handleResize);
-    chart.remove();
-  };
-});
 
 
   function initializeChart() {
