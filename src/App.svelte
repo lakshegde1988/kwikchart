@@ -81,9 +81,9 @@
 
 <main class="h-screen flex flex-col bg-gray-100">
   <!-- Content Area -->
-  <div class="flex-grow max-w-7xl mx-auto p-4 md:p-8">
+  <div class="flex-grow flex flex-col max-w-7xl mx-auto p-4 md:p-8">
     {#if $loading}
-      <div class="flex justify-center items-center h-64">
+      <div class="flex justify-center items-center flex-grow">
         <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
       </div>
     {:else if $error}
@@ -91,13 +91,13 @@
         <p>{$error}</p>
       </div>
     {:else if $stockData.length > 0 && $currentStock}
-      <div class="bg-white rounded-lg shadow-md p-4 mb-6 h-full">
+      <div class="flex-grow bg-white rounded-lg shadow-md p-4 mb-6">
         <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
       </div>
     {/if}
   </div>
 
-  <!-- Footer: Controls -->
+  <!-- Sticky Footer -->
   <footer class="sticky bottom-0 bg-white border-t border-gray-200 shadow-md">
     <div class="max-w-7xl mx-auto p-4 flex flex-col sm:flex-row sm:justify-between items-center space-y-4 sm:space-y-0">
       <!-- Left: Selectors -->
