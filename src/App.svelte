@@ -115,14 +115,14 @@
           on:click={handlePrevious}
           disabled={currentIndex === 0}
         >
-          <FaArrowLeft class="w-5 h-5" />
+          <FaArrowLeft class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
         </button>
         <button
           class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
           on:click={handleNext}
           disabled={currentIndex === totalStocks - 1}
         >
-          <FaArrowRight class="w-5 h-5" />
+          <FaArrowRight class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
         </button>
       </div>
     </div>
