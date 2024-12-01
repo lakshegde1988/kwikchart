@@ -51,30 +51,30 @@
   }
 
   onMount(() => {
-    initializeChart();
+  initializeChart();
 
-    // Handle resizing dynamically
-    const handleResize = () => {
-      const containerHeight = chartContainer.parentElement?.clientHeight || 750;
-      chart.applyOptions({
-        width: chartContainer.clientWidth,
-        height: containerHeight,
-      });
-    };
+  const handleResize = () => {
+    const containerHeight = chartContainer.parentElement?.clientHeight || window.innerHeight - 64; // Footer height (16rem) converted to pixels
+    chart.applyOptions({
+      width: chartContainer.clientWidth,
+      height: containerHeight,
+    });
+  };
 
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Initial resize
+  window.addEventListener('resize', handleResize);
+  handleResize(); // Initial resize
 
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      chart.remove();
-    };
-  });
+  return () => {
+    window.removeEventListener('resize', handleResize);
+    chart.remove();
+  };
+});
+
 
   function initializeChart() {
     chart = createChart(chartContainer, {
       width: chartContainer.clientWidth,
-      height: chartContainer.parentElement?.clientHeight || 750,
+      height: chartContainer.parentElement?.clientHeight || window.innerHeight - 64,
       layout: {
         background: { type: ColorType.Solid, color: '#ffffff' },
         textColor: '#333',
