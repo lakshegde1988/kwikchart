@@ -52,58 +52,70 @@
   }
 
   onMount(() => {
-    chart = createChart(chartContainer, {
-      width: chartContainer.clientWidth,
-      height: 500,
-      layout: {
-        background: { type: ColorType.Solid, color: '#ffffff' },
-        textColor: '#333',
-      },
-      grid: {
-        vertLines: { color: '#f0f0f0' },
-        horzLines: { color: '#f0f0f0' },
-      },
-      timeScale: {
-        timeVisible: false,
-        rightOffset:5,
-        minBarSpacing :2,
-      },
-    });
-
-    candlestickSeries = chart.addCandlestickSeries({
-      upColor: '#26a69a',
-      downColor: '#ef5350',
-      borderVisible: false,
-      wickUpColor: '#26a69a',
-      wickDownColor: '#ef5350',
-    });
-
-    updateChartData();
-
-    chart.subscribeCrosshairMove(updateLegend);
-
-    const handleResize = () => {
-      chart.applyOptions({ width: chartContainer.clientWidth });
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-      chart.remove();
-    };
+  chart = createChart(chartContainer, {
+    width: chartContainer.clientWidth,
+    height: 500,
+    layout: {
+      background: { type: ColorType.Solid, color: '#ffffff' },
+      textColor: '#333',
+    },
+    grid: {
+      vertLines: { color: '#f0f0f0' },
+      horzLines: { color: '#f0f0f0' },
+    },
+    timeScale: {
+      timeVisible: false,
+      rightOffset: 5,
+      minBarSpacing: 2,
+    },
   });
 
-  $: if (data && candlestickSeries) {
-    updateChartData();
-  }
+  candlestickSeries = chart.addCandlestickSeries({
+    upColor: '#26a69a',
+    downColor: '#ef5350',
+    borderVisible: false,
+    wickUpColor: '#26a69a',
+    wickDownColor: '#ef5350',
+  });
 
-  function updateChartData() {
-    if (candlestickSeries && data && data.length > 0) {
-      candlestickSeries.setData(data);
-      chart.timeScale().fitContent();
-    }
+  updateChartData();
+  setInitialLegend(); // Initialize legend with the latest data
+
+  chart.subscribeCrosshairMove(updateLegend);
+
+  chartContainer.addEventListener('mouseleave', () => {
+    setInitialLegend(); // Reset legend to the latest data
+  });
+
+  const handleResize = () => {
+    chart.applyOptions({ width: chartContainer.clientWidth });
+  };
+
+  window.addEventListener('resize', handleResize);
+
+  return () => {
+    window.removeEventListener('resize', handleResize);
+    chart.remove();
+  };
+});
+
+function updateChartData() {
+  if (candlestickSeries && data && data.length > 0) {
+    candlestickSeries.setData(data);
+    chart.timeScale().fitContent();
+    setInitialLegend(); // Update legend after data is set
   }
+}
+
+function setInitialLegend() {
+  if (data && data.length > 0) {
+    const lastDataPoint = data[data.length - 1];
+    updateLegend({
+      seriesData: new Map([[candlestickSeries, lastDataPoint]]),
+    });
+  }
+}
+
 </script>
 
 <div class="chart-container relative">
