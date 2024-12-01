@@ -106,12 +106,12 @@ export async function fetchYahooFinanceData(symbol: string, interval: string, ra
   }
 
   try {
-    const response = await axios.get(
-      `/api/yahoo-finance/v8/finance/chart/${formattedSymbol}`,
-      {
-        params: { range, interval: '1d', events: 'history', includeAdjustedClose: true },
-      }
-    );
+    const BASE_URL = '/api/yahoo-finance';
+
+    const response = await axios.get(`${BASE_URL}/v8/finance/chart/${formattedSymbol}`, {
+      params: { range, interval, events: 'history', includeAdjustedClose: true },
+    });
+
 
     const { chart } = response.data;
     if (!chart?.result?.[0]) {
