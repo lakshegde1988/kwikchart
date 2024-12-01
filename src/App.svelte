@@ -102,15 +102,16 @@
 
   <!-- Sticky Footer -->
   <footer class="h-20 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
-    <div class="max-w-7xl mx-auto flex justify-between items-center px-4 h-full">
+    <div class="max-w-7xl mx-auto px-4 h-full flex flex-wrap sm:flex-nowrap justify-between items-center space-y-2 sm:space-y-0">
       <!-- Left: Selectors -->
-      <div class="flex space-x-4">
-        <IndexSelector on:select={handleIndexSelect} />
-        <IntervalSelector on:change={handleIntervalChange} />
+      <div class="flex flex-wrap items-center space-x-2 sm:space-x-4">
+        <IndexSelector class="text-sm sm:text-base" on:select={handleIndexSelect} />
+        <IntervalSelector class="text-sm sm:text-base" on:change={handleIntervalChange} />
       </div>
 
       <!-- Right: Pagination Controls -->
       <PaginationControls 
+        class="text-sm sm:text-base space-x-2"
         {currentIndex}
         {totalStocks}
         on:previous={handlePrevious}
