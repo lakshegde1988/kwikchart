@@ -81,7 +81,7 @@
   });
 </script>
 
-<main class="h-screen flex flex-col">
+<main class="h-svh flex flex-col">
   <!-- Content Area -->
   <div class="flex-grow">
     <div class="h-full flex flex-col">
@@ -103,7 +103,7 @@
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-20 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
+  <footer class="sticky h-20 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
     <div class="max-w-7xl mx-auto flex justify-between items-center px-4 h-full">
       <!-- Left: Selectors -->
       <div class="flex space-x-4">
