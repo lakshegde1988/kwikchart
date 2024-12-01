@@ -1,7 +1,7 @@
 {
   "rewrites": [
     {
-      "source": "/yahoo-finance/:path*",
+      "source": "/api/yahoo-finance/:path*",
       "destination": "https://query1.finance.yahoo.com/:path*"
     }
   ]
