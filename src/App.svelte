@@ -109,22 +109,30 @@
       </div>
 
       <!-- Right: Pagination Controls -->
-      <div class="flex items-center space-x-4">
+     <div class="flex items-center space-x-4">
+        <!-- Previous Button -->
         <button
-          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400 text-base"
+          class="p-2 text-base text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
           on:click={handlePrevious}
           disabled={currentIndex === 0}
         >
-          <FaArrowLeft class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-inherit" />
+          <div class="w-6 h-6">
+            <FaArrowLeft />
+          </div>
         </button>
+      
+        <!-- Next Button -->
         <button
-          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400 text-base"
+          class="p-2 text-base text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
           on:click={handleNext}
           disabled={currentIndex === totalStocks - 1}
         >
-          <FaArrowRight class="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 text-inherit" />
+          <div class="w-6 h-6">
+            <FaArrowRight />
+          </div>
         </button>
       </div>
+
 
     </div>
   </footer>
