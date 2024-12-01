@@ -80,23 +80,18 @@
 </script>
 
 <main class="flex flex-col h-[100dvh] bg-gray-100 overflow-hidden">
-  <!-- Content Area -->
-  <div class="flex-grow overflow-hidden">
-    <div class="h-full flex flex-col overflow-hidden">
-      {#if $loading}
-        <div class="flex justify-center items-center flex-grow">
-          <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
-        </div>
-      {:else if $error}
-        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mx-4" role="alert">
-          <p>{$error}</p>
-        </div>
-      {:else if $stockData.length > 0 && $currentStock}
-        <div class="flex-grow overflow-hidden">
-          <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
-        </div>
-      {/if}
-    </div>
+  <div class="flex-grow flex">
+    {#if $loading}
+      <div class="flex justify-center items-center flex-grow">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    {:else if $error}
+      <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mx-4" role="alert">
+        <p>{$error}</p>
+      </div>
+    {:else if $stockData.length > 0 && $currentStock}
+      <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
+    {/if}
   </div>
 
   <!-- Sticky Footer -->
