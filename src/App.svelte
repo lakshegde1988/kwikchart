@@ -75,19 +75,25 @@
 
   // Fullscreen API logic
   function toggleFullscreen() {
-    const appElement = document.getElementById('app');
-    if (!isFullscreen && appElement) {
-      appElement.requestFullscreen()
-        .then(() => {
-          isFullscreen = true;
-        })
-        .catch(err => console.error('Failed to enter fullscreen:', err));
-    } else if (document.fullscreenElement) {
-      document.exitFullscreen()
-        .then(() => {
-          isFullscreen = false;
-        })
-        .catch(err => console.error('Failed to exit fullscreen:', err));
+    const appElement = document.documentElement; // Use the whole page, not just #app
+    if (!isFullscreen) {
+      if (appElement.requestFullscreen) {
+        appElement.requestFullscreen()
+          .then(() => {
+            console.log("Fullscreen enabled");
+            isFullscreen = true;
+          })
+          .catch(err => console.error('Error entering fullscreen:', err));
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen()
+          .then(() => {
+            console.log("Fullscreen exited");
+            isFullscreen = false;
+          })
+          .catch(err => console.error('Error exiting fullscreen:', err));
+      }
     }
   }
 
@@ -111,7 +117,7 @@
   });
 </script>
 
-<main id="app" class="flex flex-col h-[100dvh] bg-gray-100">
+<main id="app" class="flex flex-col h-[100dvh] bg-gray-100 overflow-hidden">
   <!-- Content Area -->
   <div class="flex-grow">
     <div class="h-full flex flex-col">
