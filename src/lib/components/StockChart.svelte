@@ -4,10 +4,52 @@
   import type { StockData } from '../types';
 
   export let data: StockData[] = [];
+  export let stockName: string = '';
 
   let chartContainer: HTMLElement;
+  let legendContainer: HTMLElement;
   let chart: any;
   let candlestickSeries: any;
+
+  function formatPrice(price: number): string {
+    return price.toFixed(2);
+  }
+
+  function formatPercentage(percentage: number): string {
+    return percentage.toFixed(2) + '%';
+  }
+
+  function updateLegend(param: any) {
+    const validData = param.seriesData.get(candlestickSeries);
+    if (validData) {
+      const dataPoint = data.find(d => d.time === validData.time);
+      if (!dataPoint) return;
+
+      const previousDataPoint = data[data.indexOf(dataPoint) - 1];
+      const previousClose = previousDataPoint ? previousDataPoint.close : dataPoint.open;
+      
+      const priceChange = validData.close - previousClose;
+      const percentageChange = (priceChange / previousClose) * 100;
+      const isPositive = priceChange >= 0;
+
+      legendContainer.innerHTML = `
+        <div class="flex flex-col">
+          <div class="text-md font-bold mb-2">${stockName}</div>
+          <div class="flex items-center space-x-4 mb-2">
+            <div class="flex flex-col">
+              <span class="text-sm font-semibold">${formatPrice(validData.close)}</span>
+            </div>
+            <div class="flex flex-col">
+              <span class="text-sm font-semibold ${isPositive ? 'text-green-500' : 'text-red-500'}">
+                ${isPositive ? '+' : ''}${formatPrice(priceChange)} (${formatPercentage(percentageChange)})
+              </span>
+            </div>
+          </div>
+          
+        </div>
+      `;  
+    }
+  }
 
   onMount(() => {
     chart = createChart(chartContainer, {
@@ -23,13 +65,22 @@
       },
       timeScale: {
         timeVisible: false,
-        minBarSpacing: 3,
-        rightOffset: 5,
+        rightOffset:5,
+        minBarSpacing :2,
       },
     });
 
-    candlestickSeries = chart.addBarSeries();
+    candlestickSeries = chart.addCandlestickSeries({
+      upColor: '#26a69a',
+      downColor: '#ef5350',
+      borderVisible: false,
+      wickUpColor: '#26a69a',
+      wickDownColor: '#ef5350',
+    });
+
     updateChartData();
+
+    chart.subscribeCrosshairMove(updateLegend);
 
     const handleResize = () => {
       chart.applyOptions({ width: chartContainer.clientWidth });
@@ -55,5 +106,8 @@
   }
 </script>
 
-<div bind:this={chartContainer} class="w-full h-[500px]"></div>
+<div class="chart-container relative">
+  <div bind:this={chartContainer} class="w-full h-[500px]"></div>
+  <div bind:this={legendContainer} class="absolute top-1 left-1 z-10 font-sans p-1"></div>
+</div>
 
