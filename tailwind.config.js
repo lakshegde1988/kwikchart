@@ -9,4 +9,13 @@ export default {
   },
   plugins: [],
 }
+module.exports = {
+  theme: {
+    extend: {
+      height: {
+        '100dvh': '100dvh', // Full viewport height
+      },
+    },
+  },
+};
 
