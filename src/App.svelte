@@ -6,7 +6,7 @@
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error } from './lib/stores/stockStore';
   import type { Stock, StockData, Interval } from './lib/types';
-  import { FaArrowLeft, FaArrowRight } from 'svelte-icons/fa'; // FontAwesome icons
+  import { FaArrowLeft, FaArrowRight } from 'svelte-icons/fa';
 
   let currentIndex = 0;
   let selectedFile = '';
@@ -79,10 +79,10 @@
   });
 </script>
 
-<main class="flex flex-col h-[100dvh] bg-gray-100">
+<main class="flex flex-col h-[100dvh] bg-gray-100 overflow-hidden">
   <!-- Content Area -->
-  <div class="flex-grow">
-    <div class="h-full flex flex-col">
+  <div class="flex-grow overflow-hidden">
+    <div class="h-full flex flex-col overflow-hidden">
       {#if $loading}
         <div class="flex justify-center items-center flex-grow">
           <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
@@ -92,7 +92,7 @@
           <p>{$error}</p>
         </div>
       {:else if $stockData.length > 0 && $currentStock}
-        <div class="flex-grow">
+        <div class="flex-grow overflow-hidden">
           <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
         </div>
       {/if}
@@ -100,7 +100,7 @@
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-16 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
+  <footer class="h-16 flex-shrink-0 bg-white border-t border-gray-200 shadow-md landscape:h-12">
     <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between space-x-4">
       <!-- Left: Selectors -->
       <div class="flex items-center space-x-2 sm:space-x-4">
@@ -109,7 +109,7 @@
       </div>
 
       <!-- Right: Pagination Controls -->
-     <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-4">
         <!-- Previous Button -->
         <button
           class="p-2 text-base text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
@@ -132,8 +132,6 @@
           </div>
         </button>
       </div>
-
-
     </div>
   </footer>
 </main>
