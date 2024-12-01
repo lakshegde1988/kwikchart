@@ -8,6 +8,8 @@
   import type { Stock, StockData, Interval } from './lib/types';
   import { stocks, currentStock, stockData, loading, error } from './lib/stores/stockStore';
 
+  import './app.css';
+
   let currentIndex = 0;
   let selectedFile = '';
   let selectedInterval: Interval = { label: 'Daily', value: '1d', range: '1y' };
@@ -79,30 +81,32 @@
   });
 </script>
 
-<main class="h-screen flex flex-col bg-gray-100">
+<main class="h-screen flex flex-col">
   <!-- Content Area -->
-  <div class="flex-grow flex flex-col max-w-7xl mx-auto p-4 md:p-8">
-    {#if $loading}
-      <div class="flex justify-center items-center flex-grow">
-        <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    {:else if $error}
-      <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
-        <p>{$error}</p>
-      </div>
-    {:else if $stockData.length > 0 && $currentStock}
-      <!-- Ensure the chart fills available space -->
-      <div class="flex-grow flex bg-white rounded-lg shadow-md p-4">
-        <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
-      </div>
-    {/if}
+  <div class="flex-grow">
+    <div class="h-full flex flex-col">
+      <!-- Chart or Loading/Error -->
+      {#if $loading}
+        <div class="flex justify-center items-center flex-grow">
+          <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+      {:else if $error}
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mx-4" role="alert">
+          <p>{$error}</p>
+        </div>
+      {:else if $stockData.length > 0 && $currentStock}
+        <div class="flex-grow">
+          <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
+        </div>
+      {/if}
+    </div>
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="sticky bottom-0 bg-white border-t border-gray-200 shadow-md">
-    <div class="max-w-7xl mx-auto p-4 flex flex-col sm:flex-row sm:justify-between items-center space-y-4 sm:space-y-0">
+  <footer class="h-20 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-4 h-full">
       <!-- Left: Selectors -->
-      <div class="flex flex-wrap items-center space-x-4 space-y-2 sm:space-y-0">
+      <div class="flex space-x-4">
         <IndexSelector on:select={handleIndexSelect} />
         <IntervalSelector on:change={handleIntervalChange} />
       </div>
