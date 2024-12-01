@@ -83,19 +83,12 @@
 
 <main class="min-h-screen bg-gray-100 p-4 md:p-8">
   <div class="max-w-7xl mx-auto">
-    <div class="flex flex-row items-center gap-4 mb-6">
-  <div class="w-1/2">
-    <IndexSelector on:select={handleIndexSelect} />
-  </div>
-  <div class="w-1/2">
-    <IntervalSelector on:change={handleIntervalChange} />
-  </div>
-</div>
-    {#if $currentStock}
-      <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-        <h2 class="text-xl font-semibold text-gray-700">{$currentStock["Company Name"]}</h2>
-      </div>
-    {/if}
+    <h1 class="text-3xl font-bold text-gray-800 mb-6">Stock Chart Viewer</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <IndexSelector on:select={handleIndexSelect} />
+      <IntervalSelector on:change={handleIntervalChange} />
+    </div>
+
     {#if $loading}
       <div class="flex justify-center items-center h-64">
         <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
@@ -104,9 +97,9 @@
       <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
         <p>{$error}</p>
       </div>
-    {:else if $stockData.length > 0}
-      <div class="bg-white rounded-lg shadow-md p-1 mb-6">
-        <StockChart data={$stockData} />
+    {:else if $stockData.length > 0 && $currentStock}
+      <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+        <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
       </div>
     {/if}
     <PaginationControls 
