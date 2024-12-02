@@ -116,13 +116,13 @@
       timeScale: {
         timeVisible: false,
         rightOffset: 15,
-        minBarSpacing: 2,
+        minBarSpacing: 4,
       },
     });
 
     candlestickSeries = chart.addBarSeries({
-      upColor: '#26a69a',
-      downColor: '#ef5350',
+      upColor: '#020617',
+      downColor: '#020617',
     });
     candlestickSeries.priceScale().applyOptions({
       scaleMargins: {
