@@ -21,9 +21,24 @@
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   }
 
+  // Throttle function to reduce event spam
+  function throttle(fn: () => void, delay: number) {
+    let timeout: NodeJS.Timeout | null = null;
+    return () => {
+      if (!timeout) {
+        timeout = setTimeout(() => {
+          fn();
+          timeout = null;
+        }, delay);
+      }
+    };
+  }
+
+  const throttledUpdateVH = throttle(updateVHUnit, 200);
+
   // Fullscreen API logic
   function toggleFullscreen() {
-    const appElement = document.documentElement; // Use the entire page
+    const appElement = document.documentElement;
     if (!isFullscreen) {
       appElement.requestFullscreen?.()
         .then(() => {
@@ -56,12 +71,15 @@
   async function loadStocksFromFile(file: string) {
     $loading = true;
     $error = null;
+
     try {
       const response = await fetch(`/${file}`);
       $stocks = await response.json();
+
       if ($stocks.length > 0) {
         currentIndex = 0;
-        await loadStockData($stocks[currentIndex], selectedInterval);
+        $currentStock = $stocks[currentIndex];
+        await loadStockData($currentStock, selectedInterval);
       }
     } catch (err) {
       $error = 'Failed to load stocks';
@@ -74,6 +92,7 @@
   async function loadStockData(stock: Stock, interval: Interval) {
     $loading = true;
     $error = null;
+
     try {
       $currentStock = stock;
       $stockData = await fetchYahooFinanceData(stock.Symbol, interval.value, interval.range);
@@ -99,15 +118,27 @@
     }
   }
 
-  // Initialize `--vh` and add listeners
   onMount(() => {
-    updateVHUnit(); // Initial calculation
-    window.addEventListener('resize', updateVHUnit);
-    window.addEventListener('orientationchange', updateVHUnit);
-  
+    updateVHUnit(); // Initial calculation for dynamic height
+    window.addEventListener('resize', throttledUpdateVH);
+    window.addEventListener('orientationchange', throttledUpdateVH);
+
+    // Detect fullscreen exit
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        isFullscreen = false;
+        throttledUpdateVH(); // Adjust layout after exiting fullscreen
+      }
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+    // Load default file and first stock
+    loadStocksFromFile(selectedFile);
+
     return () => {
-      window.removeEventListener('resize', updateVHUnit);
-      window.removeEventListener('orientationchange', updateVHUnit);
+      window.removeEventListener('resize', throttledUpdateVH);
+      window.removeEventListener('orientationchange', throttledUpdateVH);
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
     };
   });
 </script>
@@ -140,28 +171,12 @@
   <footer class="h-16 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
     <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between space-x-4">
       <!-- Left: Selectors -->
-
- <!-- Fullscreen Button -->
-        <button
-          class="p-2 text-gray rounded-md lg:hidden flex items-center justify-center"
-          on:click={toggleFullscreen}
-        >
-          <div class="w-5 h-5">
-            {#if isFullscreen}
-              <FaCompress />
-            {:else}
-              <FaExpand />
-            {/if}
-          </div>
-        </button>
       <div class="flex items-center space-x-2 sm:space-x-4">
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
         <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
       </div>
-
       <!-- Right: Pagination + Fullscreen Button -->
       <div class="flex items-center space-x-2 sm:space-x-4">
-        <!-- Previous Button -->
         <button
           class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
           on:click={handlePrevious}
@@ -180,8 +195,18 @@
             <FaArrowRight />
           </div>
         </button>
-
-       
+        <button
+          class="p-2 bg-blue-500 text-white rounded-md lg:hidden flex items-center justify-center"
+          on:click={toggleFullscreen}
+        >
+          <div class="w-5 h-5">
+            {#if isFullscreen}
+              <FaCompress />
+            {:else}
+              <FaExpand />
+            {/if}
+          </div>
+        </button>
       </div>
     </div>
   </footer>
