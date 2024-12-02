@@ -137,14 +137,14 @@
       </div>
 
       <!-- Right: Pagination + Fullscreen Button -->
-      <div class="flex items-center space-x-2 sm:space-x-4">
+      <div class="flex items-center space-x-2 sm:space-x-2">
         <!-- Previous Button -->
         <button
           class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
           on:click={handlePrevious}
           disabled={currentIndex === 0}
         >
-          <div class="w-5 h-5">
+          <div class="w-4 h-4">
             <FaArrowLeft />
           </div>
         </button>
@@ -155,14 +155,14 @@
           on:click={handleNext}
           disabled={currentIndex === totalStocks - 1}
         >
-          <div class="w-5 h-5">
+          <div class="w-4 h-4">
             <FaArrowRight />
           </div>
         </button>
 
-        <!-- Fullscreen Button (Visible only on small screens) -->
+        <!-- Fullscreen Button -->
         <button
-          class="p-2 bg-blue-500 text-white rounded-md sm:hidden flex items-center justify-center"
+          class="p-2 bg-blue-500 text-white rounded-md flex items-center justify-center"
           on:click={toggleFullscreen}
         >
           <div class="w-5 h-5">
