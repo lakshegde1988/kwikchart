@@ -162,7 +162,7 @@
 
         <!-- Fullscreen Button -->
         <button
-          class="p-2 bg-blue-500 text-white rounded-md flex items-center justify-center"
+          class="p-2 bg-gray-500 text-white rounded-md flex items-center justify-center"
           on:click={toggleFullscreen}
         >
           <div class="w-5 h-5">
