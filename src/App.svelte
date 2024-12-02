@@ -107,7 +107,7 @@
   });
 </script>
 
-<main id="app" class="flex flex-col h-screen bg-gray-100 overflow-hidden">
+<main id="app" class="flex flex-col h-[100dvh] bg-gray-100 overflow-hidden">
   <!-- Content Area -->
   <div class="flex-grow">
     <div class="h-full flex flex-col">
@@ -133,7 +133,7 @@
       <!-- Left: Selectors -->
  <!-- Fullscreen Button -->
         <button
-          class="p-2 text-white rounded-md flex items-center justify-center"
+          class="p-2 text-black rounded-md flex items-center justify-center"
           on:click={toggleFullscreen}
         >
           <div class="w-5 h-5">
