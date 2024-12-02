@@ -17,7 +17,6 @@
     class="block w-auto pl-3 pr-8 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md shadow-sm"
     on:change={handleSelect}
   >
-    <option value="">Choose an index</option>
     {#each indexFiles as file}
       <option value={file}>{file.replace('.json', '').charAt(0).toUpperCase() + file.replace('.json', '').slice(1)}</option>
     {/each}
