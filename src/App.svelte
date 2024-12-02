@@ -107,7 +107,7 @@
   });
 </script>
 
-<main id="app" class="flex flex-col h-[100dvh] bg-gray-100 overflow-hidden">
+<main id="app" class="flex flex-col h-svh bg-gray-100 overflow-hidden">
   <!-- Content Area -->
   <div class="flex-grow">
     <div class="h-full flex flex-col">
