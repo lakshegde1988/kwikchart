@@ -10,7 +10,7 @@
 
   let currentIndex = 0;
   let selectedFile = 'largecap.json';
-  let selectedInterval: Interval = { label: 'Daily', value: '1d', range: '2y' };
+  let selectedInterval: Interval = { label: 'Daily', value: '1d', range: '1y' };
   let isFullscreen = false;
 
   $: totalStocks = $stocks.length;
