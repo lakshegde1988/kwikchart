@@ -4,7 +4,7 @@
   import IntervalSelector from './lib/components/IntervalSelector.svelte';
   import StockChart from './lib/components/StockChart.svelte';
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
-  import { stocks, currentStock, stockData, loading, error, favorites } from './lib/stores/stockStore';
+  import { stocks, currentStock, stockData, loading, error, favorites, selectedInterval } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
   import { FaArrowLeft, FaArrowRight, FaExpand, FaCompress, FaStar, FaRegStar, FaHeart } from 'svelte-icons/fa';
 
@@ -186,22 +186,13 @@
         </div>
       {:else if $stockData.length > 0 && $currentStock}
         <div class="flex-grow">
-          <div class="flex items-center justify-between px-4 py-2 bg-white border-b border-gray-200">
-            <h2 class="text-xl font-semibold">{$currentStock["Company Name"]} ({$currentStock.Symbol})</h2>
-            <button
-              class="p-2 text-yellow-500 hover:text-yellow-600 focus:outline-none"
-              on:click={() => toggleFavorite($currentStock)}
-            >
-              <div class="w-6 h-6">
-                {#if $favorites.some(fav => fav.Symbol === $currentStock.Symbol)}
-                  <FaStar />
-                {:else}
-                  <FaRegStar />
-                {/if}
-              </div>
-            </button>
-          </div>
-          <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
+          <StockChart 
+            data={$stockData} 
+            stockName={$currentStock["Company Name"]} 
+            symbol={$currentStock.Symbol}
+            isFavorite={$favorites.some(fav => fav.Symbol === $currentStock.Symbol)}
+            onToggleFavorite={() => toggleFavorite($currentStock)}
+          />
         </div>
       {/if}
     </div>
@@ -211,11 +202,23 @@
   <footer class="h-16 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
     <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between space-x-4">
       <!-- Left: Selectors -->
+      <button
+        class="p-2 text-gray rounded-md lg:hidden flex items-center justify-center"
+        on:click={toggleFullscreen}
+      >
+        <div class="w-5 h-5">
+          {#if isFullscreen}
+            <FaCompress />
+          {:else}
+            <FaExpand />
+          {/if}
+        </div>
+      </button>
       <div class="flex items-center space-x-2 sm:space-x-4">
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
         <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
       </div>
-      <!-- Center: Pagination -->
+      <!-- Right: Pagination + Fullscreen Button -->
       <div class="flex items-center space-x-2 sm:space-x-4">
         <button
           class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
@@ -233,21 +236,6 @@
         >
           <div class="w-5 h-5">
             <FaArrowRight />
-          </div>
-        </button>
-      </div>
-      <!-- Right: Fullscreen + Favorites -->
-      <div class="flex items-center space-x-2 sm:space-x-4">
-        <button
-          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none"
-          on:click={toggleFullscreen}
-        >
-          <div class="w-5 h-5">
-            {#if isFullscreen}
-              <FaCompress />
-            {:else}
-              <FaExpand />
-            {/if}
           </div>
         </button>
         <button
