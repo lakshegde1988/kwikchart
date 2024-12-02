@@ -176,7 +176,9 @@
               on:click={() => handleToggleFavorite($currentStock)}
               class="p-2 text-gray-600 hover:text-yellow-500 focus:outline-none"
             >
-              <Star class="w-6 h-6" class:text-yellow-500={$favorites.has($currentStock.Symbol)} />
+              <span class="w-6 h-6" class:text-yellow-500={$favorites.has($currentStock.Symbol)}>
+                <Star />
+              </span>
             </button>
           </div>
           <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
