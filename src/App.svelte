@@ -5,8 +5,8 @@
   import StockChart from './lib/components/StockChart.svelte';
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error } from './lib/stores/stockStore';
-  import type { Stock, StockData, Interval } from './lib/types';
-  import { FaArrowLeft, FaArrowRight } from 'svelte-icons/fa';
+  import type { Stock, Interval } from './lib/types';
+  import { FaArrowLeft, FaArrowRight, FaExpand, FaCompress } from 'svelte-icons/fa';
 
   let currentIndex = 0;
   let selectedFile = 'largecap.json';
@@ -75,25 +75,15 @@
 
   // Fullscreen API logic
   function toggleFullscreen() {
-    const appElement = document.documentElement; // Use the whole page, not just #app
+    const appElement = document.documentElement; // Fullscreen the entire page
     if (!isFullscreen) {
-      if (appElement.requestFullscreen) {
-        appElement.requestFullscreen()
-          .then(() => {
-            console.log("Fullscreen enabled");
-            isFullscreen = true;
-          })
-          .catch(err => console.error('Error entering fullscreen:', err));
-      }
+      appElement.requestFullscreen?.()
+        .then(() => (isFullscreen = true))
+        .catch((err) => console.error('Error entering fullscreen:', err));
     } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen()
-          .then(() => {
-            console.log("Fullscreen exited");
-            isFullscreen = false;
-          })
-          .catch(err => console.error('Error exiting fullscreen:', err));
-      }
+      document.exitFullscreen?.()
+        .then(() => (isFullscreen = false))
+        .catch((err) => console.error('Error exiting fullscreen:', err));
     }
   }
 
@@ -172,10 +162,16 @@
 
         <!-- Fullscreen Button -->
         <button
-          class="p-2 bg-blue-500 text-white rounded-md sm:hidden"
+          class="p-2 bg-blue-500 text-white rounded-md sm:hidden flex items-center justify-center"
           on:click={toggleFullscreen}
         >
-          Full Screen
+          <div class="w-6 h-6">
+            {#if isFullscreen}
+              <FaCompress /> <!-- Icon for exiting fullscreen -->
+            {:else}
+              <FaExpand /> <!-- Icon for entering fullscreen -->
+            {/if}
+          </div>
         </button>
       </div>
     </div>
