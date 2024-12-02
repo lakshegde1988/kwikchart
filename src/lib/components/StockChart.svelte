@@ -116,7 +116,7 @@
       timeScale: {
         timeVisible: false,
         rightOffset: 15,
-        minBarSpacing: 4,
+        minBarSpacing: 2,
       },
     });
 
