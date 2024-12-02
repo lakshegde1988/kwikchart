@@ -104,6 +104,8 @@
     updateVHUnit(); // Initial calculation
     window.addEventListener('resize', updateVHUnit);
     window.addEventListener('orientationchange', updateVHUnit);
+  
+    loadStocksFromFile(selectedFile);
 
     return () => {
       window.removeEventListener('resize', updateVHUnit);
