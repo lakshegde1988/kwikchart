@@ -115,7 +115,7 @@
 <main
   id="app"
   class="flex flex-col bg-gray-100 text-gray-800 overflow-hidden"
-  style="height: calc(var(--vh, 1vh) * 100);" <!-- Use dynamic height -->
+  style="height: calc(var(--vh, 1vh) * 100);"
 >
   <!-- Content Area -->
   <div class="flex-grow">
