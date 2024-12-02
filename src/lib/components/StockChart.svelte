@@ -95,8 +95,8 @@ function adjustChartSize() {
       },
       timeScale: {
         timeVisible: false,
-        rightOffset: 5,
-        minBarSpacing: 3,
+        rightOffset: 15,
+        minBarSpacing: 2,
       },
     });
 
