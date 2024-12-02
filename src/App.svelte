@@ -9,30 +9,92 @@
   import { FaArrowLeft, FaArrowRight, FaExpand, FaCompress, FaStar, FaRegStar, FaHeart } from 'svelte-icons/fa';
 
   let currentIndex = 0;
-  let totalStocks = 0;
+  let selectedFile = 'largecap.json';
+  let selectedInterval: Interval = { label: 'Daily', value: '1d', range: '1y' };
   let isFullscreen = false;
 
-  async function handleIndexSelect(event: CustomEvent<Stock[]>) {
-    $stocks = event.detail;
-    totalStocks = $stocks.length;
-    currentIndex = 0;
-    if (totalStocks > 0) {
-      $currentStock = $stocks[currentIndex];
-      await loadStockData($currentStock, $selectedInterval);
+  $: totalStocks = $stocks.length;
+
+  // Dynamically update `--vh` on viewport changes
+  function updateVHUnit() {
+    const vh = window.innerHeight * 0.01; // Calculate 1vh as 1% of the viewport height
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }
+
+  // Throttle function to reduce event spam
+  function throttle(fn: () => void, delay: number) {
+    let timeout: NodeJS.Timeout | null = null;
+    return () => {
+      if (!timeout) {
+        timeout = setTimeout(() => {
+          fn();
+          timeout = null;
+        }, delay);
+      }
+    };
+  }
+
+  const throttledUpdateVH = throttle(updateVHUnit, 200);
+
+  // Fullscreen API logic
+  function toggleFullscreen() {
+    const appElement = document.documentElement;
+    if (!isFullscreen) {
+      appElement.requestFullscreen?.()
+        .then(() => {
+          isFullscreen = true;
+          setTimeout(() => window.dispatchEvent(new Event('resize')), 100); // Trigger resize after entering fullscreen
+        })
+        .catch((err) => console.error('Error entering fullscreen:', err));
+    } else {
+      document.exitFullscreen?.()
+        .then(() => {
+          isFullscreen = false;
+          setTimeout(() => window.dispatchEvent(new Event('resize')), 100); // Trigger resize after exiting fullscreen
+        })
+        .catch((err) => console.error('Error exiting fullscreen:', err));
     }
   }
 
+  async function handleIndexSelect(event: CustomEvent<string>) {
+    selectedFile = event.detail;
+    await loadStocksFromFile(selectedFile);
+  }
+
   async function handleIntervalChange(event: CustomEvent<Interval>) {
-    $selectedInterval = event.detail;
+    selectedInterval = event.detail;
     if ($currentStock) {
-      await loadStockData($currentStock, $selectedInterval);
+      await loadStockData($currentStock, selectedInterval);
+    }
+  }
+
+  async function loadStocksFromFile(file: string) {
+    $loading = true;
+    $error = null;
+
+    try {
+      const response = await fetch(`/${file}`);
+      $stocks = await response.json();
+
+      if ($stocks.length > 0) {
+        currentIndex = 0;
+        $currentStock = $stocks[currentIndex];
+        await loadStockData($currentStock, selectedInterval);
+      }
+    } catch (err) {
+      $error = 'Failed to load stocks';
+      console.error(err);
+    } finally {
+      $loading = false;
     }
   }
 
   async function loadStockData(stock: Stock, interval: Interval) {
     $loading = true;
     $error = null;
+
     try {
+      $currentStock = stock;
       $stockData = await fetchYahooFinanceData(stock.Symbol, interval.value, interval.range);
     } catch (err) {
       $error = 'Failed to load stock data';
@@ -42,40 +104,21 @@
     }
   }
 
-  function handleNext() {
-    if (totalStocks > 0) {
-      currentIndex = (currentIndex + 1) % totalStocks;
-      $currentStock = $stocks[currentIndex];
-      loadStockData($currentStock, $selectedInterval);
-    }
-  }
-
   function handlePrevious() {
-    if (totalStocks > 0) {
-      currentIndex = (currentIndex - 1 + totalStocks) % totalStocks;
-      $currentStock = $stocks[currentIndex];
-      loadStockData($currentStock, $selectedInterval);
+    if (currentIndex > 0) {
+      currentIndex--;
+      loadStockData($stocks[currentIndex], selectedInterval);
     }
   }
 
-  function toggleFullscreen() {
-    isFullscreen = !isFullscreen;
-    if (isFullscreen) {
-      const elem = document.getElementById('app');
-      if (elem) {
-        if (elem.requestFullscreen) {
-          elem.requestFullscreen();
-        } else if (elem.webkitRequestFullscreen) {
-          elem.webkitRequestFullscreen();
-        } else if (elem.msRequestFullscreen) {
-          elem.msRequestFullscreen();
-        }
-      }
-    } else {
-      document.exitFullscreen();
+  function handleNext() {
+    if (currentIndex < totalStocks - 1) {
+      currentIndex++;
+      loadStockData($stocks[currentIndex], selectedInterval);
     }
   }
 
+  // New functions for favorite feature
   function toggleFavorite(stock: Stock) {
     $favorites = $favorites.some(fav => fav.Symbol === stock.Symbol)
       ? $favorites.filter(fav => fav.Symbol !== stock.Symbol)
@@ -95,11 +138,33 @@
   }
 
   onMount(() => {
+    updateVHUnit(); // Initial calculation for dynamic height
+    window.addEventListener('resize', throttledUpdateVH);
+    window.addEventListener('orientationchange', throttledUpdateVH);
+
+    // Detect fullscreen exit
+    const handleFullscreenChange = () => {
+      if (!document.fullscreenElement) {
+        isFullscreen = false;
+        throttledUpdateVH(); // Adjust layout after exiting fullscreen
+      }
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+    // Load default file and first stock
+    loadStocksFromFile(selectedFile);
+
     // Load favorites from localStorage
     const savedFavorites = localStorage.getItem('favorites');
     if (savedFavorites) {
       $favorites = JSON.parse(savedFavorites);
     }
+
+    return () => {
+      window.removeEventListener('resize', throttledUpdateVH);
+      window.removeEventListener('orientationchange', throttledUpdateVH);
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
   });
 </script>
 
@@ -197,8 +262,4 @@
     </div>
   </footer>
 </main>
-
-<style>
-  /* Existing styles remain unchanged */
-</style>
 
