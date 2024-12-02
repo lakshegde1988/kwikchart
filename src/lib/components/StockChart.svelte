@@ -87,7 +87,7 @@ function adjustChartSize() {
       height: chartContainer.parentElement?.clientHeight || window.innerHeight - 64,
       layout: {
         background: { type: ColorType.Solid, color: '#ffffff' },
-        textColor: '#333',
+        textColor: '#0c0a09',
       },
       grid: {
         vertLines: { color: '#f0f0f0' },
@@ -101,8 +101,8 @@ function adjustChartSize() {
     });
 
     candlestickSeries = chart.addBarSeries({
-      upColor: '#1d4ed8',
-      downColor: '#1d4ed8',
+      upColor: '#0c0a09',
+      downColor: '#0c0a09',
     });
     candlestickSeries.priceScale().applyOptions({
       scaleMargins: {
@@ -111,6 +111,7 @@ function adjustChartSize() {
       }
     });
     chart.timeScale().fitContent();
+
     updateChartData();
 
     setInitialLegend();
