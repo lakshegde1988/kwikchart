@@ -22,7 +22,7 @@
   function updateLegend(param: any) {
     const validData = param.seriesData.get(candlestickSeries);
     if (validData) {
-      const dataPoint = data.find(d => d.time === validData.time);
+      const dataPoint = data.find((d) => d.time === validData.time);
       if (!dataPoint) return;
 
       const previousDataPoint = data[data.indexOf(dataPoint) - 1];
@@ -50,36 +50,56 @@
     }
   }
 
- onMount(() => {
-  initializeChart();
+  onMount(() => {
+    initializeChart();
 
-  // Use ResizeObserver for smooth transitions
-  const resizeObserver = new ResizeObserver(() => {
-    adjustChartSize();
+    // Observe size changes for dynamic resizing
+    const resizeObserver = new ResizeObserver(() => {
+      adjustChartSize();
+    });
+
+    if (chartContainer) {
+      resizeObserver.observe(chartContainer);
+    }
+
+    // Listen for window resize and orientation changes
+    const handleResize = throttle(() => {
+      adjustChartSize();
+    }, 100);
+
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
+      chart.remove();
+    };
   });
 
-  if (chartContainer) {
-    resizeObserver.observe(chartContainer);
+  function throttle(fn: () => void, delay: number) {
+    let timeout: NodeJS.Timeout | null = null;
+    return () => {
+      if (!timeout) {
+        timeout = setTimeout(() => {
+          fn();
+          timeout = null;
+        }, delay);
+      }
+    };
   }
 
-  return () => {
-    resizeObserver.disconnect();
-    chart.remove();
-  };
-});
-
-function adjustChartSize() {
-  if (chart && chartContainer) {
-    const containerHeight =
-      chartContainer.parentElement?.clientHeight || window.innerHeight - 64; // 64px is the footer height
-    chart.applyOptions({
-      width: chartContainer.clientWidth,
-      height: containerHeight,
-    });
+  function adjustChartSize() {
+    if (chart && chartContainer) {
+      const containerHeight =
+        chartContainer.parentElement?.clientHeight || window.innerHeight - 64; // Adjust based on footer
+      chart.applyOptions({
+        width: chartContainer.clientWidth,
+        height: containerHeight,
+      });
+    }
   }
-}
-
-
 
   function initializeChart() {
     chart = createChart(chartContainer, {
@@ -101,19 +121,18 @@ function adjustChartSize() {
     });
 
     candlestickSeries = chart.addBarSeries({
-      upColor: '#0c0a09',
-      downColor: '#0c0a09',
+      upColor: '#26a69a',
+      downColor: '#ef5350',
     });
     candlestickSeries.priceScale().applyOptions({
       scaleMargins: {
         top: 0.2,
         bottom: 0.2,
-      }
+      },
     });
     chart.timeScale().fitContent();
 
     updateChartData();
-
     setInitialLegend();
 
     chart.subscribeCrosshairMove(updateLegend);
@@ -139,7 +158,6 @@ function adjustChartSize() {
       });
     }
   }
-
 </script>
 
 <div class="chart-container relative flex-grow">
