@@ -4,14 +4,13 @@
   import IntervalSelector from './lib/components/IntervalSelector.svelte';
   import StockChart from './lib/components/StockChart.svelte';
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
-  import { stocks, currentStock, stockData, loading, error, favorites } from './lib/stores/stockStore';
+  import { stocks, currentStock, stockData, loading, error, favorites, selectedInterval } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
   import { FaArrowLeft, FaArrowRight, FaExpand, FaCompress, FaStar, FaRegStar, FaHeart } from 'svelte-icons/fa';
 
   let currentIndex = 0;
   let totalStocks = 0;
   let isFullscreen = false;
-
 
   async function handleIndexSelect(event: CustomEvent<Stock[]>) {
     $stocks = event.detail;
