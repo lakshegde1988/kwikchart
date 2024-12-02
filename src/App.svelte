@@ -137,35 +137,35 @@
       </div>
 
       <!-- Right: Pagination + Fullscreen Button -->
-      <div class="flex items-center space-x-4">
+      <div class="flex items-center space-x-2 sm:space-x-4">
         <!-- Previous Button -->
         <button
-          class="p-2 text-base text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
+          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
           on:click={handlePrevious}
           disabled={currentIndex === 0}
         >
-          <div class="w-6 h-6">
+          <div class="w-5 h-5">
             <FaArrowLeft />
           </div>
         </button>
       
         <!-- Next Button -->
         <button
-          class="p-2 text-base text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
+          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
           on:click={handleNext}
           disabled={currentIndex === totalStocks - 1}
         >
-          <div class="w-6 h-6">
+          <div class="w-5 h-5">
             <FaArrowRight />
           </div>
         </button>
 
-        <!-- Fullscreen Button -->
+        <!-- Fullscreen Button (Visible only on small screens) -->
         <button
           class="p-2 bg-blue-500 text-white rounded-md sm:hidden flex items-center justify-center"
           on:click={toggleFullscreen}
         >
-          <div class="w-6 h-6">
+          <div class="w-5 h-5">
             {#if isFullscreen}
               <FaCompress /> <!-- Icon for exiting fullscreen -->
             {:else}
