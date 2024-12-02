@@ -9,7 +9,7 @@
   import { FaArrowLeft, FaArrowRight } from 'svelte-icons/fa';
 
   let currentIndex = 0;
-  let selectedFile = '';
+  let selectedFile = 'largecap.json';
   let selectedInterval: Interval = { label: 'Daily', value: '1d', range: '1y' };
   let isFullscreen = false;
 
