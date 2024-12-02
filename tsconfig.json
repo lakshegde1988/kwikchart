@@ -10,6 +10,7 @@
     "isolatedModules": true,
     "moduleDetection": "force",
     "strict": true,
+    "baseUrl": ".",
     "paths": {
       "@lib/*": ["src/lib/*"],
       "@components/*": ["src/lib/components/*"]
