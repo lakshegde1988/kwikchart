@@ -15,6 +15,32 @@
 
   $: totalStocks = $stocks.length;
 
+  // Dynamically update `--vh` on viewport changes
+  function updateVHUnit() {
+    const vh = window.innerHeight * 0.01; // Calculate 1vh as 1% of the viewport height
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  }
+
+  // Fullscreen API logic
+  function toggleFullscreen() {
+    const appElement = document.documentElement; // Use the entire page
+    if (!isFullscreen) {
+      appElement.requestFullscreen?.()
+        .then(() => {
+          isFullscreen = true;
+          setTimeout(() => window.dispatchEvent(new Event('resize')), 100); // Trigger resize after entering fullscreen
+        })
+        .catch((err) => console.error('Error entering fullscreen:', err));
+    } else {
+      document.exitFullscreen?.()
+        .then(() => {
+          isFullscreen = false;
+          setTimeout(() => window.dispatchEvent(new Event('resize')), 100); // Trigger resize after exiting fullscreen
+        })
+        .catch((err) => console.error('Error exiting fullscreen:', err));
+    }
+  }
+
   async function handleIndexSelect(event: CustomEvent<string>) {
     selectedFile = event.detail;
     await loadStocksFromFile(selectedFile);
@@ -73,41 +99,24 @@
     }
   }
 
-  // Fullscreen API logic
-  function toggleFullscreen() {
-    const appElement = document.documentElement; // Fullscreen the entire page
-    if (!isFullscreen) {
-      appElement.requestFullscreen?.()
-        .then(() => (isFullscreen = true))
-        .catch((err) => console.error('Error entering fullscreen:', err));
-    } else {
-      document.exitFullscreen?.()
-        .then(() => (isFullscreen = false))
-        .catch((err) => console.error('Error exiting fullscreen:', err));
-    }
-  }
-
-  // Listen for fullscreen changes
+  // Initialize `--vh` and add listeners
   onMount(() => {
-    const handleFullscreenChange = () => {
-      isFullscreen = !!document.fullscreenElement;
-    };
-
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    updateVHUnit(); // Initial calculation
+    window.addEventListener('resize', updateVHUnit);
+    window.addEventListener('orientationchange', updateVHUnit);
 
     return () => {
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      window.removeEventListener('resize', updateVHUnit);
+      window.removeEventListener('orientationchange', updateVHUnit);
     };
-  });
-
-  onMount(() => {
-    if (selectedFile) {
-      loadStocksFromFile(selectedFile);
-    }
   });
 </script>
 
-<main id="app" class="flex flex-col h-[100dvh] bg-gray-100 overflow-hidden">
+<main
+  id="app"
+  class="flex flex-col bg-gray-100 text-gray-800 overflow-hidden"
+  style="height: calc(var(--vh, 1vh) * 100);" <!-- Use dynamic height -->
+>
   <!-- Content Area -->
   <div class="flex-grow">
     <div class="h-full flex flex-col">
@@ -131,49 +140,46 @@
   <footer class="h-16 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
     <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between space-x-4">
       <!-- Left: Selectors -->
- <!-- Fullscreen Button -->
-        <button
-          class="p-2 text-black rounded-md flex items-center justify-center"
-          on:click={toggleFullscreen}
-        >
-          <div class="w-5 h-5">
-            {#if isFullscreen}
-              <FaCompress /> <!-- Icon for exiting fullscreen -->
-            {:else}
-              <FaExpand /> <!-- Icon for entering fullscreen -->
-            {/if}
-          </div>
-        </button>
       <div class="flex items-center space-x-2 sm:space-x-4">
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
         <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
       </div>
 
       <!-- Right: Pagination + Fullscreen Button -->
-      <div class="flex items-center space-x-2 sm:space-x-2">
+      <div class="flex items-center space-x-2 sm:space-x-4">
         <!-- Previous Button -->
         <button
           class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
           on:click={handlePrevious}
           disabled={currentIndex === 0}
         >
-          <div class="w-4 h-4">
+          <div class="w-5 h-5">
             <FaArrowLeft />
           </div>
         </button>
-      
-        <!-- Next Button -->
         <button
           class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
           on:click={handleNext}
           disabled={currentIndex === totalStocks - 1}
         >
-          <div class="w-4 h-4">
+          <div class="w-5 h-5">
             <FaArrowRight />
           </div>
         </button>
 
-       
+        <!-- Fullscreen Button -->
+        <button
+          class="p-2 bg-blue-500 text-white rounded-md lg:hidden flex items-center justify-center"
+          on:click={toggleFullscreen}
+        >
+          <div class="w-5 h-5">
+            {#if isFullscreen}
+              <FaCompress />
+            {:else}
+              <FaExpand />
+            {/if}
+          </div>
+        </button>
       </div>
     </div>
   </footer>
