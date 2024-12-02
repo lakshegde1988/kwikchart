@@ -131,6 +131,19 @@
   <footer class="h-16 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
     <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between space-x-4">
       <!-- Left: Selectors -->
+ <!-- Fullscreen Button -->
+        <button
+          class="p-2 bg-gray-500 text-white rounded-md flex items-center justify-center"
+          on:click={toggleFullscreen}
+        >
+          <div class="w-5 h-5">
+            {#if isFullscreen}
+              <FaCompress /> <!-- Icon for exiting fullscreen -->
+            {:else}
+              <FaExpand /> <!-- Icon for entering fullscreen -->
+            {/if}
+          </div>
+        </button>
       <div class="flex items-center space-x-2 sm:space-x-4">
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
         <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
@@ -160,19 +173,7 @@
           </div>
         </button>
 
-        <!-- Fullscreen Button -->
-        <button
-          class="p-2 bg-gray-500 text-white rounded-md flex items-center justify-center"
-          on:click={toggleFullscreen}
-        >
-          <div class="w-5 h-5">
-            {#if isFullscreen}
-              <FaCompress /> <!-- Icon for exiting fullscreen -->
-            {:else}
-              <FaExpand /> <!-- Icon for entering fullscreen -->
-            {/if}
-          </div>
-        </button>
+       
       </div>
     </div>
   </footer>
