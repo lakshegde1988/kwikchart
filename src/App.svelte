@@ -126,7 +126,7 @@
 
 <main
   bind:this={appContainer}
-  class="flex flex-col bg-gray-100 text-gray-800 overflow-hidden"
+  class="flex flex-col bg-gray-100 text-gray-800 overflow-hidden h-screen"
 >
   <!-- Chart Container -->
   <div class="flex-grow overflow-hidden">
@@ -139,12 +139,12 @@
         <p>{$error}</p>
       </div>
     {:else if $stockData.length > 0 && $currentStock}
-      <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
+      <StockChart data={$stockData} />
     {/if}
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-16 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
+  <footer class="h-16 flex-shrink-0 bg-white border-t border-gray-200 shadow-md sticky bottom-0 w-full">
     <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
       <!-- Left: Selectors -->
       <div class="flex items-center space-x-2 sm:space-x-4">
@@ -191,20 +191,4 @@
 {#if showFavoritesModal}
   <FavoritesModal on:close={toggleFavoritesModal} />
 {/if}
-
-<style>
-  main {
-    display: flex;
-    flex-direction: column;
-    height: 100vh; /* Fallback for browsers that do not support Custom Properties */
-    height: calc(var(--vh, 1vh) * 100);
-    overflow: hidden;
-  }
-
-  footer {
-    position: sticky;
-    bottom: 0;
-    width: 100%;
-  }
-</style>
 
