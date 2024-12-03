@@ -8,7 +8,7 @@
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
-  import { Star, ArrowLeft, ArrowRight, Expand, Shrink,List } from 'lucide-svelte';
+  import { Star, ArrowLeft, ArrowRight, Expand, Shrink, List } from 'lucide-svelte';
 
   let currentIndex = 0;
   let selectedFile = 'largecap.json';
@@ -24,7 +24,7 @@
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   }
 
-  // Throttle function to reduce event spam
+  // Throttle function
   function throttle(fn: () => void, delay: number) {
     let timeout: NodeJS.Timeout | null = null;
     return () => {
@@ -42,6 +42,11 @@
   // Fullscreen API logic
   function toggleFullscreen() {
     const appElement = document.documentElement;
+    if (!appElement.requestFullscreen || !document.exitFullscreen) {
+      console.error('Fullscreen API not supported');
+      return;
+    }
+
     if (!isFullscreen) {
       appElement.requestFullscreen?.()
         .then(() => {
@@ -159,7 +164,6 @@
 >
   <!-- Content Area -->
   <div class="flex flex-grow">
-    
     <!-- Main Content -->
     <div class="flex-grow flex flex-col">
       {#if $loading}
@@ -181,20 +185,17 @@
   <!-- Sticky Footer -->
   <footer class="h-16 flex-shrink-0 bg-slate-950 border-t border-slate-500 shadow-md">
     <div class="mx-auto px-2 h-full flex items-center justify-between space-x-4">
-      <!-- Left: Selectors -->
       <div class="flex items-center space-x-2 sm:space-x-4">
         <button
-        class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none lg:hidden"
-        on:click={toggleFullscreen}
-      >
-        {#if isFullscreen}
-          <Shrink class="w-5 h-5" />
-        {:else}
-          <Expand class="w-5 h-5" />
-        {/if}
-      </button>
-        
-
+          class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none lg:hidden"
+          on:click={toggleFullscreen}
+        >
+          {#if isFullscreen}
+            <Shrink class="w-5 h-5" />
+          {:else}
+            <Expand class="w-5 h-5" />
+          {/if}
+        </button>
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
         <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
         <button
@@ -204,17 +205,18 @@
           <List class="w-5 h-5" />
         </button>
       </div>
-      <!-- Right: Pagination + Fullscreen Button -->
       <div class="flex items-center space-x-2 sm:space-x-4">
-
         <button
-        on:click={() => $currentStock && handleToggleFavorite($currentStock)}
-        class="p-2 text-slate-300 hover:text-yellow-500 focus:outline-none"
-      >
-        <span class="w-6 h-6" class:text-yellow-500={$currentStock && $favorites.has($currentStock.Symbol)}>
-          <Star />
-        </span>
-      </button>
+          on:click={() => $currentStock && handleToggleFavorite($currentStock)}
+          class="p-2 text-slate-300 hover:text-yellow-500 focus:outline-none"
+        >
+          <span
+            class="w-6 h-6"
+            class:text-yellow-500={$currentStock && $favorites.has($currentStock.Symbol)}
+          >
+            <Star />
+          </span>
+        </button>
         <button
           class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none disabled:opacity-50"
           on:click={handlePrevious}
@@ -229,13 +231,10 @@
         >
           <ArrowRight class="w-5 h-5" />
         </button>
-        
-        
       </div>
     </div>
   </footer>
   {#if showFavoritesModal}
-  <FavoritesModal on:close={toggleFavoritesModal} />
+    <FavoritesModal on:close={toggleFavoritesModal} />
   {/if}
 </main>
-
