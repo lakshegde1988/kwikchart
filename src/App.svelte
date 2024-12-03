@@ -7,52 +7,35 @@
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
-  import { Star, ArrowLeft, ArrowRight, Expand, Shrink } from 'lucide-svelte';
+  import { Star, ArrowLeft, ArrowRight, Expand, Compress } from 'lucide-svelte';
 
   let currentIndex = 0;
   let selectedFile = 'largecap.json';
   let selectedInterval: Interval = { label: 'Daily', value: '1d', range: '1y' };
   let isFullscreen = false;
   let showFavoritesModal = false;
+  let appContainer: HTMLElement;
 
   $: totalStocks = $stocks.length;
 
-  // Dynamically update `--vh` on viewport changes
-  function updateVHUnit() {
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
+  function updateAppHeight() {
+    if (appContainer) {
+      appContainer.style.height = `${window.innerHeight}px`;
+    }
   }
-
-  // Throttle function to reduce event spam
-  function throttle(fn: () => void, delay: number) {
-    let timeout: NodeJS.Timeout | null = null;
-    return () => {
-      if (!timeout) {
-        timeout = setTimeout(() => {
-          fn();
-          timeout = null;
-        }, delay);
-      }
-    };
-  }
-
-  const throttledUpdateVH = throttle(updateVHUnit, 200);
 
   // Fullscreen API logic
   function toggleFullscreen() {
-    const appElement = document.documentElement;
     if (!isFullscreen) {
-      appElement.requestFullscreen?.()
+      appContainer.requestFullscreen?.()
         .then(() => {
           isFullscreen = true;
-          setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
         })
         .catch((err) => console.error('Error entering fullscreen:', err));
     } else {
       document.exitFullscreen?.()
         .then(() => {
           isFullscreen = false;
-          setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
         })
         .catch((err) => console.error('Error exiting fullscreen:', err));
     }
@@ -120,68 +103,55 @@
     }
   }
 
-  function handleToggleFavorite(stock: Stock) {
-    toggleFavorite(stock.Symbol);
-  }
-
   function toggleFavoritesModal() {
     showFavoritesModal = !showFavoritesModal;
   }
 
   onMount(() => {
-    updateVHUnit();
-    window.addEventListener('resize', throttledUpdateVH);
-    window.addEventListener('orientationchange', throttledUpdateVH);
-
-    const handleFullscreenChange = () => {
-      if (!document.fullscreenElement) {
-        isFullscreen = false;
-        throttledUpdateVH();
-      }
-    };
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    updateAppHeight();
+    
+    const resizeObserver = new ResizeObserver(() => {
+      updateAppHeight();
+    });
+    
+    resizeObserver.observe(appContainer);
 
     loadStocksFromFile(selectedFile);
 
     return () => {
-      window.removeEventListener('resize', throttledUpdateVH);
-      window.removeEventListener('orientationchange', throttledUpdateVH);
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      resizeObserver.disconnect();
     };
   });
 </script>
 
 <main
-  id="app"
-  class="flex flex-col bg-gray-100 text-gray-800 overflow-hidden h-screen"
+  bind:this={appContainer}
+  class="flex flex-col bg-gray-100 text-gray-800 overflow-hidden"
 >
-  <!-- Content Area -->
-  <div class="flex-grow flex flex-col h-[calc(100vh-4rem)]">
-    <!-- Main Content -->
-    <div class="flex-grow flex flex-col w-full h-full">
-      {#if $loading}
-        <div class="flex justify-center items-center h-full">
-          <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
-        </div>
-      {:else if $error}
-        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mx-4" role="alert">
-          <p>{$error}</p>
-        </div>
-      {:else if $stockData.length > 0 && $currentStock}
-        <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
-      {/if}
-    </div>
+  <!-- Chart Container -->
+  <div class="flex-grow overflow-hidden">
+    {#if $loading}
+      <div class="flex justify-center items-center h-full">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
+      </div>
+    {:else if $error}
+      <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 m-4" role="alert">
+        <p>{$error}</p>
+      </div>
+    {:else if $stockData.length > 0 && $currentStock}
+      <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
+    {/if}
   </div>
 
   <!-- Sticky Footer -->
   <footer class="h-16 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
-    <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between space-x-4">
+    <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between">
       <!-- Left: Selectors -->
       <div class="flex items-center space-x-2 sm:space-x-4">
-        <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
-        <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
+        <IndexSelector class="text-sm sm:text-base" on:select={handleIndexSelect} />
+        <IntervalSelector class="text-sm sm:text-base" on:change={handleIntervalChange} />
       </div>
-      <!-- Right: Pagination + Fullscreen Button -->
+      <!-- Right: Controls -->
       <div class="flex items-center space-x-2 sm:space-x-4">
         <button
           class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:opacity-50"
@@ -202,7 +172,7 @@
           on:click={toggleFullscreen}
         >
           {#if isFullscreen}
-            <Shrink class="w-5 h-5" />
+            <Compress class="w-5 h-5" />
           {:else}
             <Expand class="w-5 h-5" />
           {/if}
@@ -216,8 +186,25 @@
       </div>
     </div>
   </footer>
-  {#if showFavoritesModal}
-  <FavoritesModal on:close={toggleFavoritesModal} />
-  {/if}
 </main>
+
+{#if showFavoritesModal}
+  <FavoritesModal on:close={toggleFavoritesModal} />
+{/if}
+
+<style>
+  main {
+    display: flex;
+    flex-direction: column;
+    height: 100vh; /* Fallback for browsers that do not support Custom Properties */
+    height: calc(var(--vh, 1vh) * 100);
+    overflow: hidden;
+  }
+
+  footer {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+  }
+</style>
 
