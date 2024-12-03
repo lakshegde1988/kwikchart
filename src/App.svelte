@@ -204,8 +204,6 @@
         >
           <List class="w-5 h-5" />
         </button>
-      </div>
-      <div class="flex items-center space-x-2 sm:space-x-4">
         <button
           on:click={() => $currentStock && handleToggleFavorite($currentStock)}
           class="p-2 text-slate-300 hover:text-yellow-500 focus:outline-none"
@@ -215,6 +213,9 @@
             class:text-yellow-500={$currentStock && $favorites.has($currentStock.Symbol)}
           >
             <Star />
+      </div>
+      <div class="flex items-center space-x-2 sm:space-x-4">
+        
           </span>
         </button>
         <button
