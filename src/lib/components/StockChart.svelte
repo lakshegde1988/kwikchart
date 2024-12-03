@@ -121,8 +121,8 @@
     });
 
     candlestickSeries = chart.addBarSeries({
-      upColor: '#84cc16',
-      downColor: '#dc2626',
+      upColor: '#65a30d',
+      downColor: '#d97706',
     });
     candlestickSeries.priceScale().applyOptions({
       scaleMargins: {
