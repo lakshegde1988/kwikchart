@@ -153,4 +153,4 @@
 <div class="chart-container relative flex-grow">
   <div bind:this={chartContainer} class="w-full h-full"></div>
   <div bind:this={legendContainer} class="absolute top-1 left-1 z-10 font-sans p-1"></div>
-</div></div>
+</div>
