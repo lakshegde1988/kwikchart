@@ -53,7 +53,6 @@
   onMount(() => {
     initializeChart();
 
-    // Observe size changes for dynamic resizing
     const resizeObserver = new ResizeObserver(() => {
       adjustChartSize();
     });
@@ -62,18 +61,15 @@
       resizeObserver.observe(chartContainer);
     }
 
-    // Listen for window resize and orientation changes
     const handleResize = throttle(() => {
       adjustChartSize();
     }, 100);
 
     window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', handleResize);
 
     return () => {
       resizeObserver.disconnect();
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('orientationchange', handleResize);
       chart.remove();
     };
   });
@@ -93,7 +89,7 @@
   function adjustChartSize() {
     if (chart && chartContainer) {
       const containerHeight =
-        chartContainer.parentElement?.clientHeight || window.innerHeight - 64; // Adjust based on footer
+        chartContainer.parentElement?.clientHeight || window.innerHeight - 64;
       chart.applyOptions({
         width: chartContainer.clientWidth,
         height: containerHeight,
@@ -110,27 +106,21 @@
         textColor: '#e2e8f0',
       },
       grid: {
-        vertLines: { visible : false},
-        horzLines: { visible : false},
+        vertLines: { visible: false },
+        horzLines: { visible: false },
       },
       timeScale: {
-        timeVisible: false,
+        timeVisible: true,
         rightOffset: 15,
         minBarSpacing: 2,
       },
     });
 
     candlestickSeries = chart.addBarSeries({
-      upColor: '#cbd5e1',
-      downColor: '#cbd5e1',
+      upColor: '#22c55e',
+      downColor: '#ef4444',
+      borderVisible: false,
     });
-    candlestickSeries.priceScale().applyOptions({
-      scaleMargins: {
-        top: 0.2,
-        bottom: 0.2,
-      },
-    });
-    chart.timeScale().fitContent();
 
     updateChartData();
     setInitialLegend();
@@ -163,4 +153,4 @@
 <div class="chart-container relative flex-grow">
   <div bind:this={chartContainer} class="w-full h-full"></div>
   <div bind:this={legendContainer} class="absolute top-1 left-1 z-10 font-sans p-1"></div>
-</div>
+</div></div>
