@@ -154,7 +154,7 @@
 
 <main
   id="app"
-  class="flex flex-col bg-gray-100 text-gray-800 overflow-hidden"
+  class="flex flex-col bg-slate-950 text-slate-100 overflow-hidden"
   style="height: calc(var(--vh, 1vh) * 100);"
 >
   <!-- Content Area -->
@@ -179,12 +179,12 @@
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-16 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
+  <footer class="h-16 flex-shrink-0 bg-slate-950 border-t border-slate-500 shadow-md">
     <div class="mx-auto px-4 h-full flex items-center justify-between space-x-4">
       <!-- Left: Selectors -->
       <div class="flex items-center space-x-2 sm:space-x-4">
         <button
-        class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none lg:hidden"
+        class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none lg:hidden"
         on:click={toggleFullscreen}
       >
         {#if isFullscreen}
@@ -198,7 +198,7 @@
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
         <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
         <button
-          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none"
+          class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none"
           on:click={toggleFavoritesModal}
         >
           <List class="w-5 h-5" />
@@ -209,21 +209,21 @@
 
         <button
         on:click={() => $currentStock && handleToggleFavorite($currentStock)}
-        class="p-2 text-gray-600 hover:text-yellow-500 focus:outline-none"
+        class="p-2 text-slate-300 hover:text-yellow-500 focus:outline-none"
       >
         <span class="w-6 h-6" class:text-yellow-500={$currentStock && $favorites.has($currentStock.Symbol)}>
           <Star />
         </span>
       </button>
         <button
-          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:opacity-50"
+          class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none disabled:opacity-50"
           on:click={handlePrevious}
           disabled={currentIndex === 0}
         >
           <ArrowLeft class="w-5 h-5" />
         </button>
         <button
-          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:opacity-50"
+          class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none disabled:opacity-50"
           on:click={handleNext}
           disabled={currentIndex === totalStocks - 1}
         >
