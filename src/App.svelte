@@ -213,11 +213,12 @@
             class:text-yellow-500={$currentStock && $favorites.has($currentStock.Symbol)}
           >
             <Star />
+         </span>
+        </button>
       </div>
       <div class="flex items-center space-x-2 sm:space-x-4">
         
-          </span>
-        </button>
+         
         <button
           class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none disabled:opacity-50"
           on:click={handlePrevious}
