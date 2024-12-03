@@ -8,7 +8,7 @@
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
-  import { Star, ArrowLeft, ArrowRight, Expand, Shrink } from 'lucide-svelte';
+  import { Star, ArrowLeft, ArrowRight, Expand, Shrink,List } from 'lucide-svelte';
 
   let currentIndex = 0;
   let selectedFile = 'largecap.json';
@@ -159,10 +159,6 @@
 >
   <!-- Content Area -->
   <div class="flex flex-grow">
-    <!-- Sidebar -->
-    <div class="w-64 bg-white border-r border-gray-200 overflow-y-auto">
-      <FavoriteStocks on:select={(event) => loadStockData(event.detail, selectedInterval)} />
-    </div>
     
     <!-- Main Content -->
     <div class="flex-grow flex flex-col">
@@ -176,17 +172,6 @@
         </div>
       {:else if $stockData.length > 0 && $currentStock}
         <div class="flex-grow">
-          <div class="flex items-center justify-between p-4">
-            <h2 class="text-2xl font-bold">{$currentStock["Company Name"]} ({$currentStock.Symbol})</h2>
-            <button
-              on:click={() => handleToggleFavorite($currentStock)}
-              class="p-2 text-gray-600 hover:text-yellow-500 focus:outline-none"
-            >
-              <span class="w-6 h-6" class:text-yellow-500={$favorites.has($currentStock.Symbol)}>
-                <Star />
-              </span>
-            </button>
-          </div>
           <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
         </div>
       {/if}
@@ -195,14 +180,41 @@
 
   <!-- Sticky Footer -->
   <footer class="h-16 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
-    <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between space-x-4">
+    <div class="mx-auto px-4 h-full flex items-center justify-between space-x-4">
       <!-- Left: Selectors -->
       <div class="flex items-center space-x-2 sm:space-x-4">
+        <button
+        class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none lg:hidden"
+        on:click={toggleFullscreen}
+      >
+        {#if isFullscreen}
+          <Shrink class="w-5 h-5" />
+        {:else}
+          <Expand class="w-5 h-5" />
+        {/if}
+      </button>
+        
+
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
         <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
+        <button
+          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none"
+          on:click={toggleFavoritesModal}
+        >
+          <List class="w-5 h-5" />
+        </button>
       </div>
       <!-- Right: Pagination + Fullscreen Button -->
       <div class="flex items-center space-x-2 sm:space-x-4">
+
+        <button
+        on:click={() => $currentStock && handleToggleFavorite($currentStock)}
+        class="p-2 text-gray-600 hover:text-yellow-500 focus:outline-none"
+      >
+        <span class="w-6 h-6" class:text-yellow-500={$currentStock && $favorites.has($currentStock.Symbol)}>
+          <Star />
+        </span>
+      </button>
         <button
           class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:opacity-50"
           on:click={handlePrevious}
@@ -217,22 +229,8 @@
         >
           <ArrowRight class="w-5 h-5" />
         </button>
-        <button
-          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none"
-          on:click={toggleFullscreen}
-        >
-          {#if isFullscreen}
-            <Shrink class="w-5 h-5" />
-          {:else}
-            <Expand class="w-5 h-5" />
-          {/if}
-        </button>
-        <button
-          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none"
-          on:click={toggleFavoritesModal}
-        >
-          <Star class="w-5 h-5" />
-        </button>
+        
+        
       </div>
     </div>
   </footer>
