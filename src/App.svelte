@@ -3,12 +3,11 @@
   import IndexSelector from './lib/components/IndexSelector.svelte';
   import IntervalSelector from './lib/components/IntervalSelector.svelte';
   import StockChart from './lib/components/StockChart.svelte';
-  import FavoriteStocks from './lib/components/FavoriteStocks.svelte';
   import FavoritesModal from './lib/components/FavoritesModal.svelte';
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
-  import { Star, ArrowLeft, ArrowRight, Fullscreen, Shrink } from 'lucide-svelte';
+  import { Star, ArrowLeft, ArrowRight, Expand, Shrink } from 'lucide-svelte';
 
   let currentIndex = 0;
   let selectedFile = 'largecap.json';
@@ -154,20 +153,14 @@
 
 <main
   id="app"
-  class="flex flex-col bg-gray-100 text-gray-800 overflow-hidden"
-  style="height: calc(var(--vh, 1vh) * 100);"
+  class="flex flex-col bg-gray-100 text-gray-800 overflow-hidden h-screen"
 >
   <!-- Content Area -->
-  <div class="flex flex-grow">
-    <!-- Sidebar -->
-    <div class="w-64 bg-white border-r border-gray-200 overflow-y-auto">
-      <FavoriteStocks on:select={(event) => loadStockData(event.detail, selectedInterval)} />
-    </div>
-    
+  <div class="flex-grow flex flex-col h-[calc(100vh-4rem)]">
     <!-- Main Content -->
-    <div class="flex-grow flex flex-col">
+    <div class="flex-grow flex flex-col w-full h-full">
       {#if $loading}
-        <div class="flex justify-center items-center flex-grow">
+        <div class="flex justify-center items-center h-full">
           <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
         </div>
       {:else if $error}
@@ -175,20 +168,7 @@
           <p>{$error}</p>
         </div>
       {:else if $stockData.length > 0 && $currentStock}
-        <div class="flex-grow">
-          <div class="flex items-center justify-between p-4">
-            <h2 class="text-2xl font-bold">{$currentStock["Company Name"]} ({$currentStock.Symbol})</h2>
-            <button
-              on:click={() => handleToggleFavorite($currentStock)}
-              class="p-2 text-gray-600 hover:text-yellow-500 focus:outline-none"
-            >
-              <span class="w-6 h-6" class:text-yellow-500={$favorites.has($currentStock.Symbol)}>
-                <Star />
-              </span>
-            </button>
-          </div>
-          <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
-        </div>
+        <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
       {/if}
     </div>
   </div>
@@ -224,7 +204,7 @@
           {#if isFullscreen}
             <Shrink class="w-5 h-5" />
           {:else}
-            <Fullscreen class="w-5 h-5" />
+            <Expand class="w-5 h-5" />
           {/if}
         </button>
         <button
