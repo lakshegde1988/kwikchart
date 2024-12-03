@@ -19,7 +19,7 @@
 <div class="relative inline-block">
   <select
     id="interval-select"
-    class="block w-auto pl-3 pr-8 py-2 text-base bg-slate-950 border-slate-300 focus:outline-none focus:ring-slate-500 focus:border-slate-500 sm:text-sm rounded-md shadow-sm"
+    class="block w-auto pl-3 pr-2 py-2 text-base bg-slate-950 border-slate-300 focus:outline-none focus:ring-slate-500 focus:border-slate-500 sm:text-sm rounded-md shadow-sm"
     on:change={handleChange}
   >
     {#each intervals as interval, i}
