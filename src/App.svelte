@@ -3,21 +3,24 @@
   import IndexSelector from './lib/components/IndexSelector.svelte';
   import IntervalSelector from './lib/components/IntervalSelector.svelte';
   import StockChart from './lib/components/StockChart.svelte';
+  import FavoriteStocks from './lib/components/FavoriteStocks.svelte';
+  import FavoritesModal from './lib/components/FavoritesModal.svelte';
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
-  import { stocks, currentStock, stockData, loading, error, favorites } from './lib/stores/stockStore';
+  import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
-  import { FaArrowLeft, FaArrowRight, FaExpand, FaCompress, FaStar, FaRegStar, FaHeart } from 'svelte-icons/fa';
+  import { Star, ArrowLeft, ArrowRight, Fullscreen, Shrink } from 'lucide-svelte';
 
   let currentIndex = 0;
   let selectedFile = 'largecap.json';
   let selectedInterval: Interval = { label: 'Daily', value: '1d', range: '1y' };
   let isFullscreen = false;
+  let showFavoritesModal = false;
 
   $: totalStocks = $stocks.length;
 
   // Dynamically update `--vh` on viewport changes
   function updateVHUnit() {
-    const vh = window.innerHeight * 0.01; // Calculate 1vh as 1% of the viewport height
+    const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   }
 
@@ -43,14 +46,14 @@
       appElement.requestFullscreen?.()
         .then(() => {
           isFullscreen = true;
-          setTimeout(() => window.dispatchEvent(new Event('resize')), 100); // Trigger resize after entering fullscreen
+          setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
         })
         .catch((err) => console.error('Error entering fullscreen:', err));
     } else {
       document.exitFullscreen?.()
         .then(() => {
           isFullscreen = false;
-          setTimeout(() => window.dispatchEvent(new Event('resize')), 100); // Trigger resize after exiting fullscreen
+          setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
         })
         .catch((err) => console.error('Error exiting fullscreen:', err));
     }
@@ -118,47 +121,28 @@
     }
   }
 
-  // New functions for favorite feature
-  function toggleFavorite(stock: Stock) {
-    $favorites = $favorites.some(fav => fav.Symbol === stock.Symbol)
-      ? $favorites.filter(fav => fav.Symbol !== stock.Symbol)
-      : [...$favorites, stock];
-    
-    // Save favorites to localStorage
-    localStorage.setItem('favorites', JSON.stringify($favorites));
+  function handleToggleFavorite(stock: Stock) {
+    toggleFavorite(stock.Symbol);
   }
 
-  function copyFavoritesToClipboard() {
-    const symbols = $favorites.map(stock => stock.Symbol).join(',');
-    navigator.clipboard.writeText(symbols).then(() => {
-      alert('Favorite stock symbols copied to clipboard!');
-    }, (err) => {
-      console.error('Could not copy text: ', err);
-    });
+  function toggleFavoritesModal() {
+    showFavoritesModal = !showFavoritesModal;
   }
 
   onMount(() => {
-    updateVHUnit(); // Initial calculation for dynamic height
+    updateVHUnit();
     window.addEventListener('resize', throttledUpdateVH);
     window.addEventListener('orientationchange', throttledUpdateVH);
 
-    // Detect fullscreen exit
     const handleFullscreenChange = () => {
       if (!document.fullscreenElement) {
         isFullscreen = false;
-        throttledUpdateVH(); // Adjust layout after exiting fullscreen
+        throttledUpdateVH();
       }
     };
     document.addEventListener('fullscreenchange', handleFullscreenChange);
 
-    // Load default file and first stock
     loadStocksFromFile(selectedFile);
-
-    // Load favorites from localStorage
-    const savedFavorites = localStorage.getItem('favorites');
-    if (savedFavorites) {
-      $favorites = JSON.parse(savedFavorites);
-    }
 
     return () => {
       window.removeEventListener('resize', throttledUpdateVH);
@@ -174,8 +158,14 @@
   style="height: calc(var(--vh, 1vh) * 100);"
 >
   <!-- Content Area -->
-  <div class="flex-grow">
-    <div class="h-full flex flex-col">
+  <div class="flex flex-grow">
+    <!-- Sidebar -->
+    <div class="w-64 bg-white border-r border-gray-200 overflow-y-auto">
+      <FavoriteStocks on:select={(event) => loadStockData(event.detail, selectedInterval)} />
+    </div>
+    
+    <!-- Main Content -->
+    <div class="flex-grow flex flex-col">
       {#if $loading}
         <div class="flex justify-center items-center flex-grow">
           <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
@@ -186,13 +176,18 @@
         </div>
       {:else if $stockData.length > 0 && $currentStock}
         <div class="flex-grow">
-          <StockChart 
-            data={$stockData} 
-            stockName={$currentStock["Company Name"]} 
-            symbol={$currentStock.Symbol}
-            isFavorite={$favorites.some(fav => fav.Symbol === $currentStock.Symbol)}
-            onToggleFavorite={() => toggleFavorite($currentStock)}
-          />
+          <div class="flex items-center justify-between p-4">
+            <h2 class="text-2xl font-bold">{$currentStock["Company Name"]} ({$currentStock.Symbol})</h2>
+            <button
+              on:click={() => handleToggleFavorite($currentStock)}
+              class="p-2 text-gray-600 hover:text-yellow-500 focus:outline-none"
+            >
+              <span class="w-6 h-6" class:text-yellow-500={$favorites.has($currentStock.Symbol)}>
+                <Star />
+              </span>
+            </button>
+          </div>
+          <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
         </div>
       {/if}
     </div>
@@ -202,18 +197,6 @@
   <footer class="h-16 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
     <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between space-x-4">
       <!-- Left: Selectors -->
-      <button
-        class="p-2 text-gray rounded-md lg:hidden flex items-center justify-center"
-        on:click={toggleFullscreen}
-      >
-        <div class="w-5 h-5">
-          {#if isFullscreen}
-            <FaCompress />
-          {:else}
-            <FaExpand />
-          {/if}
-        </div>
-      </button>
       <div class="flex items-center space-x-2 sm:space-x-4">
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
         <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
@@ -221,33 +204,40 @@
       <!-- Right: Pagination + Fullscreen Button -->
       <div class="flex items-center space-x-2 sm:space-x-4">
         <button
-          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
+          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:opacity-50"
           on:click={handlePrevious}
           disabled={currentIndex === 0}
         >
-          <div class="w-5 h-5">
-            <FaArrowLeft />
-          </div>
+          <ArrowLeft class="w-5 h-5" />
         </button>
         <button
-          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:text-gray-400"
+          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:opacity-50"
           on:click={handleNext}
           disabled={currentIndex === totalStocks - 1}
         >
-          <div class="w-5 h-5">
-            <FaArrowRight />
-          </div>
+          <ArrowRight class="w-5 h-5" />
         </button>
         <button
-          class="p-2 text-red-500 hover:text-red-600 focus:outline-none"
-          on:click={copyFavoritesToClipboard}
+          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none"
+          on:click={toggleFullscreen}
         >
-          <div class="w-5 h-5">
-            <FaHeart />
-          </div>
+          {#if isFullscreen}
+            <Shrink class="w-5 h-5" />
+          {:else}
+            <Fullscreen class="w-5 h-5" />
+          {/if}
+        </button>
+        <button
+          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none"
+          on:click={toggleFavoritesModal}
+        >
+          <Star class="w-5 h-5" />
         </button>
       </div>
     </div>
   </footer>
+  {#if showFavoritesModal}
+  <FavoritesModal on:close={toggleFavoritesModal} />
+  {/if}
 </main>
 
