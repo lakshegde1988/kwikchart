@@ -17,11 +17,11 @@
   }
 </script>
 
-<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white rounded-lg p-6 w-96 max-w-full">
+<div class="fixed inset-0 bg-slate-900 bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-slate-800 rounded-lg p-6 w-96 max-w-full">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-bold">Favorite Stocks</h2>
-      <button on:click={close} class="text-gray-500 hover:text-gray-700">
+      <button on:click={close} class="text-slate-200 hover:text-slate-100">
         <X size={24} />
       </button>
     </div>
@@ -33,12 +33,12 @@
       </ul>
       <button
         on:click={copyFavorites}
-        class="w-full bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+        class="w-full bg-slate-200 text-slate-900 py-2 px-4 rounded hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
       >
         Copy Favorites
       </button>
     {:else}
-      <p class="text-gray-500">No favorite stocks added yet.</p>
+      <p class="text-slate-100">No favorite stocks added yet.</p>
     {/if}
   </div>
 </div>
