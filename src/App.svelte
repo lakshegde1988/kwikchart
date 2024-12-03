@@ -135,26 +135,29 @@
   }
 
   onMount(() => {
-    updateVHUnit();
-    window.addEventListener('resize', throttledUpdateVH);
-    window.addEventListener('orientationchange', throttledUpdateVH);
+  updateVHUnit();
+  window.addEventListener('resize', throttledUpdateVH);
+  window.addEventListener('orientationchange', throttledUpdateVH);
 
-    const handleFullscreenChange = () => {
-      if (!document.fullscreenElement) {
-        isFullscreen = false;
-        throttledUpdateVH();
-      }
-    };
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
+  const handleFullscreenChange = () => {
+    if (!document.fullscreenElement) {
+      isFullscreen = false;
+    } else {
+      isFullscreen = true;
+    }
+    // Force resize event after fullscreen toggle
+    setTimeout(() => window.dispatchEvent(new Event('resize')), 200);
+    throttledUpdateVH();
+  };
 
-    loadStocksFromFile(selectedFile);
+  document.addEventListener('fullscreenchange', handleFullscreenChange);
 
-    return () => {
-      window.removeEventListener('resize', throttledUpdateVH);
-      window.removeEventListener('orientationchange', throttledUpdateVH);
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
-    };
-  });
+  return () => {
+    window.removeEventListener('resize', throttledUpdateVH);
+    window.removeEventListener('orientationchange', throttledUpdateVH);
+    document.removeEventListener('fullscreenchange', handleFullscreenChange);
+  };
+});
 </script>
 
 <main
