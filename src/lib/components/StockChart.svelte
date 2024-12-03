@@ -106,12 +106,12 @@
       width: chartContainer.clientWidth,
       height: chartContainer.parentElement?.clientHeight || window.innerHeight - 64,
       layout: {
-        background: { type: ColorType.Solid, color: '#ffffff' },
-        textColor: '#0c0a09',
+        background: { type: ColorType.Solid, color: '#020617' },
+        textColor: '#e2e8f0',
       },
       grid: {
-        vertLines: { color: '#f0f0f0' },
-        horzLines: { color: '#f0f0f0' },
+        vertLines: { visible : false},
+        horzLines: { visible : false},
       },
       timeScale: {
         timeVisible: false,
@@ -121,8 +121,8 @@
     });
 
     candlestickSeries = chart.addBarSeries({
-      upColor: '#020617',
-      downColor: '#020617',
+      upColor: '#cbd5e1',
+      downColor: '#cbd5e1',
     });
     candlestickSeries.priceScale().applyOptions({
       scaleMargins: {

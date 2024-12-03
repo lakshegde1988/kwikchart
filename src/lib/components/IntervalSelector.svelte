@@ -5,7 +5,7 @@
   const dispatch = createEventDispatcher<{ change: Interval }>();
 
   const intervals: Interval[] = [
-    { label: 'Daily', value: '1d', range: '2y' },
+    { label: 'Daily', value: '1d', range: '1y' },
     { label: 'Weekly', value: '1wk', range: '5y' },
     { label: 'Monthly', value: '1mo', range: 'max' },
   ];
@@ -19,7 +19,7 @@
 <div class="relative inline-block">
   <select
     id="interval-select"
-    class="block w-auto pl-3 pr-8 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md shadow-sm"
+    class="block w-auto pl-3 pr-8 py-2 text-base bg-slate-950 border-slate-300 focus:outline-none focus:ring-slate-500 focus:border-slate-500 sm:text-sm rounded-md shadow-sm"
     on:change={handleChange}
   >
     {#each intervals as interval, i}
