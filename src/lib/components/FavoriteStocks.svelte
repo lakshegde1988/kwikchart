@@ -1,7 +1,7 @@
 <script lang="ts">
 import { favoriteStocks } from '../stores/stockStore';
 import { createEventDispatcher } from 'svelte';
-
+import type { Stock } from '../types';
 const dispatch = createEventDispatcher<{select: Stock}>();
 
 function copySymbols() {
@@ -25,4 +25,3 @@ function copySymbols() {
     {/each}
   </ul>
 </div>
-
