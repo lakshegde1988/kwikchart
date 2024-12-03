@@ -5,7 +5,6 @@
   import type { StockData } from '../types';
 
   export let data: StockData[] = [];
-  export let stockName: string = '';
 
   let chartContainer: HTMLElement;
   let chart: IChartApi;
