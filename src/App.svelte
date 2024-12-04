@@ -205,23 +205,21 @@
           </span>
         </button>
       </div>
-      <div class="flex items-center space-x-2 sm:space-x-4">
+      <div class="flex items-center space-x-2 sm:space-x-4 mr-10">
         <button
-  class="bg-slate-500 hover:bg-slate-700 text-white  py-2 px-4 rounded"
-  on:click={handleNext}
-  disabled={currentIndex === totalStocks - 1}
->
-  <span class="lg:block hidden">Previous</span>
-  <ArrowLeft class="w-5 h-5 lg:hidden text-white" />
-</button>
+          class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none disabled:opacity-50"
+          on:click={handlePrevious}
+          disabled={currentIndex === 0}
+        >
+          <ArrowLeft class="w-5 h-5" />
+        </button>
         <button
-  class="bg-slate-500 hover:bg-slate-700 text-white py-2 px-4 rounded"
-  on:click={handleNext}
-  disabled={currentIndex === totalStocks - 1}
->
-  <span class="lg:block hidden">Next</span>
-  <ArrowRight class="w-5 h-5 lg:hidden text-white" />
-</button>
+          class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none disabled:opacity-50"
+          on:click={handleNext}
+          disabled={currentIndex === totalStocks - 1}
+        >
+          <ArrowRight class="w-5 h-5" />
+        </button>
       </div>
     </div>
   </footer>
