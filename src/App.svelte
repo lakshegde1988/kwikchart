@@ -172,7 +172,7 @@
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-16 flex-shrink-0 bg-slate-950 border-t border-slate-600 shadow-md">
+  <footer class="h-12 flex-shrink-0 bg-slate-950 border-t border-slate-600 shadow-md">
     <div class="mx-auto px-2 h-full flex items-center justify-between space-x-4">
       <div class="flex items-center space-x-2 sm:space-x-4">
         <button
@@ -212,7 +212,7 @@
   disabled={currentIndex === totalStocks - 1}
 >
   <span class="lg:block hidden">Previous</span>
-  <ArrowRight class="w-5 h-5 lg:hidden text-white" />
+  <ArrowLeft class="w-5 h-5 lg:hidden text-white" />
 </button>
         <button
   class="bg-slate-500 hover:bg-slate-700 text-white py-2 px-4 rounded"
