@@ -183,7 +183,7 @@
     <div class="max-w-2xl mx-auto px-2 h-full flex items-center justify-between space-x-4">
       <div class="flex items-center space-x-2 sm:space-x-4">
         <button
-          class="p-2 text-zinc-100 hover:text-zinc-50 focus:outline-none lg:hidden"
+          class="p-2 text-zinc-800 hover:text-zinc-900 focus:outline-none lg:hidden"
           on:click={toggleFullscreen}
         >
           {#if isFullscreen}
