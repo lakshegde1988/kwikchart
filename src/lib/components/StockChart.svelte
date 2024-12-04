@@ -46,7 +46,7 @@
       width: chartContainer.clientWidth,
       height: chartContainer.clientHeight,
       layout: {
-        background: { type: ColorType.Solid, color: '#fafafa' },
+        background: { type: ColorType.Solid, color: '#ffffff' },
         textColor: '#09090b',
       },
       grid: {
