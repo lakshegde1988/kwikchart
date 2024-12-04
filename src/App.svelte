@@ -8,39 +8,23 @@
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
-  import { Star, ArrowLeft, ArrowRight, Expand, Shrink } from 'lucide-svelte';
+  import { Star, ArrowLeft, ArrowRight, Expand, Shrink, List } from 'lucide-svelte';
 
   let currentIndex = 0;
   let selectedFile = 'largecap.json';
-  let selectedInterval: Interval = { label: 'Daily', value: '1d', range: '1y' };
+  let selectedInterval: Interval = { label: 'Daily', value: '1d', range: '6mo' };
   let isFullscreen = false;
   let showFavoritesModal = false;
-  let windowWidth: number;
-  let windowHeight: number;
 
   $: totalStocks = $stocks.length;
-
-  $: {
-    if (typeof window !== 'undefined') {
-      windowWidth = window.innerWidth;
-      windowHeight = window.innerHeight;
-      updateVHUnit();
-    }
-  }
-
 
   // Dynamically update `--vh` on viewport changes
   function updateVHUnit() {
     const vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
-    // Force layout update
-    document.body.style.height = '100vh';
-    setTimeout(() => {
-      document.body.style.height = '';
-    }, 0);
   }
 
-  // Throttle function to reduce event spam
+  // Throttle function
   function throttle(fn: () => void, delay: number) {
     let timeout: NodeJS.Timeout | null = null;
     return () => {
@@ -58,6 +42,11 @@
   // Fullscreen API logic
   function toggleFullscreen() {
     const appElement = document.documentElement;
+    if (!appElement.requestFullscreen || !document.exitFullscreen) {
+      console.error('Fullscreen API not supported');
+      return;
+    }
+
     if (!isFullscreen) {
       appElement.requestFullscreen?.()
         .then(() => {
@@ -148,9 +137,7 @@
   onMount(() => {
     updateVHUnit();
     window.addEventListener('resize', throttledUpdateVH);
-    window.addEventListener('orientationchange', () => {
-      setTimeout(updateVHUnit, 100);
-    });
+    window.addEventListener('orientationchange', throttledUpdateVH);
 
     const handleFullscreenChange = () => {
       if (!document.fullscreenElement) {
@@ -170,8 +157,6 @@
   });
 </script>
 
-<svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
-
 <main
   id="app"
   class="flex flex-col bg-slate-950 text-slate-100 overflow-hidden"
@@ -179,11 +164,6 @@
 >
   <!-- Content Area -->
   <div class="flex flex-grow">
-    <!-- Sidebar -->
-    <div class="w-64 bg-white border-r border-gray-200 overflow-y-auto">
-      <FavoriteStocks on:select={(event) => loadStockData(event.detail, selectedInterval)} />
-    </div>
-    
     <!-- Main Content -->
     <div class="flex-grow flex flex-col">
       {#if $loading}
@@ -196,17 +176,6 @@
         </div>
       {:else if $stockData.length > 0 && $currentStock}
         <div class="flex-grow">
-          <div class="flex items-center justify-between p-4">
-            <h2 class="text-2xl font-bold">{$currentStock["Company Name"]} ({$currentStock.Symbol})</h2>
-            <button
-              on:click={() => $currentStock && handleToggleFavorite($currentStock)}
-              class="p-2 text-gray-600 hover:text-yellow-500 focus:outline-none"
-            >
-              <span class="w-6 h-6" class:text-yellow-500={$currentStock && $favorites.has($currentStock.Symbol)}>
-                <Star />
-              </span>
-            </button>
-          </div>
           <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
         </div>
       {/if}
@@ -214,31 +183,11 @@
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-16 flex-shrink-0 bg-white border-t border-gray-200 shadow-md">
-    <div class="max-w-7xl mx-auto px-4 h-full flex items-center justify-between space-x-4">
-      <!-- Left: Selectors -->
-      <div class="flex items-center space-x-2 sm:space-x-4">
-        <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
-        <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
-      </div>
-      <!-- Right: Pagination + Fullscreen Button -->
+  <footer class="h-16 flex-shrink-0 bg-slate-950 border-t border-slate-600 shadow-md">
+    <div class="mx-auto px-2 h-full flex items-center justify-between space-x-4">
       <div class="flex items-center space-x-2 sm:space-x-4">
         <button
-          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:opacity-50"
-          on:click={handlePrevious}
-          disabled={currentIndex === 0}
-        >
-          <ArrowLeft class="w-5 h-5" />
-        </button>
-        <button
-          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none disabled:opacity-50"
-          on:click={handleNext}
-          disabled={currentIndex === totalStocks - 1}
-        >
-          <ArrowRight class="w-5 h-5" />
-        </button>
-        <button
-          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none"
+          class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none lg:hidden"
           on:click={toggleFullscreen}
         >
           {#if isFullscreen}
@@ -247,11 +196,42 @@
             <Expand class="w-5 h-5" />
           {/if}
         </button>
+        <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
+        <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
         <button
-          class="p-2 text-gray-600 hover:text-gray-900 focus:outline-none"
+          class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none"
           on:click={toggleFavoritesModal}
         >
-          <Star class="w-5 h-5" />
+          <List class="w-5 h-5" />
+        </button>
+        <button
+          on:click={() => $currentStock && handleToggleFavorite($currentStock)}
+          class="p-2 text-slate-300 hover:text-yellow-500 focus:outline-none"
+        >
+          <span
+            class="w-5 h-5"
+            class:text-yellow-500={$currentStock && $favorites.has($currentStock.Symbol)}
+          >
+            <Star />
+         </span>
+        </button>
+      </div>
+      <div class="flex items-center space-x-2 sm:space-x-4">
+        
+         
+        <button
+          class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none disabled:opacity-50"
+          on:click={handlePrevious}
+          disabled={currentIndex === 0}
+        >
+          <ArrowLeft class="w-5 h-5" />
+        </button>
+        <button
+          class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none disabled:opacity-50"
+          on:click={handleNext}
+          disabled={currentIndex === totalStocks - 1}
+        >
+          <ArrowRight class="w-5 h-5" />
         </button>
       </div>
     </div>
@@ -260,4 +240,3 @@
     <FavoritesModal on:close={toggleFavoritesModal} />
   {/if}
 </main>
-
