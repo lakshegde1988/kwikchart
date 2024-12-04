@@ -8,7 +8,7 @@
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
-  import { Star, ArrowLeft, ArrowRight, Expand, Compress } from 'lucide-svelte';
+  import { Star, ArrowLeft, ArrowRight, Expand, Shrink } from 'lucide-svelte';
 
   let currentIndex = 0;
   let selectedFile = 'largecap.json';
@@ -242,7 +242,7 @@
           on:click={toggleFullscreen}
         >
           {#if isFullscreen}
-            <Compress class="w-5 h-5" />
+            <Shrink class="w-5 h-5" />
           {:else}
             <Expand class="w-5 h-5" />
           {/if}
