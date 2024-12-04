@@ -14,7 +14,7 @@
 <div class="relative inline-block">
   <select
     id="index-select"
-    class="block w-auto text-base bg-slate-950 border-slate-300 focus:outline-none focus:ring-slate-900 focus:border-slate-500 sm:text-sm rounded-md shadow-sm"
+    class="block w-auto text-base bg-zinc-50 border-zinc-900 focus:outline-none focus:ring-zinc-100 focus:border-zinc-100 sm:text-sm rounded-md shadow-sm"
     on:change={handleSelect}
   >
     {#each indexFiles as file}

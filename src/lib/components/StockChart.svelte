@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, onDestroy, afterUpdate } from 'svelte';
+  import { onMount, onDestroy } from 'svelte';
   import { createChart, ColorType } from 'lightweight-charts';
   import type { StockData } from '../types';
 
@@ -9,7 +9,7 @@
   let chartContainer: HTMLElement;
   let legendContainer: HTMLElement;
   let chart: any;
-  let candlestickSeries: any;
+  let barSeries: any;
   let resizeObserver: ResizeObserver;
 
   function formatPrice(price: number): string {
@@ -21,7 +21,7 @@
   }
 
   function updateLegend(param: any) {
-    const validData = param.seriesData.get(candlestickSeries);
+    const validData = param.seriesData.get(barSeries);
     if (validData) {
       const dataPoint = data.find((d) => d.time === validData.time);
       if (!dataPoint) return;
@@ -34,19 +34,7 @@
       const isPositive = priceChange >= 0;
 
       legendContainer.innerHTML = `
-        <div class="flex flex-col">
-          <div class="text-md font-bold mb-2">${stockName}</div>
-          <div class="flex items-center space-x-4 mb-2">
-            <div class="flex flex-col">
-              <span class="text-sm font-semibold">${formatPrice(validData.close)}</span>
-            </div>
-            <div class="flex flex-col">
-              <span class="text-sm font-semibold ${isPositive ? 'text-green-500' : 'text-red-500'}">
-                ${isPositive ? '+' : ''}${formatPrice(priceChange)} (${formatPercentage(percentageChange)})
-              </span>
-            </div>
-          </div>
-        </div>
+          <h2 class="text-md font-bold mb-2">${stockName}</h2>
       `;
     }
   }
@@ -58,8 +46,8 @@
       width: chartContainer.clientWidth,
       height: chartContainer.clientHeight,
       layout: {
-        background: { type: ColorType.Solid, color: '#020617' },
-        textColor: '#e2e8f0',
+        background: { type: ColorType.Solid, color: '#fafafa' },
+        textColor: '#09090b',
       },
       grid: {
         vertLines: { visible: false },
@@ -72,11 +60,11 @@
       },
     });
 
-    candlestickSeries = chart.addBarSeries({
+    barSeries = chart.addBarSeries({
       upColor: '#22c55e',
       downColor: '#ea580c',
     });
-    candlestickSeries.priceScale().applyOptions({
+    barSeries.priceScale().applyOptions({
       scaleMargins: {
         top: 0.2,
         bottom: 0.2,
@@ -94,31 +82,52 @@
   }
 
   function updateChartData() {
-    if (candlestickSeries && data && data.length > 0) {
-      candlestickSeries.setData(data);
-      chart.timeScale().fitContent();
-      setInitialLegend();
-    }
+  if (barSeries && data && data.length > 0) {
+    // Preprocess data to include dynamic coloring
+    const transformedData = data.map(({ time, high, low, close }, index) => {
+      const previousClose = index > 0 ? data[index - 1].close : close;
+      const isUp = close >= previousClose;
+      return {
+        time,
+        open: close, // To exclude open visually
+        high,
+        low,
+        close,
+        color: isUp ? '#0c0a09' : '#b91c1c', // Green for up, orange for down
+      };
+    });
+
+    // Update the chart with the transformed data
+    barSeries.setData(transformedData);
+
+    // Adjust the chart view and reset legend
+    chart.timeScale().fitContent();
+    setInitialLegend();
   }
+}
+
+
 
   function setInitialLegend() {
     if (data && data.length > 0) {
       const lastDataPoint = data[data.length - 1];
       updateLegend({
-        seriesData: new Map([[candlestickSeries, lastDataPoint]]),
+        seriesData: new Map([[barSeries, lastDataPoint]]),
       });
     }
   }
 
   function adjustChartSize() {
     if (chart && chartContainer) {
-      const newWidth = chartContainer.clientWidth;
-      const newHeight = chartContainer.clientHeight;
-      chart.applyOptions({
-        width: newWidth,
-        height: newHeight,
+      requestAnimationFrame(() => {
+        const newWidth = chartContainer.clientWidth;
+        const newHeight = chartContainer.clientHeight;
+        chart.applyOptions({
+          width: newWidth,
+          height: newHeight,
+        });
+        chart.timeScale().fitContent();
       });
-      chart.timeScale().fitContent();
     }
   }
 
@@ -132,30 +141,41 @@
 
   onMount(() => {
     initializeChart();
+    
+    // Use ResizeObserver for continuous monitoring of size changes
+    resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(adjustChartSize);
+    });
+    
+    if (chartContainer) {
+      resizeObserver.observe(chartContainer);
+    }
 
-    resizeObserver = new ResizeObserver(handleResize);
-    resizeObserver.observe(chartContainer);
+    // Handle orientation change and fullscreen events
+    window.addEventListener('orientationchange', () => {
+      setTimeout(adjustChartSize, 100);
+    });
 
-    window.addEventListener('orientationchange', handleResize);
-    document.addEventListener('fullscreenchange', handleResize);
+    document.addEventListener('fullscreenchange', adjustChartSize);
 
     return () => {
       if (resizeObserver) {
         resizeObserver.disconnect();
       }
-      window.removeEventListener('orientationchange', handleResize);
-      document.removeEventListener('fullscreenchange', handleResize);
+      window.removeEventListener('orientationchange', () => {
+        setTimeout(adjustChartSize, 100);
+      });
+      document.removeEventListener('fullscreenchange', adjustChartSize);
       if (chart) {
         chart.remove();
       }
     };
   });
 
-  afterUpdate(() => {
-    if (chart && data) {
-      updateChartData();
-    }
-  });
+  // Use reactive statement instead of afterUpdate
+  $: if (chart && data) {
+    updateChartData();
+  }
 </script>
 
 <div class="chart-container relative w-full h-full min-h-[300px]">
