@@ -120,29 +120,33 @@
     }
   }
 
+  function handleResize() {
+    requestAnimationFrame(adjustChartSize);
+  }
+
   onMount(() => {
     initializeChart();
 
-    resizeObserver = new ResizeObserver(() => {
-      requestAnimationFrame(adjustChartSize);
-    });
-
+    resizeObserver = new ResizeObserver(handleResize);
     resizeObserver.observe(chartContainer);
+
+    window.addEventListener('orientationchange', handleResize);
+    document.addEventListener('fullscreenchange', handleResize);
 
     return () => {
       if (resizeObserver) {
         resizeObserver.disconnect();
       }
+      window.removeEventListener('orientationchange', handleResize);
+      document.removeEventListener('fullscreenchange', handleResize);
       if (chart) {
         chart.remove();
       }
     };
   });
 
-  $: {
-    if (chart && data) {
-      updateChartData();
-    }
+  $: if (chart && data) {
+    updateChartData();
   }
 </script>
 
