@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import { favorites, toggleFavorite, importFavorites, exportFavorites } from '../stores/stockStore';
+  import { favorites, toggleFavorite} from '../stores/stockStore';
   import { X, Plus } from 'lucide-svelte';
 
   const dispatch = createEventDispatcher();
@@ -10,7 +10,6 @@
   function close() {
     dispatch('close');
   }
-
 
  function copyFavorites() {
     const favoritesCSV = Array.from($favorites).join(',');
