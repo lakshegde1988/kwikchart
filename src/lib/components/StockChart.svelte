@@ -110,13 +110,15 @@
 
   function adjustChartSize() {
     if (chart && chartContainer) {
-      const newWidth = chartContainer.clientWidth;
-      const newHeight = chartContainer.parentElement?.clientHeight || window.innerHeight - 64;
-      chart.applyOptions({
-        width: newWidth,
-        height: newHeight,
+      requestAnimationFrame(() => {
+        const newWidth = chartContainer.clientWidth;
+        const newHeight = chartContainer.parentElement?.clientHeight || window.innerHeight - 64;
+        chart.applyOptions({
+          width: newWidth,
+          height: newHeight,
+        });
+        chart.timeScale().fitContent();
       });
-      chart.timeScale().fitContent();
     }
   }
 
@@ -125,18 +127,37 @@
   }
 
   function handleOrientationChange() {
-    setTimeout(adjustChartSize, 100);
+    requestAnimationFrame(adjustChartSize);
+  }
+
+  function handleFullscreenChange() {
+    requestAnimationFrame(adjustChartSize);
+  }
+
+  function forceResize() {
+    setTimeout(() => {
+      window.dispatchEvent(new Event('resize'));
+    }, 100);
   }
 
   onMount(() => {
     initializeChart();
+    forceResize();
 
     window.addEventListener('resize', handleResize);
     window.addEventListener('orientationchange', handleOrientationChange);
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
 
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('orientationchange', handleOrientationChange);
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
+      document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
       if (chart) {
         chart.remove();
       }
