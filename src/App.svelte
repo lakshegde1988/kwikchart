@@ -214,7 +214,7 @@
       </div>
       <div class="flex items-center mr-8 space-x-2 sm:space-x-4">
         <button
-          class="hover:bg-zinc-100 text-zinc-900  py-2 px-4 rounded"
+          class="hover:bg-zinc-50 text-zinc-900  py-2 px-4 rounded"
           on:click={handlePrevious}
           disabled={currentIndex === 0}
         >
@@ -222,7 +222,7 @@
           <ArrowLeft class="w-5 h-5 lg:hidden tex-zinc-900" />
         </button>
                 <button
-          class="hover:bg-zinc-100 tex-zinc-900 py-2 px-4 rounded"
+          class="hover:bg-zinc-50 tex-zinc-900 py-2 px-4 rounded"
           on:click={handleNext}
           disabled={currentIndex === totalStocks - 1}
         >
