@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
+  import { onMount, onDestroy, afterUpdate } from 'svelte';
   import { createChart, ColorType } from 'lightweight-charts';
   import type { StockData } from '../types';
 
@@ -52,6 +52,8 @@
   }
 
   function initializeChart() {
+    if (!chartContainer) return;
+
     chart = createChart(chartContainer, {
       width: chartContainer.clientWidth,
       height: chartContainer.clientHeight,
@@ -121,7 +123,11 @@
   }
 
   function handleResize() {
-    requestAnimationFrame(adjustChartSize);
+    requestAnimationFrame(() => {
+      if (chartContainer) {
+        adjustChartSize();
+      }
+    });
   }
 
   onMount(() => {
@@ -145,19 +151,15 @@
     };
   });
 
-  $: if (chart && data) {
-    updateChartData();
-  }
+  afterUpdate(() => {
+    if (chart && data) {
+      updateChartData();
+    }
+  });
 </script>
 
-<div class="chart-container relative w-full h-full">
+<div class="chart-container relative w-full h-full min-h-[300px]">
   <div bind:this={chartContainer} class="w-full h-full"></div>
   <div bind:this={legendContainer} class="absolute top-1 left-1 z-10 font-sans p-1"></div>
 </div>
-
-<style>
-  .chart-container {
-    min-height: 300px;
-  }
-</style>
 
