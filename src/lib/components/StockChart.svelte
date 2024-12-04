@@ -50,57 +50,6 @@
     }
   }
 
-  onMount(() => {
-    initializeChart();
-
-    // Observe size changes for dynamic resizing
-    const resizeObserver = new ResizeObserver(() => {
-      adjustChartSize();
-    });
-
-    if (chartContainer) {
-      resizeObserver.observe(chartContainer);
-    }
-
-    // Listen for window resize and orientation changes
-    const handleResize = throttle(() => {
-      adjustChartSize();
-    }, 100);
-
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', handleResize);
-
-    return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('orientationchange', handleResize);
-      chart.remove();
-    };
-  });
-
-  function throttle(fn: () => void, delay: number) {
-    let timeout: NodeJS.Timeout | null = null;
-    return () => {
-      if (!timeout) {
-        timeout = setTimeout(() => {
-          fn();
-          timeout = null;
-        }, delay);
-      }
-    };
-  }
-
-  function adjustChartSize() {
-    if (chart && chartContainer) {
-      const containerHeight =
-        chartContainer.parentElement?.clientHeight || window.innerHeight - 64; // Adjust based on footer
-      chart.applyOptions({
-        width: chartContainer.clientWidth,
-        height: containerHeight,
-      });
-    }
-  }
-
   function initializeChart() {
     chart = createChart(chartContainer, {
       width: chartContainer.clientWidth,
@@ -110,8 +59,8 @@
         textColor: '#e2e8f0',
       },
       grid: {
-        vertLines: { visible : false},
-        horzLines: { visible : false},
+        vertLines: { visible: false },
+        horzLines: { visible: false },
       },
       timeScale: {
         timeVisible: false,
@@ -158,9 +107,76 @@
       });
     }
   }
+
+  function adjustChartSize() {
+    if (chart && chartContainer) {
+      requestAnimationFrame(() => {
+        const containerHeight =
+          chartContainer.parentElement?.clientHeight || window.innerHeight - 64; // Adjust based on footer
+        chart.applyOptions({
+          width: chartContainer.clientWidth,
+          height: containerHeight,
+        });
+        chart.timeScale().fitContent();
+      });
+    }
+  }
+
+  function debounce(fn: () => void, delay: number) {
+    let timeoutId: NodeJS.Timeout;
+    return () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => fn(), delay);
+    };
+  }
+
+  function forceLayoutUpdate() {
+    if (chart && chartContainer) {
+      chart.applyOptions({ width: 0, height: 0 });
+      setTimeout(() => {
+        adjustChartSize();
+      }, 0);
+    }
+  }
+
+  onMount(() => {
+    initializeChart();
+
+    const resizeObserver = new ResizeObserver(adjustChartSize);
+
+    if (chartContainer) {
+      resizeObserver.observe(chartContainer);
+    }
+
+    const handleResize = debounce(adjustChartSize, 250);
+
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('orientationchange', handleResize);
+
+    const handleOrientationChange = () => {
+      setTimeout(forceLayoutUpdate, 100);
+    };
+
+    window.addEventListener('orientationchange', handleOrientationChange);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('orientationchange', handleResize);
+      window.removeEventListener('orientationchange', handleOrientationChange);
+      chart.remove();
+    };
+  });
+
+  $: {
+    if (chart && data) {
+      updateChartData();
+    }
+  }
 </script>
 
 <div class="chart-container relative flex-grow">
   <div bind:this={chartContainer} class="w-full h-full"></div>
   <div bind:this={legendContainer} class="absolute top-1 left-1 z-10 font-sans p-1"></div>
 </div>
+
