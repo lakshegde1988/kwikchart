@@ -205,7 +205,7 @@
           class="p-2 text-zinc-800 hover:text-orange-600 focus:outline-none"
         >
           <span
-            class="w-5 h-3"
+            class="w-3 h-3"
             class:text-orange-700={$currentStock && $favorites.has($currentStock.Symbol)}
           >
             <Star />
