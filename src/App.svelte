@@ -155,7 +155,7 @@
 
 <main
   id="app"
-  class="flex flex-col bg-zinc-100 text-zinc-900 overflow-hidden"
+  class="flex flex-col bg-zinc-50 text-zinc-900 overflow-hidden"
   style="height: {vh ? `${vh * 100}px` : '100vh'};"
 >
   <!-- Content Area -->
