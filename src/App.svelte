@@ -155,7 +155,7 @@
 
 <main
   id="app"
-  class="flex flex-col bg-slate-950 text-slate-100 overflow-hidden"
+  class="flex flex-col bg-zinc-100 text-zinc-900 overflow-hidden"
   style="height: {vh ? `${vh * 100}px` : '100vh'};"
 >
   <!-- Content Area -->
@@ -179,11 +179,11 @@
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-16 flex-shrink-0 bg-slate-950 border-t border-slate-600 shadow-md">
-    <div class="mx-auto px-2 h-full flex items-center justify-between space-x-4">
+  <footer class="h-12 flex-shrink-0 bg-zinc-50 border-t border-zinc-600 shadow-md">
+    <div class="max-w-2xl mx-auto px-2 h-full flex items-center justify-between space-x-4">
       <div class="flex items-center space-x-2 sm:space-x-4">
         <button
-          class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none lg:hidden"
+          class="p-2 text-zinc-100 hover:text-zinc-50 focus:outline-none lg:hidden"
           on:click={toggleFullscreen}
         >
           {#if isFullscreen}
@@ -195,18 +195,18 @@
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
         <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
         <button
-          class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none"
+          class="p-2 text-zinc-900 hover:text-zinc-800 focus:outline-none"
           on:click={toggleFavoritesModal}
         >
           <List class="w-5 h-5" />
         </button>
         <button
           on:click={() => $currentStock && handleToggleFavorite($currentStock)}
-          class="p-2 text-slate-300 hover:text-yellow-500 focus:outline-none"
+          class="p-2 text-zinc-800 hover:text-orange-600 focus:outline-none"
         >
           <span
             class="w-5 h-5"
-            class:text-yellow-500={$currentStock && $favorites.has($currentStock.Symbol)}
+            class:text-orange-700={$currentStock && $favorites.has($currentStock.Symbol)}
           >
             <Star />
           </span>
@@ -214,20 +214,20 @@
       </div>
       <div class="flex items-center mr-8 space-x-2 sm:space-x-4">
         <button
-          class="bg-slate-500 hover:bg-slate-700 text-white  py-2 px-4 rounded"
+          class="bg-zinc-200 hover:bg-zinc-100 text-zinc-900  py-2 px-4 rounded"
           on:click={handleNext}
           disabled={currentIndex === totalStocks - 1}
         >
           <span class="lg:block hidden">Previous</span>
-          <ArrowRight class="w-5 h-5 lg:hidden text-white" />
+          <ArrowRight class="w-5 h-5 lg:hidden tex-zinc-900" />
         </button>
                 <button
-          class="bg-slate-500 hover:bg-slate-700 text-white py-2 px-4 rounded"
+          class="bg-zinc-200 hover:bg-zinc-100 tex-zinc-900 py-2 px-4 rounded"
           on:click={handleNext}
           disabled={currentIndex === totalStocks - 1}
         >
           <span class="lg:block hidden">Next</span>
-          <ArrowRight class="w-5 h-5 lg:hidden text-white" />
+          <ArrowRight class="w-5 h-5 lg:hidden tex-zinc-900" />
         </button>
       </div>
     </div>
