@@ -62,7 +62,8 @@
 
     barSeries = chart.addBarSeries({
       upColor: '#22c55e',
-      downColor: '#ea580c',
+      downColor: '#b91c1c',
+      thinBars : false,
     });
     barSeries.priceScale().applyOptions({
       scaleMargins: {
@@ -93,7 +94,7 @@
         high,
         low,
         close,
-        color: isUp ? '#0c0a09' : '#991b1b', // Green for up, orange for down
+        color: isUp ? '#0c0a09' : '#b91c1c', // Green for up, orange for down
       };
     });
 
