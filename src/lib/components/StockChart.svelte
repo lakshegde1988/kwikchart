@@ -10,6 +10,7 @@
   let legendContainer: HTMLElement;
   let chart: any;
   let candlestickSeries: any;
+  let resizeObserver: ResizeObserver;
 
   function formatPrice(price: number): string {
     return price.toFixed(2);
@@ -53,7 +54,7 @@
   function initializeChart() {
     chart = createChart(chartContainer, {
       width: chartContainer.clientWidth,
-      height: chartContainer.parentElement?.clientHeight || window.innerHeight - 64,
+      height: chartContainer.clientHeight,
       layout: {
         background: { type: ColorType.Solid, color: '#020617' },
         textColor: '#e2e8f0',
@@ -79,7 +80,6 @@
         bottom: 0.2,
       },
     });
-    chart.timeScale().fitContent();
 
     updateChartData();
     setInitialLegend();
@@ -110,54 +110,29 @@
 
   function adjustChartSize() {
     if (chart && chartContainer) {
-      requestAnimationFrame(() => {
-        const newWidth = chartContainer.clientWidth;
-        const newHeight = chartContainer.parentElement?.clientHeight || window.innerHeight - 64;
-        chart.applyOptions({
-          width: newWidth,
-          height: newHeight,
-        });
-        chart.timeScale().fitContent();
+      const newWidth = chartContainer.clientWidth;
+      const newHeight = chartContainer.clientHeight;
+      chart.applyOptions({
+        width: newWidth,
+        height: newHeight,
       });
+      chart.timeScale().fitContent();
     }
-  }
-
-  function handleResize() {
-    adjustChartSize();
-  }
-
-  function handleOrientationChange() {
-    requestAnimationFrame(adjustChartSize);
-  }
-
-  function handleFullscreenChange() {
-    requestAnimationFrame(adjustChartSize);
-  }
-
-  function forceResize() {
-    setTimeout(() => {
-      window.dispatchEvent(new Event('resize'));
-    }, 100);
   }
 
   onMount(() => {
     initializeChart();
-    forceResize();
 
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', handleOrientationChange);
-    document.addEventListener('fullscreenchange', handleFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
-    document.addEventListener('mozfullscreenchange', handleFullscreenChange);
-    document.addEventListener('MSFullscreenChange', handleFullscreenChange);
+    resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(adjustChartSize);
+    });
+
+    resizeObserver.observe(chartContainer);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('orientationchange', handleOrientationChange);
-      document.removeEventListener('fullscreenchange', handleFullscreenChange);
-      document.removeEventListener('webkitfullscreenchange', handleFullscreenChange);
-      document.removeEventListener('mozfullscreenchange', handleFullscreenChange);
-      document.removeEventListener('MSFullscreenChange', handleFullscreenChange);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
       if (chart) {
         chart.remove();
       }
@@ -171,8 +146,14 @@
   }
 </script>
 
-<div class="chart-container relative flex-grow">
+<div class="chart-container relative w-full h-full">
   <div bind:this={chartContainer} class="w-full h-full"></div>
   <div bind:this={legendContainer} class="absolute top-1 left-1 z-10 font-sans p-1"></div>
 </div>
+
+<style>
+  .chart-container {
+    min-height: 300px;
+  }
+</style>
 
