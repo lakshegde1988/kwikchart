@@ -24,5 +24,8 @@ export function toggleFavorite(symbol: string) {
     return favs;
   });
 }
-
+export const favoriteStocks = derived(favorites, $favorites => {
+  // Return an array of favorite stocks
+  return Array.from($favorites);
+});
 
