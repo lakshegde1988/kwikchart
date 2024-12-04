@@ -219,7 +219,7 @@
           disabled={currentIndex === totalStocks - 1}
         >
           <span class="lg:block hidden">Previous</span>
-          <ArrowRight class="w-5 h-5 lg:hidden tex-zinc-900" />
+          <ArrowLeft class="w-5 h-5 lg:hidden tex-zinc-900" />
         </button>
                 <button
           class="bg-zinc-200 hover:bg-zinc-100 tex-zinc-900 py-2 px-4 rounded"
