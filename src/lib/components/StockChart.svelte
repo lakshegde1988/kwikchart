@@ -94,7 +94,7 @@
         high,
         low,
         close,
-        color: isUp ? '#0c0a09' : '#b91c1c', // Green for up, orange for down
+        color: isUp ? '#0c0a09' : '#dc2626', // Green for up, orange for down
       };
     });
 
