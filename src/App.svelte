@@ -3,7 +3,6 @@
   import IndexSelector from './lib/components/IndexSelector.svelte';
   import IntervalSelector from './lib/components/IntervalSelector.svelte';
   import StockChart from './lib/components/StockChart.svelte';
-  import FavoriteStocks from './lib/components/FavoriteStocks.svelte';
   import FavoritesModal from './lib/components/FavoritesModal.svelte';
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
@@ -166,14 +165,14 @@
         </div>
       {:else if $stockData.length > 0 && $currentStock}
         <div class="flex-grow">
-          <StockChart data={$stockData} stockName={$currentStock["Company Name"]} />
+          <StockChart data={$stockData} stockName={$currentStock["Symbol"]} />
         </div>
       {/if}
     </div>
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-12 flex-shrink-0 bg-slate-950 border-t border-slate-600 shadow-md">
+  <footer class="h-16 flex-shrink-0 bg-slate-950 border-t border-slate-600 shadow-md">
     <div class="mx-auto px-2 h-full flex items-center justify-between space-x-4">
       <div class="flex items-center space-x-2 sm:space-x-4">
         <button
@@ -208,19 +207,21 @@
       </div>
       <div class="flex items-center space-x-2 sm:space-x-4">
         <button
-          class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none disabled:opacity-50"
-          on:click={handlePrevious}
-          disabled={currentIndex === 0}
-        >
-          <ArrowLeft class="w-5 h-5" />
-        </button>
+  class="bg-slate-500 hover:bg-slate-700 text-white  py-2 px-4 rounded"
+  on:click={handleNext}
+  disabled={currentIndex === totalStocks - 1}
+>
+  <span class="lg:block hidden">Previous</span>
+  <ArrowRight class="w-5 h-5 lg:hidden text-white" />
+</button>
         <button
-          class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none disabled:opacity-50"
-          on:click={handleNext}
-          disabled={currentIndex === totalStocks - 1}
-        >
-          <ArrowRight class="w-5 h-5" />
-        </button>
+  class="bg-slate-500 hover:bg-slate-700 text-white py-2 px-4 rounded"
+  on:click={handleNext}
+  disabled={currentIndex === totalStocks - 1}
+>
+  <span class="lg:block hidden">Next</span>
+  <ArrowRight class="w-5 h-5 lg:hidden text-white" />
+</button>
       </div>
     </div>
   </footer>
