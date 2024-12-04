@@ -15,16 +15,15 @@
   let selectedInterval: Interval = { label: 'Daily', value: '1d', range: '6mo' };
   let isFullscreen = false;
   let showFavoritesModal = false;
+  let vh: number;
 
   $: totalStocks = $stocks.length;
 
-  // Dynamically update `--vh` on viewport changes
   function updateVHUnit() {
-    const vh = window.innerHeight * 0.01;
+    vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   }
 
-  // Throttle function
   function throttle(fn: () => void, delay: number) {
     let timeout: NodeJS.Timeout | null = null;
     return () => {
@@ -39,26 +38,19 @@
 
   const throttledUpdateVH = throttle(updateVHUnit, 200);
 
-  // Fullscreen API logic
   function toggleFullscreen() {
-    const appElement = document.documentElement;
-    if (!appElement.requestFullscreen || !document.exitFullscreen) {
-      console.error('Fullscreen API not supported');
-      return;
-    }
-
-    if (!isFullscreen) {
-      appElement.requestFullscreen?.()
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen()
         .then(() => {
           isFullscreen = true;
-          setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
+          setTimeout(throttledUpdateVH, 100);
         })
         .catch((err) => console.error('Error entering fullscreen:', err));
     } else {
-      document.exitFullscreen?.()
+      document.exitFullscreen()
         .then(() => {
           isFullscreen = false;
-          setTimeout(() => window.dispatchEvent(new Event('resize')), 100);
+          setTimeout(throttledUpdateVH, 100);
         })
         .catch((err) => console.error('Error exiting fullscreen:', err));
     }
@@ -140,10 +132,8 @@
     window.addEventListener('orientationchange', throttledUpdateVH);
 
     const handleFullscreenChange = () => {
-      if (!document.fullscreenElement) {
-        isFullscreen = false;
-        throttledUpdateVH();
-      }
+      isFullscreen = !!document.fullscreenElement;
+      throttledUpdateVH();
     };
     document.addEventListener('fullscreenchange', handleFullscreenChange);
 
@@ -160,10 +150,10 @@
 <main
   id="app"
   class="flex flex-col bg-slate-950 text-slate-100 overflow-hidden"
-  style="height: calc(var(--vh, 1vh) * 100);"
+  style="height: {vh ? `${vh * 100}px` : '100vh'};"
 >
   <!-- Content Area -->
-  <div class="flex flex-grow">
+  <div class="flex flex-grow overflow-auto">
     <!-- Main Content -->
     <div class="flex-grow flex flex-col">
       {#if $loading}
@@ -213,12 +203,10 @@
             class:text-yellow-500={$currentStock && $favorites.has($currentStock.Symbol)}
           >
             <Star />
-         </span>
+          </span>
         </button>
       </div>
       <div class="flex items-center space-x-2 sm:space-x-4">
-        
-         
         <button
           class="p-2 text-slate-100 hover:text-slate-50 focus:outline-none disabled:opacity-50"
           on:click={handlePrevious}
