@@ -70,8 +70,8 @@
     });
 
     candlestickSeries = chart.addBarSeries({
-      upColor: '#22c55e',
-      downColor: '#ea580c',
+      upColor: '#cbd5e1',
+      downColor: '#cbd5e1',
     });
     candlestickSeries.priceScale().applyOptions({
       scaleMargins: {
@@ -110,61 +110,36 @@
 
   function adjustChartSize() {
     if (chart && chartContainer) {
-      requestAnimationFrame(() => {
-        const containerHeight =
-          chartContainer.parentElement?.clientHeight || window.innerHeight - 64; // Adjust based on footer
-        chart.applyOptions({
-          width: chartContainer.clientWidth,
-          height: containerHeight,
-        });
-        chart.timeScale().fitContent();
+      const newWidth = chartContainer.clientWidth;
+      const newHeight = chartContainer.parentElement?.clientHeight || window.innerHeight - 64;
+      chart.applyOptions({
+        width: newWidth,
+        height: newHeight,
       });
+      chart.timeScale().fitContent();
     }
   }
 
-  function debounce(fn: () => void, delay: number) {
-    let timeoutId: NodeJS.Timeout;
-    return () => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => fn(), delay);
-    };
+  function handleResize() {
+    adjustChartSize();
   }
 
-  function forceLayoutUpdate() {
-    if (chart && chartContainer) {
-      chart.applyOptions({ width: 0, height: 0 });
-      setTimeout(() => {
-        adjustChartSize();
-      }, 0);
-    }
+  function handleOrientationChange() {
+    setTimeout(adjustChartSize, 100);
   }
 
   onMount(() => {
     initializeChart();
 
-    const resizeObserver = new ResizeObserver(adjustChartSize);
-
-    if (chartContainer) {
-      resizeObserver.observe(chartContainer);
-    }
-
-    const handleResize = debounce(adjustChartSize, 250);
-
     window.addEventListener('resize', handleResize);
-    window.addEventListener('orientationchange', handleResize);
-
-    const handleOrientationChange = () => {
-      setTimeout(forceLayoutUpdate, 100);
-    };
-
     window.addEventListener('orientationchange', handleOrientationChange);
 
     return () => {
-      resizeObserver.disconnect();
       window.removeEventListener('resize', handleResize);
-      window.removeEventListener('orientationchange', handleResize);
       window.removeEventListener('orientationchange', handleOrientationChange);
-      chart.remove();
+      if (chart) {
+        chart.remove();
+      }
     };
   });
 
