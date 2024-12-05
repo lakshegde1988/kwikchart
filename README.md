@@ -1,1 +1,1 @@
-ChartApp- analyse charts in quick time
+ "KwikChart: Check Charts Instantly." 
