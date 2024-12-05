@@ -179,7 +179,7 @@
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-12 flex-shrink-0 bg-white border-t border-zinc-600 shadow-md">
+  <footer class="h-10 flex-shrink-0 bg-white border-t border-zinc-600 shadow-md">
     <div class="max-w-2xl sm:max-w-3xl mx-auto px-2 h-full flex items-center justify-between space-x-4">
       <div class="flex items-center space-x-2 sm:space-x-4">
         <button
