@@ -20,7 +20,7 @@
 </script>
 
 <div class="fixed inset-0 bg-zinc-50 bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-zinc-200 rounded-lg p-6 w-96 max-w-full">
+  <div class="bg-zinc-50 rounded-lg p-6 w-96 max-w-full">
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-xl font-bold text-zinc-900">Favorite Stocks</h2>
       <button on:click={close} class="text-zinc-800 hover:text-zinc-900">
