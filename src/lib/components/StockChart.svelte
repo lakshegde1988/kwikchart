@@ -10,6 +10,7 @@
   let legendContainer: HTMLElement;
   let chart: any;
   let barSeries: any;
+  let volumeSeries: any;
   let resizeObserver: ResizeObserver;
 
   function formatPrice(price: number): string {
@@ -20,21 +21,42 @@
     return percentage.toFixed(2) + '%';
   }
 
+  function formatVolume(volume: number): string {
+    if (volume >= 1000000) {
+      return (volume / 1000000).toFixed(2) + 'M';
+    } else if (volume >= 1000) {
+      return (volume / 1000).toFixed(2) + 'K';
+    }
+    return volume.toString();
+  }
+
   function updateLegend(param: any) {
-    const validData = param.seriesData.get(barSeries);
-    if (validData) {
-      const dataPoint = data.find((d) => d.time === validData.time);
+    const barData = param.seriesData.get(barSeries);
+    const volumeData = param.seriesData.get(volumeSeries);
+    if (barData) {
+      const dataPoint = data.find((d) => d.time === barData.time);
       if (!dataPoint) return;
 
       const previousDataPoint = data[data.indexOf(dataPoint) - 1];
       const previousClose = previousDataPoint ? previousDataPoint.close : dataPoint.open;
 
-      const priceChange = validData.close - previousClose;
+      const priceChange = barData.close - previousClose;
       const percentageChange = (priceChange / previousClose) * 100;
       const isPositive = priceChange >= 0;
 
       legendContainer.innerHTML = `
-          <h2 class="text-md font-bold mb-2">${stockName}</h2>
+        <h2 class="text-md font-bold mb-2">${stockName}</h2>
+        <div class="flex items-center space-x-4 mb-2">
+          <div class="flex flex-col">
+            <span class="text-sm font-semibold">${formatPrice(barData.close)}</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-sm font-semibold ${isPositive ? 'text-green-500' : 'text-red-500'}">
+              ${isPositive ? '+' : ''}${formatPrice(priceChange)} (${formatPercentage(percentageChange)})
+            </span>
+          </div>
+        </div>
+        
       `;
     }
   }
@@ -56,15 +78,36 @@
       timeScale: {
         timeVisible: false,
         rightOffset: 15,
-        minBarSpacing: 5,
+        minBarSpacing: 1,
       },
     });
 
     barSeries = chart.addBarSeries({
       upColor: '#22c55e',
-      downColor: '#b91c1c',
-      thinBars : false,
+      downColor: '#ea580c',
+      thinBars: false
     });
+
+    volumeSeries = chart.addHistogramSeries({
+      color: 'rgba(12, 10, 9, 0.5)', // Set default color to semi-transparent black
+      priceFormat: {
+        type: 'volume',
+      },
+      priceScaleId: 'volume',
+      scaleMargins: {
+        top: 0.8,
+        bottom: 0,
+      },
+      lineWidth: 1, // Add this line to make the bars thin
+    });
+
+    chart.priceScale('volume').applyOptions({
+      scaleMargins: {
+        top: 0.8,
+        bottom: 0,
+      },
+    });
+
     barSeries.priceScale().applyOptions({
       scaleMargins: {
         top: 0.2,
@@ -83,37 +126,46 @@
   }
 
   function updateChartData() {
-  if (barSeries && data && data.length > 0) {
-    // Preprocess data to include dynamic coloring
-    const transformedData = data.map(({ time, high, low, close }, index) => {
-      const previousClose = index > 0 ? data[index - 1].close : close;
-      const isUp = close >= previousClose;
-      return {
-        time,
-        open: close, // To exclude open visually
-        high,
-        low,
-        close,
-        color: isUp ? '#0c0a09' : '#dc2626', // Green for up, orange for down
-      };
-    });
+    if (barSeries && volumeSeries && data && data.length > 0) {
+      const barData = data.map(({ time, high, low, close }, index) => {
+        const previousClose = index > 0 ? data[index - 1].close : close;
+        const isUp = close >= previousClose;
+        return {
+          time,
+          open: close, // To exclude open visually
+          high,
+          low,
+          close,
+          color: isUp ? '#0c0a09' : '#dc2626',
+        };
+      });
 
-    // Update the chart with the transformed data
-    barSeries.setData(transformedData);
+      const volumeData = data.map(({ time, close, volume }, index) => {
+        const previousClose = index > 0 ? data[index - 1].close : close;
+        const isUp = close >= previousClose;
+        return {
+          time,
+          value: volume,
+          color: isUp ? 'rgba(12, 10, 9, 0.5)' : 'rgba(220, 38, 38, 0.5)', // Semi-transparent black for up, red for down
+          lineWidth: 1, // Add this line to ensure thin bars
+        };
+      });
 
-    // Adjust the chart view and reset legend
-    chart.timeScale().fitContent();
-    setInitialLegend();
+      barSeries.setData(barData);
+      volumeSeries.setData(volumeData);
+
+      chart.timeScale().fitContent();
+      setInitialLegend();
+    }
   }
-}
-
-
 
   function setInitialLegend() {
     if (data && data.length > 0) {
       const lastDataPoint = data[data.length - 1];
       updateLegend({
-        seriesData: new Map([[barSeries, lastDataPoint]]),
+        seriesData: new Map([
+          [barSeries, lastDataPoint],
+        ]),
       });
     }
   }
@@ -143,7 +195,6 @@
   onMount(() => {
     initializeChart();
     
-    // Use ResizeObserver for continuous monitoring of size changes
     resizeObserver = new ResizeObserver(() => {
       requestAnimationFrame(adjustChartSize);
     });
@@ -152,7 +203,6 @@
       resizeObserver.observe(chartContainer);
     }
 
-    // Handle orientation change and fullscreen events
     window.addEventListener('orientationchange', () => {
       setTimeout(adjustChartSize, 100);
     });
@@ -173,7 +223,6 @@
     };
   });
 
-  // Use reactive statement instead of afterUpdate
   $: if (chart && data) {
     updateChartData();
   }
