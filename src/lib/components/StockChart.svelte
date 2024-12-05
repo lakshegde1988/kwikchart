@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from 'svelte';
   import { createChart, ColorType } from 'lightweight-charts';
   import type { StockData } from '../types';
+  import { theme } from '../stores/themeStore';
 
   export let data: StockData[] = [];
   export let stockName: string = '';
@@ -56,7 +57,6 @@
             </span>
           </div>
         </div>
-        
       `;
     }
   }
@@ -68,17 +68,21 @@
       width: chartContainer.clientWidth,
       height: chartContainer.clientHeight,
       layout: {
-        background: { type: ColorType.Solid, color: '#ffffff' },
-        textColor: '#09090b',
+        background: { 
+          type: ColorType.Solid, 
+          color: $theme === 'light' ? '#ffffff' : '#18181b' 
+        },
+        textColor: $theme === 'light' ? '#18181b' : '#f4f4f5',
       },
       grid: {
-        vertLines: { visible: false },
-        horzLines: { visible: false },
+        vertLines: { visible: false  },
+        horzLines: { visible: false  },
       },
       timeScale: {
         timeVisible: false,
         rightOffset: 15,
         minBarSpacing: 1,
+        borderColor: $theme === 'light' ? '#e5e7eb' : '#3f3f46',
       },
     });
 
@@ -89,7 +93,7 @@
     });
 
     volumeSeries = chart.addHistogramSeries({
-      color: 'rgba(12, 10, 9, 0.5)', // Set default color to semi-transparent black
+      color: $theme === 'light' ? 'rgba(12, 10, 9, 0.5)' : 'rgba(244, 244, 245, 0.5)',
       priceFormat: {
         type: 'volume',
       },
@@ -98,7 +102,7 @@
         top: 0.8,
         bottom: 0,
       },
-      lineWidth: 1, // Add this line to make the bars thin
+      lineWidth: 1,
     });
 
     chart.priceScale('volume').applyOptions({
@@ -109,11 +113,12 @@
     });
 
     barSeries.priceScale().applyOptions({
-      mode:1,
+      mode: 1,
       scaleMargins: {
         top: 0.2,
         bottom: 0.2,
       },
+      borderColor: $theme === 'light' ? '#e5e7eb' : '#3f3f46',
     });
 
     updateChartData();
@@ -133,11 +138,11 @@
         const isUp = close >= previousClose;
         return {
           time,
-          open: close, // To exclude open visually
+          open: close,
           high,
           low,
           close,
-          color: isUp ? '#0c0a09' : '#dc2626',
+          color: isUp ? ($theme === 'light' ? '#18181b' : '#16a34a') : '#dc2626',
         };
       });
 
@@ -147,8 +152,10 @@
         return {
           time,
           value: volume,
-          color: isUp ? 'rgba(12, 10, 9, 0.5)' : 'rgba(220, 38, 38, 0.5)', // Semi-transparent black for up, red for down
-          lineWidth: 1, // Add this line to ensure thin bars
+          color: isUp 
+            ? ($theme === 'light' ? 'rgba(12, 10, 9, 0.5)' : 'rgba(22, 163, 74, 0.5)') 
+            : 'rgba(220, 38, 38, 0.5)',
+          lineWidth: 1,
         };
       });
 
@@ -224,6 +231,30 @@
     };
   });
 
+  $: if (chart && $theme) {
+    chart.applyOptions({
+      layout: {
+        background: { 
+          type: ColorType.Solid, 
+          color: $theme === 'light' ? '#ffffff' : '#18181b' 
+        },
+        textColor: $theme === 'light' ? '#18181b' : '#f4f4f5',
+      },
+      grid: {
+        vertLines: { 
+          color: $theme === 'light' ? '#e5e7eb' : '#3f3f46' 
+        },
+        horzLines: { 
+          color: $theme === 'light' ? '#e5e7eb' : '#3f3f46' 
+        },
+      },
+    });
+    barSeries.priceScale().applyOptions({
+      borderColor: $theme === 'light' ? '#e5e7eb' : '#3f3f46',
+    });
+    updateChartData();
+  }
+
   $: if (chart && data) {
     updateChartData();
   }
@@ -231,6 +262,11 @@
 
 <div class="chart-container relative w-full h-full min-h-[300px]">
   <div bind:this={chartContainer} class="w-full h-full"></div>
-  <div bind:this={legendContainer} class="absolute top-1 left-1 z-10 font-sans p-1"></div>
+  <div 
+    bind:this={legendContainer} 
+    class="absolute top-1 left-1 z-10 font-sans p-1"
+    class:text-zinc-900={$theme === 'light'}
+    class:text-zinc-50={$theme === 'dark'}
+  ></div>
 </div>
 

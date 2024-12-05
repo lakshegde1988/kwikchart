@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
+  import { theme } from '../stores/themeStore';
 
   const dispatch = createEventDispatcher<{ select: string }>();
 
@@ -14,7 +15,17 @@
 <div class="relative inline-block">
   <select
     id="index-select"
-    class="block w-auto text-base bg-zinc-50 border-zinc-900 focus:outline-none focus:ring-zinc-100 focus:border-zinc-100 sm:text-sm rounded-md shadow-sm"
+    class="block w-auto text-base focus:outline-none focus:ring-2 focus:ring-opacity-50 sm:text-sm rounded-md shadow-sm"
+    class:bg-zinc-50={$theme === 'light'}
+    class:text-zinc-900={$theme === 'light'}
+    class:border-zinc-300={$theme === 'light'}
+    class:focus:ring-zinc-500={$theme === 'light'}
+    class:focus:border-zinc-500={$theme === 'light'}
+    class:bg-zinc-800={$theme === 'dark'}
+    class:text-zinc-100={$theme === 'dark'}
+    class:border-zinc-600={$theme === 'dark'}
+    class:focus:ring-zinc-400={$theme === 'dark'}
+    class:focus:border-zinc-400={$theme === 'dark'}
     on:change={handleSelect}
   >
     {#each indexFiles as file}
