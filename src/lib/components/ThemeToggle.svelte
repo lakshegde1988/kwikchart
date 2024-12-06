@@ -10,8 +10,6 @@
 <button
   on:click={toggleTheme}
   class="p-2 focus:outline-none"
-  class:bg-zinc-200={$theme === 'light'}
-  class:bg-zinc-700={$theme === 'dark'}
   aria-label="Toggle theme"
 >
   {#if $theme === 'light'}
