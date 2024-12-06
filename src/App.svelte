@@ -199,7 +199,6 @@
     <div class="max-w-4xl mx-auto px-2 h-full flex items-center justify-between space-x-2">
       <div class="flex items-center space-x-2 sm:space-x-2">
         <ThemeToggle />
-
         <button
           class="p-2 hover:text-zinc-900 focus:outline-none lg:hidden"
           class:text-zinc-800={$theme === 'light'}
@@ -207,9 +206,9 @@
           on:click={toggleFullscreen}
         >
           {#if isFullscreen}
-            <Shrink class="w-5 h-5" />
+            <Shrink class="w-4 h-5" />
           {:else}
-            <Expand class="w-5 h-5" />
+            <Expand class="w-4 h-5" />
           {/if}
         </button>
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
@@ -220,7 +219,7 @@
           class:text-zinc-100={$theme === 'dark'}
           on:click={toggleFavoritesModal}
         >
-          <List class="w-5 h-5" />
+          <List class="w-4 h-5" />
         </button>
         <button
           on:click={() => $currentStock && handleToggleFavorite($currentStock)}
@@ -229,7 +228,7 @@
           class:text-zinc-200={$theme === 'dark'}
         >
           <span
-            class="w-5 h-5"
+            class="w-4 h-5"
             class:text-orange-700={$currentStock && $favorites.has($currentStock.Symbol)}
           >
             <Star />
@@ -238,7 +237,7 @@
       </div>
       <div class="flex items-center mr-8 space-x-2 sm:space-x-2">
         <button
-          class=" py-2 px-4 rounded"
+          class=" py-2 px-2 "
           class:bg-zinc-200={$theme === 'light'}
           class:text-zinc-900={$theme === 'light'}
           class:bg-zinc-700={$theme === 'dark'}
@@ -247,10 +246,10 @@
           disabled={currentIndex === 0}
         >
           <span class="lg:block hidden">Previous</span>
-          <ArrowLeft class="w-5 h-5 lg:hidden" />
+          <ArrowLeft class="w-4 h-5 lg:hidden" />
         </button>
         <button
-          class="py-2 px-4 rounded"
+          class="py-2 px-2"
           class:bg-zinc-200={$theme === 'light'}
           class:text-zinc-900={$theme === 'light'}
           class:bg-zinc-700={$theme === 'dark'}
@@ -259,7 +258,7 @@
           disabled={currentIndex === totalStocks - 1}
         >
           <span class="lg:block hidden">Next</span>
-          <ArrowRight class="w-5 h-5 lg:hidden" />
+          <ArrowRight class="w-4 h-5 lg:hidden" />
         </button>
       </div>
     </div>
