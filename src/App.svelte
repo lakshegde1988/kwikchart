@@ -191,9 +191,7 @@
 
   <!-- Sticky Footer -->
   <footer class="h-12 flex-shrink-0 shadow-md"
-    class:bg-zinc-50={$theme === 'light'}
     class:border-zinc-600={$theme === 'light'}
-    class:bg-zinc-800={$theme === 'dark'}
     class:border-zinc-400={$theme === 'dark'}
   >
     <div class="max-w-3xl mx-auto px-2 h-full flex items-center justify-between space-x-2">
