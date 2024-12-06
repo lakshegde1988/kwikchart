@@ -254,9 +254,7 @@
       <div class="flex items-center mr-8 space-x-2 sm:space-x-4">
         <button
           class="hover:bg-zinc-100 py-2 px-4 rounded"
-          class:bg-zinc-200={$theme === 'light'}
           class:text-zinc-900={$theme === 'light'}
-          class:bg-zinc-700={$theme === 'dark'}
           class:text-zinc-100={$theme === 'dark'}
           on:click={handlePrevious}
           disabled={currentIndex === 0}
@@ -266,9 +264,7 @@
         </button>
         <button
           class="hover:bg-zinc-100 py-2 px-4 rounded"
-          class:bg-zinc-200={$theme === 'light'}
           class:text-zinc-900={$theme === 'light'}
-          class:bg-zinc-700={$theme === 'dark'}
           class:text-zinc-100={$theme === 'dark'}
           on:click={handleNext}
           disabled={currentIndex === totalStocks - 1}
