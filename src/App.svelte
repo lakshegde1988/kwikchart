@@ -244,7 +244,7 @@
           disabled={currentIndex === 0}
         >
           <span class="lg:block hidden">Previous</span>
-          <ArrowLeft class="w-4 h-5 lg:hidden" />
+          <ArrowLeft class="w-5 h-5 lg:hidden" />
         </button>
         <button
           class="py-2 px-2"
@@ -254,7 +254,7 @@
           disabled={currentIndex === totalStocks - 1}
         >
           <span class="lg:block hidden">Next</span>
-          <ArrowRight class="w-4 h-5 lg:hidden" />
+          <ArrowRight class="w-5 h-5 lg:hidden" />
         </button>
       </div>
     </div>
