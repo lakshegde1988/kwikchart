@@ -18,10 +18,8 @@
     class="block w-auto text-base focus:outline-none focus:ring-2 focus:ring-opacity-50 sm:text-sm"
     class:text-zinc-900={$theme === 'light'}
     class:focus:ring-zinc-500={$theme === 'light'}
-    class:focus:border-zinc-500={$theme === 'light'}
     class:text-zinc-100={$theme === 'dark'}
     class:focus:ring-zinc-400={$theme === 'dark'}
-    class:focus:border-zinc-500={$theme === 'dark'}
     on:change={handleSelect}
   >
     {#each indexFiles as file}
