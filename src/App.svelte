@@ -5,18 +5,22 @@
   import StockChart from './lib/components/StockChart.svelte';
   import FavoritesModal from './lib/components/FavoritesModal.svelte';
   import ThemeToggle from './lib/components/ThemeToggle.svelte';
+  import TradingViewModal from './lib/components/TradingViewModal.svelte';
+
   import { theme } from './lib/stores/themeStore';
 
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
-  import { Star, ArrowLeft, ArrowRight, Expand, Shrink, List } from 'lucide-svelte';
+  import { Star, ArrowLeft, ArrowRight, Expand, Shrink, List, Info } from 'lucide-svelte';
 
   let currentIndex = 0;
   let selectedFile = 'largecap.json';
   let selectedInterval: Interval = { label: '6M', value: '1d', range: '6mo' };
   let isFullscreen = false;
   let showFavoritesModal = false;
+  let showTradingViewModal = false;
+
   let vh: number;
 
   $: totalStocks = $stocks.length;
@@ -60,6 +64,9 @@
         })
         .catch((err) => console.error('Error exiting fullscreen:', err));
     }
+  }
+  function toggleTradingViewModal() {
+    showTradingViewModal = !showTradingViewModal;
   }
 
   async function handleIndexSelect(event: CustomEvent<string>) {
@@ -196,9 +203,10 @@
     class:bg-zinc-800={$theme === 'dark'}
     class:border-zinc-400={$theme === 'dark'}
   >
-    <div class="max-w-3xl mx-auto px-2 h-full flex items-center justify-between space-x-2">
-      <div class="flex items-center space-x-2 sm:space-x-2">
+    <div class="max-w-4xl mx-auto px-2 h-full flex items-center justify-between space-x-4">
+      <div class="flex items-center space-x-2 sm:space-x-4">
         <ThemeToggle />
+
         <button
           class="p-2 hover:text-zinc-900 focus:outline-none lg:hidden"
           class:text-zinc-800={$theme === 'light'}
@@ -206,9 +214,9 @@
           on:click={toggleFullscreen}
         >
           {#if isFullscreen}
-            <Shrink class="w-4 h-5" />
+            <Shrink class="w-5 h-5" />
           {:else}
-            <Expand class="w-4 h-5" />
+            <Expand class="w-5 h-5" />
           {/if}
         </button>
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
@@ -219,7 +227,7 @@
           class:text-zinc-100={$theme === 'dark'}
           on:click={toggleFavoritesModal}
         >
-          <List class="w-4 h-5" />
+          <List class="w-5 h-5" />
         </button>
         <button
           on:click={() => $currentStock && handleToggleFavorite($currentStock)}
@@ -228,17 +236,27 @@
           class:text-zinc-200={$theme === 'dark'}
         >
           <span
-            class="w-4 h-5"
+            class="w-5 h-5"
             class:text-orange-700={$currentStock && $favorites.has($currentStock.Symbol)}
           >
             <Star />
           </span>
         </button>
+        <button
+          on:click={toggleTradingViewModal}
+          class="p-2 hover:text-zinc-800 focus:outline-none"
+          class:text-zinc-900={$theme === 'light'}
+          class:text-zinc-100={$theme === 'dark'}
+        >
+          <Info class="w-5 h-5" />
+        </button>
       </div>
       <div class="flex items-center mr-8 space-x-2 sm:space-x-4">
         <button
-          class=" py-2 px-4"
+          class="hover:bg-zinc-100 py-2 px-4 rounded"
+          class:bg-zinc-200={$theme === 'light'}
           class:text-zinc-900={$theme === 'light'}
+          class:bg-zinc-700={$theme === 'dark'}
           class:text-zinc-100={$theme === 'dark'}
           on:click={handlePrevious}
           disabled={currentIndex === 0}
@@ -247,8 +265,10 @@
           <ArrowLeft class="w-5 h-5 lg:hidden" />
         </button>
         <button
-          class="py-2 px-2"
+          class="hover:bg-zinc-100 py-2 px-4 rounded"
+          class:bg-zinc-200={$theme === 'light'}
           class:text-zinc-900={$theme === 'light'}
+          class:bg-zinc-700={$theme === 'dark'}
           class:text-zinc-100={$theme === 'dark'}
           on:click={handleNext}
           disabled={currentIndex === totalStocks - 1}
@@ -262,4 +282,8 @@
   {#if showFavoritesModal}
     <FavoritesModal on:close={toggleFavoritesModal} />
   {/if}
+  {#if showTradingViewModal && $currentStock}
+    <TradingViewModal symbol={$currentStock.Symbol} onClose={toggleTradingViewModal} />
+  {/if}
 </main>
+
