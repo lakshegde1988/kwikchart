@@ -235,12 +235,10 @@
           </span>
         </button>
       </div>
-      <div class="flex items-center mr-8 space-x-2 sm:space-x-2">
+      <div class="flex items-center mr-8 space-x-2 sm:space-x-4">
         <button
-          class=" py-2 px-2 "
-          class:bg-zinc-200={$theme === 'light'}
+          class=" py-2 px-4"
           class:text-zinc-900={$theme === 'light'}
-          class:bg-zinc-700={$theme === 'dark'}
           class:text-zinc-100={$theme === 'dark'}
           on:click={handlePrevious}
           disabled={currentIndex === 0}
@@ -250,9 +248,7 @@
         </button>
         <button
           class="py-2 px-2"
-          class:bg-zinc-200={$theme === 'light'}
           class:text-zinc-900={$theme === 'light'}
-          class:bg-zinc-700={$theme === 'dark'}
           class:text-zinc-100={$theme === 'dark'}
           on:click={handleNext}
           disabled={currentIndex === totalStocks - 1}
