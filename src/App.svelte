@@ -191,11 +191,13 @@
 
   <!-- Sticky Footer -->
   <footer class="h-12 flex-shrink-0 shadow-md"
-    class:border-zinc-800={$theme === 'light'}
-    class:border-zinc-200={$theme === 'dark'}
+    class:bg-zinc-50={$theme === 'light'}
+    class:border-zinc-600={$theme === 'light'}
+    class:bg-zinc-800={$theme === 'dark'}
+    class:border-zinc-400={$theme === 'dark'}
   >
-    <div class="max-w-4xl mx-auto px-4 h-full flex items-center justify-between space-x-2">
-      <div class="flex items-center space-x-2 sm:space-x-4">
+    <div class="max-w-3xl mx-auto px-2 h-full flex items-center justify-between space-x-2">
+      <div class="flex items-center space-x-2 sm:space-x-2">
         <ThemeToggle />
         <button
           class="p-2 hover:text-zinc-900 focus:outline-none lg:hidden"
@@ -204,9 +206,9 @@
           on:click={toggleFullscreen}
         >
           {#if isFullscreen}
-            <Shrink class="w-5 h-5" />
+            <Shrink class="w-4 h-5" />
           {:else}
-            <Expand class="w-5 h-5" />
+            <Expand class="w-4 h-5" />
           {/if}
         </button>
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
@@ -217,7 +219,7 @@
           class:text-zinc-100={$theme === 'dark'}
           on:click={toggleFavoritesModal}
         >
-          <List class="w-5 h-5" />
+          <List class="w-4 h-5" />
         </button>
         <button
           on:click={() => $currentStock && handleToggleFavorite($currentStock)}
@@ -226,7 +228,7 @@
           class:text-zinc-200={$theme === 'dark'}
         >
           <span
-            class="w-5 h-5"
+            class="w-4 h-5"
             class:text-orange-700={$currentStock && $favorites.has($currentStock.Symbol)}
           >
             <Star />
@@ -261,4 +263,3 @@
     <FavoritesModal on:close={toggleFavoritesModal} />
   {/if}
 </main>
-
