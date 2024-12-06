@@ -9,15 +9,15 @@
 
 <button
   on:click={toggleTheme}
-  class="p-2 rounded-full focus:outline-none"
+  class="p-2 focus:outline-none"
   class:bg-zinc-200={$theme === 'light'}
   class:bg-zinc-700={$theme === 'dark'}
   aria-label="Toggle theme"
 >
   {#if $theme === 'light'}
-    <Moon class="w-5 h-5 text-zinc-700" />
+    <Moon class="w-4 h-5 text-zinc-700" />
   {:else}
-    <Sun class="w-5 h-5 text-zinc-200" />
+    <Sun class="w-4 h-5 text-zinc-200" />
   {/if}
 </button>
 
