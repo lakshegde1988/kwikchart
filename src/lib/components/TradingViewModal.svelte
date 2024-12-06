@@ -57,12 +57,12 @@
 </script>
 
 <div class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
-  <div class="relative w-full max-w-4xl h-[90vh] bg-white dark:bg-zinc-800 rounded-lg shadow-xl overflow-hidden flex flex-col">
+  <div class="relative w-full max-w-3xl h-[90vh] bg-white dark:bg-zinc-800 rounded-lg shadow-xl overflow-hidden flex flex-col">
     <button 
       on:click={onClose}
-      class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 z-10"
+      class="absolute bottom-2 right-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 z-10"
     >
-      <X size={24} />
+      Close
     </button>
     
     <div class="flex border-b border-gray-200 dark:border-gray-700">
