@@ -60,7 +60,7 @@
   <div class="relative w-full max-w-3xl h-[90vh] bg-white dark:bg-zinc-800 rounded-lg shadow-xl overflow-hidden flex flex-col">
     <button 
       on:click={onClose}
-      class="absolute bottom-2 right-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 z-10"
+      class="absolute top-2 right-2 text-zinc-700 hover:text-zinc-800 dark:text-zinc-200 dark:hover:text-zinc-100 z-10"
     >
       Close
     </button>
