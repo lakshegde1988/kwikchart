@@ -68,7 +68,7 @@
       width: chartContainer.clientWidth,
       height: chartContainer.clientHeight,
       layout: {
-        background: { type: ColorType.Solid, color: $theme === 'light' ? '#ffffff' : '#131722' },
+        background: { type: ColorType.Solid, color: $theme === 'light' ? '#ffffff' : '#0f172a' },
         textColor: $theme === 'light' ? '#131722' : '#d1d4dc',
       },
       grid: {
