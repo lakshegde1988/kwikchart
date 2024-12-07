@@ -68,17 +68,17 @@
       width: chartContainer.clientWidth,
       height: chartContainer.clientHeight,
       layout: {
-        background: { type: ColorType.Solid, color: $theme === 'light' ? '#ffffff' : '#0f172a' },
+        background: { type: ColorType.Solid, color: $theme === 'light' ? '#ffffff' : '#020617' },
         textColor: $theme === 'light' ? '#131722' : '#d1d4dc',
       },
       grid: {
-        vertLines: { color: $theme === 'light' ? '#e1e3ea' : '#363c4e' },
-        horzLines: { color: $theme === 'light' ? '#e1e3ea' : '#363c4e' },
+        vertLines: { visible:false },
+        horzLines: { visible:false },
       },
       timeScale: {
         timeVisible: false,
         rightOffset: 15,
-        minBarSpacing: 2,
+        minBarSpacing: 3,
         borderColor: $theme === 'light' ? '#e1e3ea' : '#363c4e',
       },
     });
@@ -254,7 +254,7 @@
   <div 
     bind:this={legendContainer} 
     class="absolute top-1 left-1 z-10 font-sans p-1"
-    class:text-zinc-900={$theme === 'light'}
-    class:text-zinc-50={$theme === 'dark'}
+    class:text-slate-900={$theme === 'light'}
+    class:text-slate-50={$theme === 'dark'}
   ></div>
 </div>
