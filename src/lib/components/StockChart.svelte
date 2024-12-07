@@ -10,7 +10,7 @@
   let chartContainer: HTMLElement;
   let legendContainer: HTMLElement;
   let chart: any;
-  let barSeries: any;
+  let candlestickSeries: any;
   let volumeSeries: any;
   let resizeObserver: ResizeObserver;
 
@@ -32,16 +32,16 @@
   }
 
   function updateLegend(param: any) {
-    const barData = param.seriesData.get(barSeries);
+    const candleData = param.seriesData.get(candlestickSeries);
     const volumeData = param.seriesData.get(volumeSeries);
-    if (barData) {
-      const dataPoint = data.find((d) => d.time === barData.time);
+    if (candleData) {
+      const dataPoint = data.find((d) => d.time === candleData.time);
       if (!dataPoint) return;
 
       const previousDataPoint = data[data.indexOf(dataPoint) - 1];
       const previousClose = previousDataPoint ? previousDataPoint.close : dataPoint.open;
 
-      const priceChange = barData.close - previousClose;
+      const priceChange = candleData.close - previousClose;
       const percentageChange = (priceChange / previousClose) * 100;
       const isPositive = priceChange >= 0;
 
@@ -49,7 +49,7 @@
         <h2 class="text-md font-bold mb-2">${stockName}</h2>
         <div class="flex items-center space-x-4 mb-2">
           <div class="flex flex-col">
-            <span class="text-sm font-semibold">${formatPrice(barData.close)}</span>
+            <span class="text-sm font-semibold">${formatPrice(candleData.close)}</span>
           </div>
           <div class="flex flex-col">
             <span class="text-sm font-semibold ${isPositive ? 'text-green-500' : 'text-red-500'}">
@@ -68,32 +68,31 @@
       width: chartContainer.clientWidth,
       height: chartContainer.clientHeight,
       layout: {
-        background: { 
-          type: ColorType.Solid, 
-          color: $theme === 'light' ? '#ffffff' : '#18181b' 
-        },
-        textColor: $theme === 'light' ? '#18181b' : '#f4f4f5',
+        background: { type: ColorType.Solid, color: $theme === 'light' ? '#ffffff' : '#131722' },
+        textColor: $theme === 'light' ? '#131722' : '#d1d4dc',
       },
       grid: {
-        vertLines: { visible: false  },
-        horzLines: { visible: false  },
+        vertLines: { color: $theme === 'light' ? '#e1e3ea' : '#363c4e' },
+        horzLines: { color: $theme === 'light' ? '#e1e3ea' : '#363c4e' },
       },
       timeScale: {
         timeVisible: false,
         rightOffset: 15,
-        minBarSpacing: 1,
-        borderColor: $theme === 'light' ? '#e5e7eb' : '#3f3f46',
+        minBarSpacing: 2,
+        borderColor: $theme === 'light' ? '#e1e3ea' : '#363c4e',
       },
     });
 
-    barSeries = chart.addBarSeries({
-      upColor: '#22c55e',
-      downColor: '#ea580c',
-      thinBars: false
+    candlestickSeries = chart.addCandlestickSeries({
+      upColor: '#26a69a',
+      downColor: '#ef5350',
+      borderVisible: false,
+      wickUpColor: '#26a69a',
+      wickDownColor: '#ef5350',
     });
 
     volumeSeries = chart.addHistogramSeries({
-      color: $theme === 'light' ? 'rgba(12, 10, 9, 0.5)' : 'rgba(244, 244, 245, 0.5)',
+      color: $theme === 'light' ? '#26a69a80' : '#26a69a80',
       priceFormat: {
         type: 'volume',
       },
@@ -102,7 +101,6 @@
         top: 0.8,
         bottom: 0,
       },
-      lineWidth: 1,
     });
 
     chart.priceScale('volume').applyOptions({
@@ -112,13 +110,12 @@
       },
     });
 
-    barSeries.priceScale().applyOptions({
-      mode: 1,
+    candlestickSeries.priceScale().applyOptions({
       scaleMargins: {
-        top: 0.2,
+        top: 0.1,
         bottom: 0.2,
       },
-      borderColor: $theme === 'light' ? '#e5e7eb' : '#3f3f46',
+      borderColor: $theme === 'light' ? '#e1e3ea' : '#363c4e',
     });
 
     updateChartData();
@@ -132,19 +129,14 @@
   }
 
   function updateChartData() {
-    if (barSeries && volumeSeries && data && data.length > 0) {
-      const barData = data.map(({ time, high, low, close }, index) => {
-        const previousClose = index > 0 ? data[index - 1].close : close;
-        const isUp = close >= previousClose;
-        return {
-          time,
-          open: close,
-          high,
-          low,
-          close,
-          color: isUp ? ($theme === 'light' ? '#18181b' : '#16a34a') : '#dc2626',
-        };
-      });
+    if (candlestickSeries && volumeSeries && data && data.length > 0) {
+      const candleData = data.map(({ time, open, high, low, close }) => ({
+        time,
+        open,
+        high,
+        low,
+        close,
+      }));
 
       const volumeData = data.map(({ time, close, volume }, index) => {
         const previousClose = index > 0 ? data[index - 1].close : close;
@@ -152,14 +144,11 @@
         return {
           time,
           value: volume,
-          color: isUp 
-            ? ($theme === 'light' ? 'rgba(12, 10, 9, 0.5)' : 'rgba(22, 163, 74, 0.5)') 
-            : 'rgba(220, 38, 38, 0.5)',
-          lineWidth: 1,
+          color: isUp ? '#26a69a80' : '#ef535080',
         };
       });
 
-      barSeries.setData(barData);
+      candlestickSeries.setData(candleData);
       volumeSeries.setData(volumeData);
 
       chart.timeScale().fitContent();
@@ -172,7 +161,7 @@
       const lastDataPoint = data[data.length - 1];
       updateLegend({
         seriesData: new Map([
-          [barSeries, lastDataPoint],
+          [candlestickSeries, lastDataPoint],
         ]),
       });
     }
@@ -236,21 +225,21 @@
       layout: {
         background: { 
           type: ColorType.Solid, 
-          color: $theme === 'light' ? '#ffffff' : '#18181b' 
+          color: $theme === 'light' ? '#ffffff' : '#131722' 
         },
-        textColor: $theme === 'light' ? '#18181b' : '#f4f4f5',
+        textColor: $theme === 'light' ? '#131722' : '#d1d4dc',
       },
       grid: {
         vertLines: { 
-          color: $theme === 'light' ? '#e5e7eb' : '#3f3f46' 
+          visible:false 
         },
         horzLines: { 
-          color: $theme === 'light' ? '#e5e7eb' : '#3f3f46' 
+          visible:false
         },
       },
     });
-    barSeries.priceScale().applyOptions({
-      borderColor: $theme === 'light' ? '#e5e7eb' : '#3f3f46',
+    candlestickSeries.priceScale().applyOptions({
+      borderColor: $theme === 'light' ? '#e1e3ea' : '#363c4e',
     });
     updateChartData();
   }
@@ -269,4 +258,3 @@
     class:text-zinc-50={$theme === 'dark'}
   ></div>
 </div>
-
