@@ -22,7 +22,7 @@
     class:focus:border-slate-500={$theme === 'light'}
     class:bg-slate-950={$theme === 'dark'}
     class:text-slate-100={$theme === 'dark'}
-    class:border-slate-600={$theme === 'dark'}
+    class:border-slate-950={$theme === 'dark'}
     class:focus:ring-slate-400={$theme === 'dark'}
     class:focus:border-slate-400={$theme === 'dark'}
     on:change={handleSelect}
