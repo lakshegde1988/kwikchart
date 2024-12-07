@@ -16,12 +16,11 @@
   <select
     id="index-select"
     class="block w-auto text-base focus:outline-none focus:ring-2 focus:ring-opacity-50 sm:text-sm rounded-md shadow-sm"
-    class:bg-slate-50={$theme === 'light'}
     class:text-slate-900={$theme === 'light'}
     class:border-slate-300={$theme === 'light'}
     class:focus:ring-slate-500={$theme === 'light'}
     class:focus:border-slate-500={$theme === 'light'}
-    class:bg-slate-800={$theme === 'dark'}
+    class:bg-slate-950={$theme === 'dark'}
     class:text-slate-100={$theme === 'dark'}
     class:border-slate-600={$theme === 'dark'}
     class:focus:ring-slate-400={$theme === 'dark'}
