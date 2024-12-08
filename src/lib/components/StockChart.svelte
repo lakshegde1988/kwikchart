@@ -14,6 +14,8 @@
   let volumeSeries: any;
   let resizeObserver: ResizeObserver;
 
+  let resizeTimeout: NodeJS.Timeout | null = null;
+
   // Formatting utilities
   function formatPrice(price: number): string {
     return price.toFixed(2);
@@ -149,6 +151,13 @@
     }
   }
 
+  // Recalculate custom viewport height
+  function recalculateVH() {
+    const vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
+    adjustChartSize();
+  }
+
   onMount(() => {
     initializeChart();
 
@@ -156,15 +165,18 @@
     resizeObserver = new ResizeObserver(adjustChartSize);
     if (chartContainer) resizeObserver.observe(chartContainer);
 
-    // Event listeners
-    window.addEventListener('orientationchange', adjustChartSize);
-    document.addEventListener('fullscreenchange', adjustChartSize);
+    // Handle orientation changes
+    window.addEventListener('orientationchange', () => {
+      if (resizeTimeout) clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        recalculateVH();
+      }, 300);
+    });
 
     return () => {
       resizeObserver?.disconnect();
-      window.removeEventListener('orientationchange', adjustChartSize);
-      document.removeEventListener('fullscreenchange', adjustChartSize);
       chart?.remove();
+      if (resizeTimeout) clearTimeout(resizeTimeout);
     };
   });
 
