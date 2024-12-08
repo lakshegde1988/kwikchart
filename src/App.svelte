@@ -8,7 +8,6 @@
   import TradingViewModal from './lib/components/TradingViewModal.svelte';
 
   import { theme } from './lib/stores/themeStore';
-
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
@@ -53,18 +52,19 @@
       document.documentElement.requestFullscreen()
         .then(() => {
           isFullscreen = true;
-          setTimeout(throttledUpdateVH, 100);
+          updateVHUnit();
         })
-        .catch((err) => console.error('Error entering fullscreen:', err));
+        .catch(err => console.error('Error entering fullscreen:', err));
     } else {
       document.exitFullscreen()
         .then(() => {
           isFullscreen = false;
-          setTimeout(throttledUpdateVH, 100);
+          updateVHUnit();
         })
-        .catch((err) => console.error('Error exiting fullscreen:', err));
+        .catch(err => console.error('Error exiting fullscreen:', err));
     }
   }
+
   function toggleTradingViewModal() {
     showTradingViewModal = !showTradingViewModal;
   }
@@ -130,14 +130,7 @@
       loadStockData($stocks[currentIndex], selectedInterval);
     }
   }
-  // add event listener for keydown event
-  window.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowLeft') {
-        handlePrevious();
-      } else if (event.key === 'ArrowRight') {
-        handleNext();
-      }
-    });
+
   function handleToggleFavorite(stock: Stock) {
     toggleFavorite(stock.Symbol);
   }
@@ -149,7 +142,6 @@
   onMount(() => {
     updateVHUnit();
     window.addEventListener('resize', throttledUpdateVH);
-    window.addEventListener('orientationchange', throttledUpdateVH);
 
     const handleFullscreenChange = () => {
       isFullscreen = !!document.fullscreenElement;
@@ -161,7 +153,6 @@
 
     return () => {
       window.removeEventListener('resize', throttledUpdateVH);
-      window.removeEventListener('orientationchange', throttledUpdateVH);
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
     };
   });
@@ -174,11 +165,9 @@
   class:text-slate-900={$theme === 'light'}
   class:bg-slate-900={$theme === 'dark'}
   class:text-slate-50={$theme === 'dark'}
-  style="height: {vh ? `${vh * 100}px` : '100vh'};"
+  style="height: calc(var(--vh, 1vh) * 100);"
 >
-  <!-- Content Area -->
   <div class="flex flex-grow overflow-auto">
-    <!-- Main Content -->
     <div class="flex-grow flex flex-col">
       {#if $loading}
         <div class="flex justify-center items-center flex-grow">
@@ -196,85 +185,30 @@
     </div>
   </div>
 
-  <!-- Sticky Footer -->
-  <footer class="h-12 flex-shrink-0 shadow-md"
-    class:bg-slate-50={$theme === 'light'}
-    class:border-slate-600={$theme === 'light'}
-    class:bg-slate-950={$theme === 'dark'}
-    class:border-slate-400={$theme === 'dark'}
-  >
+  <footer class="h-12 flex-shrink-0 shadow-md">
     <div class="max-w-4xl mx-auto px-2 h-full flex items-center justify-between space-x-4">
       <div class="flex items-center space-x-2 sm:space-x-4">
         <ThemeToggle />
-
-        <button
-          class="p-2 hover:text-slate-900 focus:outline-none lg:hidden"
-          class:text-slate-800={$theme === 'light'}
-          class:text-slate-200={$theme === 'dark'}
-          on:click={toggleFullscreen}
-        >
+        <button class="p-2 hover:text-slate-900" on:click={toggleFullscreen}>
           {#if isFullscreen}
             <Shrink class="w-5 h-5" />
           {:else}
             <Expand class="w-5 h-5" />
           {/if}
         </button>
-        <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
-        <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
-        <button
-          class="p-2 hover:text-slate-800 focus:outline-none"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-          on:click={toggleFavoritesModal}
-        >
+        <IndexSelector on:select={handleIndexSelect} />
+        <IntervalSelector on:change={handleIntervalChange} />
+        <button class="p-2 hover:text-orange-600" on:click={toggleFavoritesModal}>
           <List class="w-5 h-5" />
         </button>
-        <button
-          on:click={() => $currentStock && handleToggleFavorite($currentStock)}
-          class="p-2 hover:text-orange-600 focus:outline-none"
-          class:text-slate-800={$theme === 'light'}
-          class:text-slate-200={$theme === 'dark'}
-        >
-          <span
-            class="w-5 h-5"
-            class:text-orange-700={$currentStock && $favorites.has($currentStock.Symbol)}
-          >
-            <Star />
-          </span>
-        </button>
-        <button
-          on:click={toggleTradingViewModal}
-          class="p-2 hover:text-slate-800 focus:outline-none"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-        >
-          <Info class="w-5 h-5" />
-        </button>
       </div>
-      <div class="flex items-center mr-8 space-x-2 sm:space-x-4">
-        <button
-          class="py-2 px-4"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-          on:click={handlePrevious}
-          disabled={currentIndex === 0}
-        >
-          <span class="lg:block hidden">Previous</span>
-          <ArrowLeft class="w-5 h-5 lg:hidden" />
-        </button>
-        <button
-          class="py-2 px-4"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-          on:click={handleNext}
-          disabled={currentIndex === totalStocks - 1}
-        >
-          <span class="lg:block hidden">Next</span>
-          <ArrowRight class="w-5 h-5 lg:hidden" />
-        </button>
+      <div class="flex items-center space-x-4">
+        <button on:click={handlePrevious} disabled={currentIndex === 0}>Previous</button>
+        <button on:click={handleNext} disabled={currentIndex === totalStocks - 1}>Next</button>
       </div>
     </div>
   </footer>
+
   {#if showFavoritesModal}
     <FavoritesModal on:close={toggleFavoritesModal} />
   {/if}
@@ -282,4 +216,3 @@
     <TradingViewModal symbol={$currentStock.Symbol} onClose={toggleTradingViewModal} />
   {/if}
 </main>
-
