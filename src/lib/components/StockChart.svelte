@@ -1,260 +1,226 @@
 <script lang="ts">
-  import { onMount, onDestroy } from 'svelte';
-  import { createChart, ColorType } from 'lightweight-charts';
-  import type { StockData } from '../types';
-  import { theme } from '../stores/themeStore';
+  import { onMount } from 'svelte';
+  import IndexSelector from './lib/components/IndexSelector.svelte';
+  import IntervalSelector from './lib/components/IntervalSelector.svelte';
+  import StockChart from './lib/components/StockChart.svelte';
+  import FavoritesModal from './lib/components/FavoritesModal.svelte';
+  import ThemeToggle from './lib/components/ThemeToggle.svelte';
+  import TradingViewModal from './lib/components/TradingViewModal.svelte';
 
-  export let data: StockData[] = [];
-  export let stockName: string = '';
+  import { theme } from './lib/stores/themeStore';
+  import { fetchYahooFinanceData } from './lib/api/yahooFinance';
+  import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
+  import type { Stock, Interval } from './lib/types';
+  import { Star, ArrowLeft, ArrowRight, Expand, Shrink, List, Info } from 'lucide-svelte';
 
-  let chartContainer: HTMLElement;
-  let legendContainer: HTMLElement;
-  let chart: any;
-  let candlestickSeries: any;
-  let volumeSeries: any;
-  let resizeObserver: ResizeObserver;
+  let currentIndex = 0;
+  let selectedFile = 'largecap.json';
+  let selectedInterval: Interval = { label: '3M', value: '1d', range: '3mo' };
+  let isFullscreen = false;
+  let showFavoritesModal = false;
+  let showTradingViewModal = false;
 
-  function formatPrice(price: number): string {
-    return price.toFixed(2);
+  let vh: number; // Dynamic viewport height variable
+
+  $: totalStocks = $stocks.length;
+
+  $: {
+    document.documentElement.setAttribute('data-theme', $theme);
   }
 
-  function formatPercentage(percentage: number): string {
-    return percentage.toFixed(2) + '%';
+  // Function to update `vh` unit dynamically
+  function updateVHUnit() {
+    vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty('--vh', `${vh}px`);
   }
 
-  function formatVolume(volume: number): string {
-    if (volume >= 1000000) {
-      return (volume / 1000000).toFixed(2) + 'M';
-    } else if (volume >= 1000) {
-      return (volume / 1000).toFixed(2) + 'K';
-    }
-    return volume.toString();
-  }
-
-  function updateLegend(param: any) {
-    const candleData = param.seriesData.get(candlestickSeries);
-    const volumeData = param.seriesData.get(volumeSeries);
-    if (candleData) {
-      const dataPoint = data.find((d) => d.time === candleData.time);
-      if (!dataPoint) return;
-
-      const previousDataPoint = data[data.indexOf(dataPoint) - 1];
-      const previousClose = previousDataPoint ? previousDataPoint.close : dataPoint.open;
-
-      const priceChange = candleData.close - previousClose;
-      const percentageChange = (priceChange / previousClose) * 100;
-      const isPositive = priceChange >= 0;
-
-      legendContainer.innerHTML = `
-        <h2 class="text-md font-bold mb-2">${stockName}</h2>
-        <div class="flex items-center space-x-4 mb-2">
-          <div class="flex flex-col">
-            <span class="text-sm font-semibold">${formatPrice(candleData.close)}</span>
-          </div>
-          <div class="flex flex-col">
-            <span class="text-sm font-semibold ${isPositive ? 'text-green-500' : 'text-red-500'}">
-              ${isPositive ? '+' : ''}${formatPrice(priceChange)} (${formatPercentage(percentageChange)})
-            </span>
-          </div>
-        </div>
-      `;
-    }
-  }
-
-  function initializeChart() {
-    if (!chartContainer) return;
-
-    chart = createChart(chartContainer, {
-      width: chartContainer.clientWidth,
-      height: chartContainer.clientHeight,
-      layout: {
-        background: { type: ColorType.Solid, color: $theme === 'light' ? '#ffffff' : '#020617' },
-        textColor: $theme === 'light' ? '#131722' : '#d1d4dc',
-      },
-      grid: {
-        vertLines: { visible:false },
-        horzLines: { visible:false },
-      },
-      timeScale: {
-        timeVisible: false,
-        rightOffset: 15,
-        minBarSpacing: 3,
-        borderColor: $theme === 'light' ? '#e1e3ea' : '#363c4e',
-      },
-    });
-
-    candlestickSeries = chart.addCandlestickSeries({
-      upColor: '#26a69a',
-      downColor: '#ef5350',
-      borderVisible: false,
-      wickUpColor: '#26a69a',
-      wickDownColor: '#ef5350',
-    });
-
-    volumeSeries = chart.addHistogramSeries({
-      color: $theme === 'light' ? '#26a69a80' : '#26a69a80',
-      priceFormat: {
-        type: 'volume',
-      },
-      priceScaleId: 'volume',
-      scaleMargins: {
-        top: 0.8,
-        bottom: 0,
-      },
-    });
-
-    chart.priceScale('volume').applyOptions({
-      scaleMargins: {
-        top: 0.8,
-        bottom: 0,
-      },
-    });
-
-    candlestickSeries.priceScale().applyOptions({
-      scaleMargins: {
-        top: 0.1,
-        bottom: 0.2,
-      },
-      borderColor: $theme === 'light' ? '#e1e3ea' : '#363c4e',
-    });
-
-    updateChartData();
-    setInitialLegend();
-
-    chart.subscribeCrosshairMove(updateLegend);
-
-    chartContainer.addEventListener('mouseleave', () => {
-      setInitialLegend();
-    });
-  }
-
-  function updateChartData() {
-    if (candlestickSeries && volumeSeries && data && data.length > 0) {
-      const candleData = data.map(({ time, open, high, low, close }) => ({
-        time,
-        open,
-        high,
-        low,
-        close,
-      }));
-
-      const volumeData = data.map(({ time, close, volume }, index) => {
-        const previousClose = index > 0 ? data[index - 1].close : close;
-        const isUp = close >= previousClose;
-        return {
-          time,
-          value: volume,
-          color: isUp ? '#26a69a80' : '#ef535080',
-        };
-      });
-
-      candlestickSeries.setData(candleData);
-      volumeSeries.setData(volumeData);
-
-      chart.timeScale().fitContent();
-      setInitialLegend();
-    }
-  }
-
-  function setInitialLegend() {
-    if (data && data.length > 0) {
-      const lastDataPoint = data[data.length - 1];
-      updateLegend({
-        seriesData: new Map([
-          [candlestickSeries, lastDataPoint],
-        ]),
-      });
-    }
-  }
-
-  function adjustChartSize() {
-    if (chart && chartContainer) {
-      requestAnimationFrame(() => {
-        const newWidth = chartContainer.clientWidth;
-        const newHeight = chartContainer.clientHeight;
-        chart.applyOptions({
-          width: newWidth,
-          height: newHeight,
-        });
-        chart.timeScale().fitContent();
-      });
-    }
-  }
-
-  function handleResize() {
-    requestAnimationFrame(() => {
-      if (chartContainer) {
-        adjustChartSize();
-      }
-    });
-  }
-
-  onMount(() => {
-    initializeChart();
-    
-    resizeObserver = new ResizeObserver(() => {
-      requestAnimationFrame(adjustChartSize);
-    });
-    
-    if (chartContainer) {
-      resizeObserver.observe(chartContainer);
-    }
-
-    window.addEventListener('orientationchange', () => {
-      setTimeout(adjustChartSize, 100);
-    });
-
-    document.addEventListener('fullscreenchange', adjustChartSize);
-
+  // Throttling function to prevent excessive calls
+  function throttle(fn: () => void, delay: number) {
+    let timeout: NodeJS.Timeout | null = null;
     return () => {
-      if (resizeObserver) {
-        resizeObserver.disconnect();
-      }
-      window.removeEventListener('orientationchange', () => {
-        setTimeout(adjustChartSize, 100);
-      });
-      document.removeEventListener('fullscreenchange', adjustChartSize);
-      if (chart) {
-        chart.remove();
+      if (!timeout) {
+        timeout = setTimeout(() => {
+          fn();
+          timeout = null;
+        }, delay);
       }
     };
+  }
+
+  const throttledUpdateVH = throttle(updateVHUnit, 200);
+
+  // Fullscreen toggle logic
+  function toggleFullscreen() {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen()
+        .then(() => {
+          isFullscreen = true;
+          updateVHUnit();
+        })
+        .catch(err => console.error('Error entering fullscreen:', err));
+    } else {
+      document.exitFullscreen()
+        .then(() => {
+          isFullscreen = false;
+          updateVHUnit();
+        })
+        .catch(err => console.error('Error exiting fullscreen:', err));
+    }
+  }
+
+  function toggleTradingViewModal() {
+    showTradingViewModal = !showTradingViewModal;
+  }
+
+  async function handleIndexSelect(event: CustomEvent<string>) {
+    selectedFile = event.detail;
+    await loadStocksFromFile(selectedFile);
+  }
+
+  async function handleIntervalChange(event: CustomEvent<Interval>) {
+    selectedInterval = event.detail;
+    if ($currentStock) {
+      await loadStockData($currentStock, selectedInterval);
+    }
+  }
+
+  async function loadStocksFromFile(file: string) {
+    $loading = true;
+    $error = null;
+
+    try {
+      const response = await fetch(`/${file}`);
+      $stocks = await response.json();
+
+      if ($stocks.length > 0) {
+        currentIndex = 0;
+        $currentStock = $stocks[currentIndex];
+        await loadStockData($currentStock, selectedInterval);
+      }
+    } catch (err) {
+      $error = 'Failed to load stocks';
+      console.error(err);
+    } finally {
+      $loading = false;
+    }
+  }
+
+  async function loadStockData(stock: Stock, interval: Interval) {
+    $loading = true;
+    $error = null;
+
+    try {
+      $currentStock = stock;
+      $stockData = await fetchYahooFinanceData(stock.Symbol, interval.value, interval.range);
+    } catch (err) {
+      $error = 'Failed to load stock data';
+      console.error(err);
+    } finally {
+      $loading = false;
+    }
+  }
+
+  function handlePrevious() {
+    if (currentIndex > 0) {
+      currentIndex--;
+      loadStockData($stocks[currentIndex], selectedInterval);
+    }
+  }
+
+  function handleNext() {
+    if (currentIndex < totalStocks - 1) {
+      currentIndex++;
+      loadStockData($stocks[currentIndex], selectedInterval);
+    }
+  }
+
+  function handleToggleFavorite(stock: Stock) {
+    toggleFavorite(stock.Symbol);
+  }
+
+  function toggleFavoritesModal() {
+    showFavoritesModal = !showFavoritesModal;
+  }
+
+  // Manage lifecycle events and dynamic viewport updates
+  onMount(() => {
+    updateVHUnit();
+    window.addEventListener('resize', throttledUpdateVH);
+    window.addEventListener('orientationchange', throttledUpdateVH);
+
+    const handleFullscreenChange = () => {
+      isFullscreen = !!document.fullscreenElement;
+      throttledUpdateVH();
+    };
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+    loadStocksFromFile(selectedFile);
+
+    return () => {
+      window.removeEventListener('resize', throttledUpdateVH);
+      window.removeEventListener('orientationchange', throttledUpdateVH);
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
   });
-
-  $: if (chart && $theme) {
-    chart.applyOptions({
-      layout: {
-        background: { 
-          type: ColorType.Solid, 
-          color: $theme === 'light' ? '#ffffff' : '#131722' 
-        },
-        textColor: $theme === 'light' ? '#131722' : '#d1d4dc',
-      },
-      grid: {
-        vertLines: { 
-          visible:false 
-        },
-        horzLines: { 
-          visible:false
-        },
-      },
-    });
-    candlestickSeries.priceScale().applyOptions({
-      borderColor: $theme === 'light' ? '#e1e3ea' : '#363c4e',
-    });
-    updateChartData();
-  }
-
-  $: if (chart && data) {
-    updateChartData();
-  }
 </script>
 
-<div class="chart-container relative w-full h-full min-h-[300px]">
-  <div bind:this={chartContainer} class="w-full h-full"></div>
-  <div 
-    bind:this={legendContainer} 
-    class="absolute top-1 left-1 z-10 font-sans p-1"
-    class:text-slate-900={$theme === 'light'}
-    class:text-slate-50={$theme === 'dark'}
-  ></div>
-</div>
+<main
+  id="app"
+  class="flex flex-col overflow-hidden"
+  class:bg-slate-50={$theme === 'light'}
+  class:text-slate-900={$theme === 'light'}
+  class:bg-slate-900={$theme === 'dark'}
+  class:text-slate-50={$theme === 'dark'}
+  style="height: calc(var(--vh, 1vh) * 100);"
+>
+  <!-- Content Area -->
+  <div class="flex flex-grow overflow-auto">
+    <div class="flex-grow flex flex-col">
+      {#if $loading}
+        <div class="flex justify-center items-center flex-grow">
+          <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-slate-400"></div>
+        </div>
+      {:else if $error}
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mx-4" role="alert">
+          <p>{$error}</p>
+        </div>
+      {:else if $stockData.length > 0 && $currentStock}
+        <div class="flex-grow">
+          <StockChart data={$stockData} stockName={$currentStock["Symbol"]} />
+        </div>
+      {/if}
+    </div>
+  </div>
+
+  <!-- Sticky Footer -->
+  <footer class="h-12 flex-shrink-0 shadow-md">
+    <div class="max-w-4xl mx-auto px-2 h-full flex items-center justify-between space-x-4">
+      <div class="flex items-center space-x-2 sm:space-x-4">
+        <ThemeToggle />
+        <button class="p-2 hover:text-slate-900" on:click={toggleFullscreen}>
+          {#if isFullscreen}
+            <Shrink class="w-5 h-5" />
+          {:else}
+            <Expand class="w-5 h-5" />
+          {/if}
+        </button>
+        <IndexSelector on:select={handleIndexSelect} />
+        <IntervalSelector on:change={handleIntervalChange} />
+        <button class="p-2 hover:text-orange-600" on:click={toggleFavoritesModal}>
+          <List class="w-5 h-5" />
+        </button>
+      </div>
+      <div class="flex items-center space-x-4">
+        <button on:click={handlePrevious} disabled={currentIndex === 0}>Previous</button>
+        <button on:click={handleNext} disabled={currentIndex === totalStocks - 1}>Next</button>
+      </div>
+    </div>
+  </footer>
+
+  {#if showFavoritesModal}
+    <FavoritesModal on:close={toggleFavoritesModal} />
+  {/if}
+  {#if showTradingViewModal && $currentStock}
+    <TradingViewModal symbol={$currentStock.Symbol} onClose={toggleTradingViewModal} />
+  {/if}
+</main>
