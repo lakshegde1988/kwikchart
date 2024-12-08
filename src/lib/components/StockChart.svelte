@@ -14,9 +14,6 @@
   let volumeSeries: any;
   let resizeObserver: ResizeObserver;
 
-  let resizeTimeout: NodeJS.Timeout | null = null;
-
-  // Formatting utilities
   function formatPrice(price: number): string {
     return price.toFixed(2);
   }
@@ -34,9 +31,9 @@
     return volume.toString();
   }
 
-  // Initialize and update legend
   function updateLegend(param: any) {
     const candleData = param.seriesData.get(candlestickSeries);
+    const volumeData = param.seriesData.get(volumeSeries);
     if (candleData) {
       const dataPoint = data.find((d) => d.time === candleData.time);
       if (!dataPoint) return;
@@ -64,7 +61,6 @@
     }
   }
 
-  // Chart initialization
   function initializeChart() {
     if (!chartContainer) return;
 
@@ -76,8 +72,8 @@
         textColor: $theme === 'light' ? '#131722' : '#d1d4dc',
       },
       grid: {
-        vertLines: { visible: false },
-        horzLines: { visible: false },
+        vertLines: { visible:false },
+        horzLines: { visible:false },
       },
       timeScale: {
         timeVisible: false,
@@ -97,107 +93,166 @@
 
     volumeSeries = chart.addHistogramSeries({
       color: $theme === 'light' ? '#26a69a80' : '#26a69a80',
-      priceFormat: { type: 'volume' },
+      priceFormat: {
+        type: 'volume',
+      },
       priceScaleId: 'volume',
-      scaleMargins: { top: 0.8, bottom: 0 },
+      scaleMargins: {
+        top: 0.8,
+        bottom: 0,
+      },
+    });
+
+    chart.priceScale('volume').applyOptions({
+      scaleMargins: {
+        top: 0.8,
+        bottom: 0,
+      },
+    });
+
+    candlestickSeries.priceScale().applyOptions({
+      scaleMargins: {
+        top: 0.1,
+        bottom: 0.2,
+      },
+      borderColor: $theme === 'light' ? '#e1e3ea' : '#363c4e',
     });
 
     updateChartData();
     setInitialLegend();
+
     chart.subscribeCrosshairMove(updateLegend);
 
-    chartContainer.addEventListener('mouseleave', () => setInitialLegend());
+    chartContainer.addEventListener('mouseleave', () => {
+      setInitialLegend();
+    });
   }
 
-  // Update chart data
   function updateChartData() {
-    if (candlestickSeries && volumeSeries && data?.length) {
-      candlestickSeries.setData(
-        data.map(({ time, open, high, low, close }) => ({ time, open, high, low, close }))
-      );
+    if (candlestickSeries && volumeSeries && data && data.length > 0) {
+      const candleData = data.map(({ time, open, high, low, close }) => ({
+        time,
+        open,
+        high,
+        low,
+        close,
+      }));
 
-      volumeSeries.setData(
-        data.map(({ time, close, volume }, index) => ({
+      const volumeData = data.map(({ time, close, volume }, index) => {
+        const previousClose = index > 0 ? data[index - 1].close : close;
+        const isUp = close >= previousClose;
+        return {
           time,
           value: volume,
-          color: close >= (data[index - 1]?.close || close) ? '#26a69a80' : '#ef535080',
-        }))
-      );
+          color: isUp ? '#26a69a80' : '#ef535080',
+        };
+      });
+
+      candlestickSeries.setData(candleData);
+      volumeSeries.setData(volumeData);
 
       chart.timeScale().fitContent();
+      setInitialLegend();
     }
   }
 
-  // Set initial legend
   function setInitialLegend() {
-    const lastDataPoint = data[data.length - 1];
-    if (lastDataPoint) {
+    if (data && data.length > 0) {
+      const lastDataPoint = data[data.length - 1];
       updateLegend({
-        seriesData: new Map([[candlestickSeries, lastDataPoint]]),
+        seriesData: new Map([
+          [candlestickSeries, lastDataPoint],
+        ]),
       });
     }
   }
 
-  // Adjust chart size dynamically
   function adjustChartSize() {
     if (chart && chartContainer) {
       requestAnimationFrame(() => {
+        const newWidth = chartContainer.clientWidth;
+        const newHeight = chartContainer.clientHeight;
         chart.applyOptions({
-          width: chartContainer.clientWidth,
-          height: chartContainer.clientHeight,
+          width: newWidth,
+          height: newHeight,
         });
         chart.timeScale().fitContent();
       });
     }
   }
 
-  // Recalculate custom viewport height
-  function recalculateVH() {
-    const vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-    adjustChartSize();
+  function handleResize() {
+    requestAnimationFrame(() => {
+      if (chartContainer) {
+        adjustChartSize();
+      }
+    });
   }
 
   onMount(() => {
     initializeChart();
+    
+    resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(adjustChartSize);
+    });
+    
+    if (chartContainer) {
+      resizeObserver.observe(chartContainer);
+    }
 
-    // Resize observer
-    resizeObserver = new ResizeObserver(adjustChartSize);
-    if (chartContainer) resizeObserver.observe(chartContainer);
-
-    // Handle orientation changes
     window.addEventListener('orientationchange', () => {
-      if (resizeTimeout) clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        recalculateVH();
-      }, 300);
+      setTimeout(adjustChartSize, 100);
     });
 
+    document.addEventListener('fullscreenchange', adjustChartSize);
+
     return () => {
-      resizeObserver?.disconnect();
-      chart?.remove();
-      if (resizeTimeout) clearTimeout(resizeTimeout);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
+      window.removeEventListener('orientationchange', () => {
+        setTimeout(adjustChartSize, 100);
+      });
+      document.removeEventListener('fullscreenchange', adjustChartSize);
+      if (chart) {
+        chart.remove();
+      }
     };
   });
 
   $: if (chart && $theme) {
     chart.applyOptions({
       layout: {
-        background: { type: ColorType.Solid, color: $theme === 'light' ? '#ffffff' : '#020617' },
+        background: { 
+          type: ColorType.Solid, 
+          color: $theme === 'light' ? '#ffffff' : '#131722' 
+        },
         textColor: $theme === 'light' ? '#131722' : '#d1d4dc',
       },
+      grid: {
+        vertLines: { 
+          visible:false 
+        },
+        horzLines: { 
+          visible:false
+        },
+      },
     });
+    candlestickSeries.priceScale().applyOptions({
+      borderColor: $theme === 'light' ? '#e1e3ea' : '#363c4e',
+    });
+    updateChartData();
+  }
+
+  $: if (chart && data) {
     updateChartData();
   }
 </script>
 
-<div
-  class="chart-container relative w-full h-full min-h-[300px]"
-  style="height: calc(var(--vh, 1vh) * 100);"
->
+<div class="chart-container relative w-full h-full min-h-[300px]">
   <div bind:this={chartContainer} class="w-full h-full"></div>
-  <div
-    bind:this={legendContainer}
+  <div 
+    bind:this={legendContainer} 
     class="absolute top-1 left-1 z-10 font-sans p-1"
     class:text-slate-900={$theme === 'light'}
     class:text-slate-50={$theme === 'dark'}
