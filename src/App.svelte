@@ -20,7 +20,7 @@
   let showFavoritesModal = false;
   let showTradingViewModal = false;
 
-  let vh: number;
+  let vh: number; // Dynamic viewport height variable
 
   $: totalStocks = $stocks.length;
 
@@ -28,11 +28,13 @@
     document.documentElement.setAttribute('data-theme', $theme);
   }
 
+  // Function to update `vh` unit dynamically
   function updateVHUnit() {
     vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
   }
 
+  // Throttling function to prevent excessive calls
   function throttle(fn: () => void, delay: number) {
     let timeout: NodeJS.Timeout | null = null;
     return () => {
@@ -47,6 +49,7 @@
 
   const throttledUpdateVH = throttle(updateVHUnit, 200);
 
+  // Fullscreen toggle logic
   function toggleFullscreen() {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen()
@@ -139,9 +142,11 @@
     showFavoritesModal = !showFavoritesModal;
   }
 
+  // Manage lifecycle events and dynamic viewport updates
   onMount(() => {
     updateVHUnit();
     window.addEventListener('resize', throttledUpdateVH);
+    window.addEventListener('orientationchange', throttledUpdateVH);
 
     const handleFullscreenChange = () => {
       isFullscreen = !!document.fullscreenElement;
@@ -153,6 +158,7 @@
 
     return () => {
       window.removeEventListener('resize', throttledUpdateVH);
+      window.removeEventListener('orientationchange', throttledUpdateVH);
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
     };
   });
@@ -167,6 +173,7 @@
   class:text-slate-50={$theme === 'dark'}
   style="height: calc(var(--vh, 1vh) * 100);"
 >
+  <!-- Content Area -->
   <div class="flex flex-grow overflow-auto">
     <div class="flex-grow flex flex-col">
       {#if $loading}
@@ -185,6 +192,7 @@
     </div>
   </div>
 
+  <!-- Sticky Footer -->
   <footer class="h-12 flex-shrink-0 shadow-md">
     <div class="max-w-4xl mx-auto px-2 h-full flex items-center justify-between space-x-4">
       <div class="flex items-center space-x-2 sm:space-x-4">
@@ -203,8 +211,26 @@
         </button>
       </div>
       <div class="flex items-center space-x-4">
-        <button on:click={handlePrevious} disabled={currentIndex === 0}>Previous</button>
-        <button on:click={handleNext} disabled={currentIndex === totalStocks - 1}>Next</button>
+        <button
+          class="py-2 px-4"
+          class:text-slate-900={$theme === 'light'}
+          class:text-slate-100={$theme === 'dark'}
+          on:click={handlePrevious}
+          disabled={currentIndex === 0}
+        >
+          <span class="lg:block hidden">Previous</span>
+          <ArrowLeft class="w-5 h-5 lg:hidden" />
+        </button>
+        <button
+          class="py-2 px-4"
+          class:text-slate-900={$theme === 'light'}
+          class:text-slate-100={$theme === 'dark'}
+          on:click={handleNext}
+          disabled={currentIndex === totalStocks - 1}
+        >
+          <span class="lg:block hidden">Next</span>
+          <ArrowRight class="w-5 h-5 lg:hidden" />
+        </button>
       </div>
     </div>
   </footer>
