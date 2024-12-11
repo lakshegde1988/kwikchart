@@ -20,12 +20,9 @@
   let isFullscreen = false;
   let showFavoritesModal = false;
   let showTradingViewModal = false;
-  let isMenuOpen = false;
 
-  function toggleMenu() {
-    isMenuOpen = !isMenuOpen;
-  }
   let vh: number;
+  let isMenuOpen = false;
 
   $: totalStocks = $stocks.length;
 
@@ -150,6 +147,10 @@
     showFavoritesModal = !showFavoritesModal;
   }
 
+  function toggleMenu() {
+    isMenuOpen = !isMenuOpen;
+  }
+
   onMount(() => {
     updateVHUnit();
     window.addEventListener('resize', throttledUpdateVH);
@@ -200,8 +201,8 @@
     </div>
   </div>
 
-  <!-- Redesigned Responsive Footer -->
- <footer
+  <!-- Highly Responsive Footer -->
+  <footer
     class="flex-shrink-0 shadow-md transition-all duration-300 ease-in-out"
     class:bg-slate-50={$theme === 'light'}
     class:border-slate-600={$theme === 'light'}
@@ -275,7 +276,9 @@
             class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-white"
             on:click={() => $currentStock && handleToggleFavorite($currentStock)}
           >
-            <Star class="w-5 h-5" class:text-yellow-500={$currentStock && $favorites.has($currentStock.Symbol)} />
+            <span class="w-5 h-5" class:text-yellow-500={$currentStock && $favorites.has($currentStock.Symbol)}>
+              <Star />
+            </span>
           </button>
           <button
             class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-white"
@@ -295,3 +298,4 @@
     <TradingViewModal symbol={$currentStock.Symbol} onClose={toggleTradingViewModal} />
   {/if}
 </main>
+
