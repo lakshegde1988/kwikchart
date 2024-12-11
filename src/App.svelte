@@ -204,7 +204,7 @@
     class:border-slate-400={$theme === 'dark'}
   >
     <div class="max-w-4xl mx-auto lg:px-2 h-full flex items-center justify-between lg:space-x-4 sm:space-x-1">
-      <div class="flex items-center space-x-2 sm:space-x-4">
+      <div class="flex items-center space-x-2 sm:space-x-1">
         <ThemeToggle />
 
         <button
@@ -214,9 +214,9 @@
           on:click={toggleFullscreen}
         >
           {#if isFullscreen}
-            <Shrink class="w-5 h-5" />
+            <Shrink class="w-4 h-5" />
           {:else}
-            <Expand class="w-5 h-5" />
+            <Expand class="w-4 h-5" />
           {/if}
         </button>
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
