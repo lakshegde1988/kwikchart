@@ -251,9 +251,9 @@
           <Info class="w-5 h-5" />
         </button>
       </div>
-      <div class="flex items-center mr-8 space-x-2 sm:space-x-4">
+      <div class="flex items-center lg:mr-8 space-x-2 sm:space-x-1">
         <button
-          class="py-2 px-4"
+          class="py-2 lg:px-4 sm:px-1"
           class:text-slate-900={$theme === 'light'}
           class:text-slate-100={$theme === 'dark'}
           on:click={handlePrevious}
@@ -263,7 +263,7 @@
           <ArrowLeft class="w-5 h-5 lg:hidden" />
         </button>
         <button
-          class="py-2 px-4"
+          class="py-2 lg:px-4 sm:px-1"
           class:text-slate-900={$theme === 'light'}
           class:text-slate-100={$theme === 'dark'}
           on:click={handleNext}
