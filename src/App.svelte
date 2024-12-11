@@ -1,5 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import { slide } from 'svelte/transition';
   import IndexSelector from './lib/components/IndexSelector.svelte';
   import IntervalSelector from './lib/components/IntervalSelector.svelte';
   import StockChart from './lib/components/StockChart.svelte';
@@ -202,7 +203,7 @@
     </div>
   </div>
 
-  <!-- Innovative Compact Footer -->
+  <!-- Innovative Compact Footer using Tailwind for animations -->
   <footer
     class="flex-shrink-0 shadow-md transition-all duration-300 ease-in-out"
     class:bg-slate-50={$theme === 'light'}
@@ -254,9 +255,12 @@
         </button>
       </div>
 
-      <!-- Expandable footer content -->
+      <!-- Expandable footer content using Tailwind for transitions -->
       {#if isFooterExpanded}
-        <div class="py-2 space-y-2" transition:slide="{{ duration: 300, axis: 'y' }}">
+        <div
+          class="py-2 space-y-2 overflow-hidden transition-all duration-300 ease-in-out"
+          transition:slide="{{ duration: 300 }}"
+        >
           <div class="flex flex-wrap items-center justify-center gap-2">
             <IndexSelector on:select={handleIndexSelect} />
             <IntervalSelector on:change={handleIntervalChange} />
@@ -295,19 +299,4 @@
     <TradingViewModal symbol={$currentStock.Symbol} onClose={toggleTradingViewModal} />
   {/if}
 </main>
-
-<style>
-  @keyframes slide-down {
-    from { max-height: 0; opacity: 0; }
-    to { max-height: 200px; opacity: 1; }
-  }
-
-  @keyframes slide-up {
-    from { max-height: 200px; opacity: 1; }
-    to { max-height: 0; opacity: 0; }
-  }
-
-  .slide-enter { animation: slide-down 300ms ease-out; }
-  .slide-exit { animation: slide-up 300ms ease-out; }
-</style>
 
