@@ -201,19 +201,17 @@
     </div>
   </div>
 
-  <!-- Highly Responsive Footer -->
+  <!-- Improved Responsive Footer -->
   <footer
     class="flex-shrink-0 shadow-md transition-all duration-300 ease-in-out"
     class:bg-slate-50={$theme === 'light'}
     class:border-slate-600={$theme === 'light'}
     class:bg-slate-950={$theme === 'dark'}
     class:border-slate-400={$theme === 'dark'}
-    class:h-16={!isMenuOpen}
-    class:h-auto={isMenuOpen}
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <!-- Always visible controls -->
+      <div class="flex flex-wrap items-center justify-between py-3 gap-2">
+        <!-- Left section -->
         <div class="flex items-center space-x-4">
           <ThemeToggle />
           <button
@@ -228,44 +226,14 @@
           </button>
         </div>
 
-        <!-- Navigation buttons -->
-        <div class="flex items-center space-x-4">
-          <button
-            class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-white"
-            on:click={handlePrevious}
-            disabled={currentIndex === 0}
-          >
-            <ArrowLeft class="w-5 h-5" />
-          </button>
-          <button
-            class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-white"
-            on:click={handleNext}
-            disabled={currentIndex === totalStocks - 1}
-          >
-            <ArrowRight class="w-5 h-5" />
-          </button>
-        </div>
-
-        <!-- Menu toggle for mobile -->
-        <div class="flex md:hidden">
-          <button
-            class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-white"
-            on:click={toggleMenu}
-          >
-            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <!-- Expandable menu items -->
-      <div class="md:flex md:items-center md:justify-between" class:hidden={!isMenuOpen}>
-        <div class="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 py-4 md:py-0">
+        <!-- Center section -->
+        <div class="flex items-center space-x-4 order-1 md:order-none w-full md:w-auto justify-center">
           <IndexSelector on:select={handleIndexSelect} />
           <IntervalSelector on:change={handleIntervalChange} />
         </div>
-        <div class="flex items-center space-x-4 py-4 md:py-0">
+
+        <!-- Right section -->
+        <div class="flex items-center space-x-4">
           <button
             class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-white"
             on:click={toggleFavoritesModal}
@@ -285,6 +253,24 @@
             on:click={toggleTradingViewModal}
           >
             <Info class="w-5 h-5" />
+          </button>
+        </div>
+
+        <!-- Navigation buttons -->
+        <div class="flex items-center space-x-4 w-full md:w-auto justify-center md:justify-end">
+          <button
+            class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-white"
+            on:click={handlePrevious}
+            disabled={currentIndex === 0}
+          >
+            <ArrowLeft class="w-5 h-5" />
+          </button>
+          <button
+            class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-white"
+            on:click={handleNext}
+            disabled={currentIndex === totalStocks - 1}
+          >
+            <ArrowRight class="w-5 h-5" />
           </button>
         </div>
       </div>
