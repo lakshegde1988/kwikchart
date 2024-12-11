@@ -203,7 +203,7 @@
     class:bg-slate-950={$theme === 'dark'}
     class:border-slate-400={$theme === 'dark'}
   >
-    <div class="max-w-4xl mx-auto px-2 h-full flex items-center justify-between space-x-4">
+    <div class="max-w-4xl mx-auto lg:px-2 h-full flex items-center justify-between lg:space-x-4 sm:space-x-1">
       <div class="flex items-center space-x-2 sm:space-x-4">
         <ThemeToggle />
 
