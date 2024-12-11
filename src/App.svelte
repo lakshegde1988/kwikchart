@@ -196,17 +196,16 @@
     </div>
   </div>
 
-  <!-- Sticky Footer -->
-  <footer class="h-12 flex-shrink-0 shadow-md"
+  <!-- Redesigned Responsive Footer -->
+  <footer class="flex-shrink-0 shadow-md py-2 px-4"
     class:bg-slate-50={$theme === 'light'}
     class:border-slate-600={$theme === 'light'}
     class:bg-slate-950={$theme === 'dark'}
     class:border-slate-400={$theme === 'dark'}
   >
-    <div class="max-w-4xl mx-auto lg:px-2 h-full flex items-center justify-between lg:space-x-4 sm:space-x-1">
-      <div class="flex items-center space-x-2 sm:space-x-1">
+    <div class="max-w-4xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex flex-wrap items-center gap-2">
         <ThemeToggle />
-
         <button
           class="p-2 hover:text-slate-900 focus:outline-none lg:hidden"
           class:text-slate-800={$theme === 'light'}
@@ -214,20 +213,22 @@
           on:click={toggleFullscreen}
         >
           {#if isFullscreen}
-            <Shrink class="w-4 h-5" />
+            <Shrink class="w-4 h-4" />
           {:else}
-            <Expand class="w-4 h-5" />
+            <Expand class="w-4 h-4" />
           {/if}
         </button>
-        <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
-        <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
+        <IndexSelector class="text-sm" on:select={handleIndexSelect} />
+        <IntervalSelector class="text-sm" on:change={handleIntervalChange} />
+      </div>
+      <div class="flex items-center gap-2">
         <button
           class="p-2 hover:text-slate-800 focus:outline-none"
           class:text-slate-900={$theme === 'light'}
           class:text-slate-100={$theme === 'dark'}
           on:click={toggleFavoritesModal}
         >
-          <List class="w-4 h-5" />
+          <List class="w-4 h-4" />
         </button>
         <button
           on:click={() => $currentStock && handleToggleFavorite($currentStock)}
@@ -236,7 +237,7 @@
           class:text-slate-200={$theme === 'dark'}
         >
           <span
-            class="w-4 h-5"
+            class="w-4 h-4"
             class:text-orange-700={$currentStock && $favorites.has($currentStock.Symbol)}
           >
             <Star />
@@ -248,33 +249,34 @@
           class:text-slate-900={$theme === 'light'}
           class:text-slate-100={$theme === 'dark'}
         >
-          <Info class="w-4 h-5" />
+          <Info class="w-4 h-4" />
         </button>
       </div>
-      <div class="flex items-center lg:mr-8 space-x-2 sm:space-x-1">
+      <div class="flex items-center gap-2 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
         <button
-          class="py-2 lg:px-4 sm:px-2"
+          class="py-1 px-2 text-sm"
           class:text-slate-900={$theme === 'light'}
           class:text-slate-100={$theme === 'dark'}
           on:click={handlePrevious}
           disabled={currentIndex === 0}
         >
-          <span class="lg:block hidden">Previous</span>
-          <ArrowLeft class="w-5 h-5 lg:hidden" />
+          <ArrowLeft class="w-4 h-4 inline mr-1" />
+          <span class="hidden sm:inline">Previous</span>
         </button>
         <button
-          class="py-2 lg:px-4 sm:px-2"
+          class="py-1 px-2 text-sm"
           class:text-slate-900={$theme === 'light'}
           class:text-slate-100={$theme === 'dark'}
           on:click={handleNext}
           disabled={currentIndex === totalStocks - 1}
         >
-          <span class="lg:block hidden">Next</span>
-          <ArrowRight class="w-5 h-5 lg:hidden" />
+          <span class="hidden sm:inline">Next</span>
+          <ArrowRight class="w-4 h-4 inline ml-1" />
         </button>
       </div>
     </div>
   </footer>
+
   {#if showFavoritesModal}
     <FavoritesModal on:close={toggleFavoritesModal} />
   {/if}
