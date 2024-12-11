@@ -20,7 +20,11 @@
   let isFullscreen = false;
   let showFavoritesModal = false;
   let showTradingViewModal = false;
+  let isMenuOpen = false;
 
+  function toggleMenu() {
+    isMenuOpen = !isMenuOpen;
+  }
   let vh: number;
 
   $: totalStocks = $stocks.length;
@@ -197,82 +201,89 @@
   </div>
 
   <!-- Redesigned Responsive Footer -->
-  <footer class="flex-shrink-0 shadow-md py-2 px-4"
+ <footer
+    class="flex-shrink-0 shadow-md transition-all duration-300 ease-in-out"
     class:bg-slate-50={$theme === 'light'}
     class:border-slate-600={$theme === 'light'}
     class:bg-slate-950={$theme === 'dark'}
     class:border-slate-400={$theme === 'dark'}
+    class:h-16={!isMenuOpen}
+    class:h-auto={isMenuOpen}
   >
-    <div class="max-w-4xl mx-auto flex flex-wrap items-center justify-between gap-2">
-      <div class="flex flex-wrap items-center gap-2">
-        <ThemeToggle />
-        <button
-          class="p-2 hover:text-slate-900 focus:outline-none lg:hidden"
-          class:text-slate-800={$theme === 'light'}
-          class:text-slate-200={$theme === 'dark'}
-          on:click={toggleFullscreen}
-        >
-          {#if isFullscreen}
-            <Shrink class="w-4 h-4" />
-          {:else}
-            <Expand class="w-4 h-4" />
-          {/if}
-        </button>
-        <IndexSelector class="text-sm" on:select={handleIndexSelect} />
-        <IntervalSelector class="text-sm" on:change={handleIntervalChange} />
-      </div>
-      <div class="flex items-center gap-2">
-        <button
-          class="p-2 hover:text-slate-800 focus:outline-none"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-          on:click={toggleFavoritesModal}
-        >
-          <List class="w-4 h-4" />
-        </button>
-        <button
-          on:click={() => $currentStock && handleToggleFavorite($currentStock)}
-          class="p-2 hover:text-orange-600 focus:outline-none"
-          class:text-slate-800={$theme === 'light'}
-          class:text-slate-200={$theme === 'dark'}
-        >
-          <span
-            class="w-4 h-4"
-            class:text-orange-700={$currentStock && $favorites.has($currentStock.Symbol)}
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Always visible controls -->
+        <div class="flex items-center space-x-4">
+          <ThemeToggle />
+          <button
+            class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-white"
+            on:click={toggleFullscreen}
           >
-            <Star />
-          </span>
-        </button>
-        <button
-          on:click={toggleTradingViewModal}
-          class="p-2 hover:text-slate-800 focus:outline-none"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-        >
-          <Info class="w-4 h-4" />
-        </button>
+            {#if isFullscreen}
+              <Shrink class="w-5 h-5" />
+            {:else}
+              <Expand class="w-5 h-5" />
+            {/if}
+          </button>
+        </div>
+
+        <!-- Navigation buttons -->
+        <div class="flex items-center space-x-4">
+          <button
+            class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-white"
+            on:click={handlePrevious}
+            disabled={currentIndex === 0}
+          >
+            <ArrowLeft class="w-5 h-5" />
+          </button>
+          <button
+            class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-white"
+            on:click={handleNext}
+            disabled={currentIndex === totalStocks - 1}
+          >
+            <ArrowRight class="w-5 h-5" />
+          </button>
+        </div>
+
+        <!-- Menu toggle for mobile -->
+        <div class="flex md:hidden">
+          <button
+            class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-white"
+            on:click={toggleMenu}
+          >
+            <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} />
+            </svg>
+          </button>
+        </div>
       </div>
-      <div class="flex items-center gap-2 w-full sm:w-auto justify-center sm:justify-end mt-2 sm:mt-0">
-        <button
-          class="py-1 px-2 text-sm"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-          on:click={handlePrevious}
-          disabled={currentIndex === 0}
-        >
-          <ArrowLeft class="w-4 h-4 inline mr-1" />
-          <span class="hidden sm:inline">Previous</span>
-        </button>
-        <button
-          class="py-1 px-2 text-sm"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-          on:click={handleNext}
-          disabled={currentIndex === totalStocks - 1}
-        >
-          <span class="hidden sm:inline">Next</span>
-          <ArrowRight class="w-4 h-4 inline ml-1" />
-        </button>
+
+      <!-- Expandable menu items -->
+      <div class="md:flex md:items-center md:justify-between" class:hidden={!isMenuOpen}>
+        <div class="flex flex-col md:flex-row md:items-center space-y-4 md:space-y-0 md:space-x-4 py-4 md:py-0">
+          <IndexSelector on:select={handleIndexSelect} />
+          <IntervalSelector on:change={handleIntervalChange} />
+        </div>
+        <div class="flex items-center space-x-4 py-4 md:py-0">
+          <button
+            class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-white"
+            on:click={toggleFavoritesModal}
+          >
+            <List class="w-5 h-5" />
+          </button>
+          <button
+            class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-white"
+            on:click={() => $currentStock && handleToggleFavorite($currentStock)}
+          >
+            <Star class="w-5 h-5" class:text-yellow-500={$currentStock && $favorites.has($currentStock.Symbol)} />
+          </button>
+          <button
+            class="p-2 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-800 focus:ring-white"
+            on:click={toggleTradingViewModal}
+          >
+            <Info class="w-5 h-5" />
+          </button>
+        </div>
       </div>
     </div>
   </footer>
