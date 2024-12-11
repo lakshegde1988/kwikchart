@@ -227,7 +227,7 @@
           class:text-slate-100={$theme === 'dark'}
           on:click={toggleFavoritesModal}
         >
-          <List class="w-5 h-5" />
+          <List class="w-4 h-5" />
         </button>
         <button
           on:click={() => $currentStock && handleToggleFavorite($currentStock)}
@@ -236,7 +236,7 @@
           class:text-slate-200={$theme === 'dark'}
         >
           <span
-            class="w-5 h-5"
+            class="w-4 h-5"
             class:text-orange-700={$currentStock && $favorites.has($currentStock.Symbol)}
           >
             <Star />
@@ -248,12 +248,12 @@
           class:text-slate-900={$theme === 'light'}
           class:text-slate-100={$theme === 'dark'}
         >
-          <Info class="w-5 h-5" />
+          <Info class="w-4 h-5" />
         </button>
       </div>
       <div class="flex items-center lg:mr-8 space-x-2 sm:space-x-1">
         <button
-          class="py-2 lg:px-4 sm:px-1"
+          class="py-2 lg:px-4 sm:px-2"
           class:text-slate-900={$theme === 'light'}
           class:text-slate-100={$theme === 'dark'}
           on:click={handlePrevious}
@@ -263,7 +263,7 @@
           <ArrowLeft class="w-5 h-5 lg:hidden" />
         </button>
         <button
-          class="py-2 lg:px-4 sm:px-1"
+          class="py-2 lg:px-4 sm:px-2"
           class:text-slate-900={$theme === 'light'}
           class:text-slate-100={$theme === 'dark'}
           on:click={handleNext}
