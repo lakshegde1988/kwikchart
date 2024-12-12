@@ -173,7 +173,7 @@
   class="flex flex-col h-screen overflow-hidden bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50"
 >
   <!-- Header for smaller screens -->
-  <header class="bg-slate-100 dark:bg-slate-800 shadow-md py-2 px-4 md:hidden">
+  <header class="bg-slate-100 h-12 dark:bg-slate-800 shadow-md py-2 px-4 md:hidden">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-2">
       <IndexSelector on:select={handleIndexSelect} />
       <IntervalSelector on:change={handleIntervalChange} />
@@ -200,8 +200,8 @@
     </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="bg-slate-100 dark:bg-slate-800 shadow-md py-2 px-4">
+  <!-- Sticky Footer -->
+  <footer class="bg-slate-100 dark:bg-slate-800 shadow-md py-2 px-4 sticky bottom-0 left-0 right-0">
     <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
       <!-- Left section -->
       <div class="flex items-center space-x-2">
