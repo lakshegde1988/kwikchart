@@ -19,6 +19,7 @@
   let showFavoritesModal = false;
   let showTradingViewModal = false;
   let vh: number;
+  let isMobile: boolean;
 
   $: totalStocks = $stocks.length;
   $: { document.documentElement.setAttribute('data-theme', $theme); }
@@ -26,6 +27,7 @@
   const updateVHUnit = () => {
     vh = window.innerHeight * 0.01;
     document.documentElement.style.setProperty('--vh', `${vh}px`);
+    isMobile = window.innerWidth < 768;
   };
 
   const throttle = (fn: () => void, delay: number) => {
@@ -154,30 +156,13 @@
   class="flex flex-col overflow-hidden {$theme === 'light' ? 'bg-slate-50 text-slate-900' : 'bg-slate-900 text-slate-50'}"
   style="height: {vh ? `${vh * 100}px` : '100vh'};"
 >
-  <div class="flex flex-grow overflow-auto">
-    <div class="flex-grow flex flex-col">
-      {#if $loading}
-        <div class="flex justify-center items-center flex-grow">
-          <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-slate-400"></div>
-        </div>
-      {:else if $error}
-        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mx-4" role="alert">
-          <p>{$error}</p>
-        </div>
-      {:else if $stockData.length > 0 && $currentStock}
-        <div class="flex-grow">
-          <StockChart data={$stockData} stockName={$currentStock["Symbol"]} />
-        </div>
-      {/if}
-    </div>
-  </div>
-
-  <footer class="h-12 flex-shrink-0 shadow-md {$theme === 'light' ? 'bg-slate-50 border-slate-600' : 'bg-slate-950 border-slate-400'}">
-    <div class="max-w-4xl mx-auto px-2 h-full flex items-center justify-between">
-      <div class="flex items-center space-x-2 sm:space-x-4">
+  <header class="bg-primary text-primary-foreground p-4 shadow-md">
+    <div class="flex justify-between items-center">
+      <h1 class="text-xl font-bold">Stock Tracker</h1>
+      <div class="flex items-center space-x-2">
         <ThemeToggle />
         <button
-          class="p-2 hover:text-slate-900 focus:outline-none lg:hidden {$theme === 'light' ? 'text-slate-800' : 'text-slate-200'}"
+          class="p-2 rounded-full hover:bg-primary-foreground/10 focus:outline-none"
           on:click={toggleFullscreen}
         >
           {#if isFullscreen}
@@ -186,46 +171,71 @@
             <Expand class="w-5 h-5" />
           {/if}
         </button>
-        <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
-        <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
-        <button
-          class="p-2 hover:text-slate-800 focus:outline-none {$theme === 'light' ? 'text-slate-900' : 'text-slate-100'}"
-          on:click={toggleFavoritesModal}
-        >
-          <List class="w-5 h-5" />
-        </button>
-        <button
-          on:click={() => $currentStock && handleToggleFavorite($currentStock)}
-          class="p-2 hover:text-orange-600 focus:outline-none {$theme === 'light' ? 'text-slate-800' : 'text-slate-200'}"
-        >
-          <span class="w-5 h-5" class:text-orange-700={$currentStock && $favorites.has($currentStock.Symbol)}>
-            <Star />
-          </span>
-        </button>
-        <button
-          on:click={toggleTradingViewModal}
-          class="p-2 hover:text-slate-800 focus:outline-none {$theme === 'light' ? 'text-slate-900' : 'text-slate-100'}"
-        >
-          <Info class="w-5 h-5" />
-        </button>
       </div>
-      <div class="flex items-center space-x-2 sm:space-x-4">
-        <button
-          class="py-2 px-4 {$theme === 'light' ? 'text-slate-900' : 'text-slate-100'}"
-          on:click={handlePrevious}
-          disabled={currentIndex === 0}
-        >
-          <span class="lg:block hidden">Previous</span>
-          <ArrowLeft class="w-5 h-5 lg:hidden" />
-        </button>
-        <button
-          class="py-2 px-4 {$theme === 'light' ? 'text-slate-900' : 'text-slate-100'}"
-          on:click={handleNext}
-          disabled={currentIndex === totalStocks - 1}
-        >
-          <span class="lg:block hidden">Next</span>
-          <ArrowRight class="w-5 h-5 lg:hidden" />
-        </button>
+    </div>
+  </header>
+
+  <div class="flex-grow overflow-auto p-4">
+    {#if $loading}
+      <div class="flex justify-center items-center h-full">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
+      </div>
+    {:else if $error}
+      <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded" role="alert">
+        <p>{$error}</p>
+      </div>
+    {:else if $stockData.length > 0 && $currentStock}
+      <div class="h-full">
+        <StockChart data={$stockData} stockName={$currentStock["Symbol"]} />
+      </div>
+    {/if}
+  </div>
+
+  <footer class="bg-secondary text-secondary-foreground shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row justify-between items-center space-y-3 sm:space-y-0">
+        <div class="flex flex-wrap justify-center sm:justify-start items-center space-x-2 sm:space-x-4">
+          <IndexSelector class="text-sm sm:text-base" on:select={handleIndexSelect} />
+          <IntervalSelector class="text-sm sm:text-base" on:change={handleIntervalChange} />
+          <button
+            class="p-2 rounded-full hover:bg-secondary-foreground/10 focus:outline-none"
+            on:click={toggleFavoritesModal}
+          >
+            <List class="w-5 h-5" />
+          </button>
+          <button
+            on:click={() => $currentStock && handleToggleFavorite($currentStock)}
+            class="p-2 rounded-full hover:bg-secondary-foreground/10 focus:outline-none"
+          >
+            <span class="w-5 h-5" class:text-yellow-500={$currentStock && $favorites.has($currentStock.Symbol)}>
+              <Star />
+            </span>
+          </button>
+          <button
+            on:click={toggleTradingViewModal}
+            class="p-2 rounded-full hover:bg-secondary-foreground/10 focus:outline-none"
+          >
+            <Info class="w-5 h-5" />
+          </button>
+        </div>
+        <div class="flex items-center space-x-2 sm:space-x-4">
+          <button
+            class="py-2 px-4 rounded hover:bg-secondary-foreground/10 focus:outline-none"
+            on:click={handlePrevious}
+            disabled={currentIndex === 0}
+          >
+            <span class="sm:hidden"><ArrowLeft class="w-5 h-5" /></span>
+            <span class="hidden sm:inline">Previous</span>
+          </button>
+          <button
+            class="py-2 px-4 rounded hover:bg-secondary-foreground/10 focus:outline-none"
+            on:click={handleNext}
+            disabled={currentIndex === totalStocks - 1}
+          >
+            <span class="sm:hidden"><ArrowRight class="w-5 h-5" /></span>
+            <span class="hidden sm:inline">Next</span>
+          </button>
+        </div>
       </div>
     </div>
   </footer>
@@ -258,11 +268,20 @@
     height: calc(var(--vh, 1vh) * 100);
   }
 
-  @media (min-width: 640px) {
-    .sm\:space-x-4 > :not([hidden]) ~ :not([hidden]) {
-      --tw-space-x-reverse: 0;
-      margin-right: calc(1rem * var(--tw-space-x-reverse));
-      margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+  button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  @media (max-width: 640px) {
+    .sm\:hidden {
+      display: none;
+    }
+  }
+
+  @media (min-width: 641px) {
+    .hidden.sm\:inline {
+      display: inline;
     }
   }
 </style>
