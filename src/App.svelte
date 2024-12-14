@@ -204,7 +204,7 @@
     class:border-slate-400={$theme === 'dark'}
   >
     <div class="max-w-4xl mx-auto px-2 h-full flex items-center justify-between space-x-4">
-      <div class="flex items-center space-x-2 sm:space-x-4">
+      <div class="flex items-center space-x-2">
         <ThemeToggle />
 
         <button
@@ -263,7 +263,7 @@
           <ArrowLeft class="w-5 h-5 lg:hidden" />
         </button>
         <button
-          class="py-2 px-4"
+          class="py-2"
           class:text-slate-900={$theme === 'light'}
           class:text-slate-100={$theme === 'dark'}
           on:click={handleNext}
