@@ -7,6 +7,7 @@
   import ThemeToggle from './lib/components/ThemeToggle.svelte';
   import TradingViewModal from './lib/components/TradingViewModal.svelte';
   import MobileFooterMenu from './lib/components/MobileFooterMenu.svelte';
+  import { Menu } from 'lucide-svelte';
 
   import { theme } from './lib/stores/themeStore';
 
@@ -234,16 +235,8 @@
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
         <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
         <button
-          class="p-2 hover:text-slate-800 focus:outline-none hidden md:block"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-          on:click={toggleFavoritesModal}
-        >
-          <List class="w-5 h-5" />
-        </button>
-        <button
           on:click={() => $currentStock && handleToggleFavorite($currentStock)}
-          class="p-2 hover:text-orange-600 focus:outline-none hidden md:block"
+          class="p-2 hover:text-orange-600 focus:outline-none"
           class:text-slate-800={$theme === 'light'}
           class:text-slate-200={$theme === 'dark'}
         >
@@ -262,12 +255,15 @@
         >
           <Info class="w-5 h-5" />
         </button>
-        <MobileFooterMenu
-          {showFavoritesModal}
-          {showTradingViewModal}
-          on:toggleFavorites={handleMobileToggleFavorites}
-          on:toggleInfo={handleMobileToggleInfo}
-        />
+        <div class="md:hidden">
+          <MobileFooterMenu
+            {showFavoritesModal}
+            {showTradingViewModal}
+            on:toggleFavorites={handleMobileToggleFavorites}
+            on:toggleInfo={handleMobileToggleInfo}
+            on:toggleFavorite={() => $currentStock && handleToggleFavorite($currentStock)}
+          />
+        </div>
       </div>
       <div class="flex items-center mr-8 space-x-2 sm:space-x-4">
         <button
@@ -300,3 +296,4 @@
     <TradingViewModal symbol={$currentStock.Symbol} onClose={toggleTradingViewModal} />
   {/if}
 </main>
+
