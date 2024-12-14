@@ -6,7 +6,7 @@
   import FavoritesModal from './lib/components/FavoritesModal.svelte';
   import ThemeToggle from './lib/components/ThemeToggle.svelte';
   import TradingViewModal from './lib/components/TradingViewModal.svelte';
-  import { Menu, List, Info, ArrowLeft, ArrowRight } from 'lucide-svelte';
+  import { Menu, List, Info, ArrowLeft, ArrowRight, Expand, Shrink } from 'lucide-svelte';
 
   import { theme } from './lib/stores/themeStore';
 
@@ -233,6 +233,18 @@
         </button>
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
         <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
+        <button
+          on:click={toggleFullscreen}
+          class="p-2 hover:text-slate-800 focus:outline-none"
+          class:text-slate-900={$theme === 'light'}
+          class:text-slate-100={$theme === 'dark'}
+        >
+          {#if isFullscreen}
+            <Shrink class="w-5 h-5" />
+          {:else}
+            <Expand class="w-5 h-5" />
+          {/if}
+        </button>
       </div>
       <div class="flex items-center mr-8 space-x-2 sm:space-x-4">
         <button
