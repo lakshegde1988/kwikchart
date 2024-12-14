@@ -6,15 +6,13 @@
   import FavoritesModal from './lib/components/FavoritesModal.svelte';
   import ThemeToggle from './lib/components/ThemeToggle.svelte';
   import TradingViewModal from './lib/components/TradingViewModal.svelte';
-  import MobileFooterMenu from './lib/components/MobileFooterMenu.svelte';
-  import { Menu } from 'lucide-svelte';
+  import { Menu, List, Info, ArrowLeft, ArrowRight } from 'lucide-svelte';
 
   import { theme } from './lib/stores/themeStore';
 
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
-  import { Star, ArrowLeft, ArrowRight, Expand, Shrink, List, Info } from 'lucide-svelte';
 
   let currentIndex = 0;
   let selectedFile = 'largecap.json';
@@ -143,14 +141,6 @@
     showFavoritesModal = !showFavoritesModal;
   }
 
-  function handleMobileToggleFavorites() {
-    toggleFavoritesModal();
-  }
-
-  function handleMobileToggleInfo() {
-    toggleTradingViewModal();
-  }
-
   function toggleMenu() {
     menuOpen = !menuOpen;
     if (menuOpen) {
@@ -270,26 +260,29 @@
   </footer>
   {#if menuOpen}
     <div class="fixed inset-0 bg-black bg-opacity-50 z-40" on:click={toggleMenu}></div>
-    <div class="fixed inset-x-0 bottom-12 bg-slate-50 dark:bg-slate-800 shadow-lg rounded-t-lg p-4 z-50">
-      <div class="flex justify-around">
-        <button
-          on:click={() => handleMenuOptionClick(toggleFavoritesModal)}
-          class="p-2 hover:text-slate-800 focus:outline-none"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-        >
-          <List class="w-5 h-5" />
-        </button>
+    <div class="fixed inset-y-0 right-0 w-64 bg-slate-50 dark:bg-slate-800 shadow-lg p-4 z-50 flex flex-col justify-center">
+      <button
+        on:click={() => handleMenuOptionClick(toggleFavoritesModal)}
+        class="flex items-center space-x-2 p-4 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg mb-4"
+        class:text-slate-900={$theme === 'light'}
+        class:text-slate-100={$theme === 'dark'}
+      >
+        <List class="w-5 h-5" />
+        <span>Favorites</span>
+      </button>
+      <div class="flex items-center space-x-2 p-4 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg mb-4">
         <ThemeToggle on:click={toggleMenu} />
-        <button
-          on:click={() => handleMenuOptionClick(toggleTradingViewModal)}
-          class="p-2 hover:text-slate-800 focus:outline-none"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-        >
-          <Info class="w-5 h-5" />
-        </button>
+        <span>Theme</span>
       </div>
+      <button
+        on:click={() => handleMenuOptionClick(toggleTradingViewModal)}
+        class="flex items-center space-x-2 p-4 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg"
+        class:text-slate-900={$theme === 'light'}
+        class:text-slate-100={$theme === 'dark'}
+      >
+        <Info class="w-5 h-5" />
+        <span>Info</span>
+      </button>
     </div>
   {/if}
   {#if showFavoritesModal}
