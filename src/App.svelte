@@ -143,11 +143,6 @@
 
   function toggleMenu() {
     menuOpen = !menuOpen;
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
   }
 
   function handleMenuOptionClick(action: () => void) {
@@ -215,7 +210,7 @@
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-12 flex-shrink-0 shadow-md"
+  <footer class="h-12 flex-shrink-0 shadow-md relative"
     class:bg-slate-50={$theme === 'light'}
     class:border-slate-600={$theme === 'light'}
     class:bg-slate-950={$theme === 'dark'}
@@ -223,14 +218,37 @@
   >
     <div class="max-w-4xl mx-auto px-2 h-full flex items-center justify-between space-x-4">
       <div class="flex items-center space-x-2 sm:space-x-4">
-        <button
-          on:click={toggleMenu}
-          class="p-2 hover:text-slate-800 focus:outline-none"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-        >
-          <Menu class="w-5 h-5" />
-        </button>
+        <div class="relative">
+          <button
+            on:click={toggleMenu}
+            class="p-2 hover:text-slate-800 focus:outline-none"
+            class:text-slate-900={$theme === 'light'}
+            class:text-slate-100={$theme === 'dark'}
+          >
+            <Menu class="w-5 h-5" />
+          </button>
+          {#if menuOpen}
+            <div class="absolute bottom-full left-0 mb-2 bg-slate-50 dark:bg-slate-800 rounded-lg shadow-lg p-2 flex space-x-2">
+              <button
+                on:click={() => handleMenuOptionClick(toggleFavoritesModal)}
+                class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg"
+                class:text-slate-900={$theme === 'light'}
+                class:text-slate-100={$theme === 'dark'}
+              >
+                <List class="w-5 h-5" />
+              </button>
+              <ThemeToggle on:click={() => handleMenuOptionClick(() => {})} />
+              <button
+                on:click={() => handleMenuOptionClick(toggleTradingViewModal)}
+                class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg"
+                class:text-slate-900={$theme === 'light'}
+                class:text-slate-100={$theme === 'dark'}
+              >
+                <Info class="w-5 h-5" />
+              </button>
+            </div>
+          {/if}
+        </div>
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
         <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
         <button
@@ -270,33 +288,6 @@
       </div>
     </div>
   </footer>
-  {#if menuOpen}
-    <div class="fixed inset-0 bg-black bg-opacity-50 z-40" on:click={toggleMenu}></div>
-    <div class="fixed inset-y-0 right-0 w-64 bg-slate-50 dark:bg-slate-800 shadow-lg p-4 z-50 flex flex-col justify-center">
-      <button
-        on:click={() => handleMenuOptionClick(toggleFavoritesModal)}
-        class="flex items-center space-x-2 p-4 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg mb-4"
-        class:text-slate-900={$theme === 'light'}
-        class:text-slate-100={$theme === 'dark'}
-      >
-        <List class="w-5 h-5" />
-        <span>Favorites</span>
-      </button>
-      <div class="flex items-center space-x-2 p-4 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg mb-4">
-        <ThemeToggle on:click={toggleMenu} />
-        <span>Theme</span>
-      </div>
-      <button
-        on:click={() => handleMenuOptionClick(toggleTradingViewModal)}
-        class="flex items-center space-x-2 p-4 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg"
-        class:text-slate-900={$theme === 'light'}
-        class:text-slate-100={$theme === 'dark'}
-      >
-        <Info class="w-5 h-5" />
-        <span>Info</span>
-      </button>
-    </div>
-  {/if}
   {#if showFavoritesModal}
     <FavoritesModal on:close={toggleFavoritesModal} />
   {/if}
