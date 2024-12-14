@@ -153,6 +153,16 @@
 
   function toggleMenu() {
     menuOpen = !menuOpen;
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }
+
+  function handleMenuOptionClick(action: () => void) {
+    action();
+    toggleMenu();
   }
 
   onMount(() => {
@@ -259,19 +269,20 @@
     </div>
   </footer>
   {#if menuOpen}
-    <div class="fixed inset-x-0 bottom-12 bg-slate-50 dark:bg-slate-800 shadow-lg rounded-t-lg p-4">
+    <div class="fixed inset-0 bg-black bg-opacity-50 z-40" on:click={toggleMenu}></div>
+    <div class="fixed inset-x-0 bottom-12 bg-slate-50 dark:bg-slate-800 shadow-lg rounded-t-lg p-4 z-50">
       <div class="flex justify-around">
         <button
-          on:click={toggleFavoritesModal}
+          on:click={() => handleMenuOptionClick(toggleFavoritesModal)}
           class="p-2 hover:text-slate-800 focus:outline-none"
           class:text-slate-900={$theme === 'light'}
           class:text-slate-100={$theme === 'dark'}
         >
           <List class="w-5 h-5" />
         </button>
-        <ThemeToggle />
+        <ThemeToggle on:click={toggleMenu} />
         <button
-          on:click={toggleTradingViewModal}
+          on:click={() => handleMenuOptionClick(toggleTradingViewModal)}
           class="p-2 hover:text-slate-800 focus:outline-none"
           class:text-slate-900={$theme === 'light'}
           class:text-slate-100={$theme === 'dark'}
