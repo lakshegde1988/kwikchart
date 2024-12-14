@@ -6,6 +6,7 @@
   import FavoritesModal from './lib/components/FavoritesModal.svelte';
   import ThemeToggle from './lib/components/ThemeToggle.svelte';
   import TradingViewModal from './lib/components/TradingViewModal.svelte';
+  import MobileFooterMenu from './lib/components/MobileFooterMenu.svelte';
 
   import { theme } from './lib/stores/themeStore';
 
@@ -45,6 +46,12 @@
       }
     };
   }
+function handleMobileToggleFavorites() {
+    toggleFavoritesModal();
+  }
+
+  function handleMobileToggleInfo() {
+    t
 
   const throttledUpdateVH = throttle(updateVHUnit, 200);
 
@@ -222,7 +229,7 @@
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
         <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
         <button
-          class="p-2 hover:text-slate-800 focus:outline-none"
+          class="p-2 hover:text-slate-800 focus:outline-none hidden md:block"
           class:text-slate-900={$theme === 'light'}
           class:text-slate-100={$theme === 'dark'}
           on:click={toggleFavoritesModal}
@@ -231,7 +238,7 @@
         </button>
         <button
           on:click={() => $currentStock && handleToggleFavorite($currentStock)}
-          class="p-2 hover:text-orange-600 focus:outline-none"
+          class="p-2 hover:text-orange-600 focus:outline-none hidden md:block"
           class:text-slate-800={$theme === 'light'}
           class:text-slate-200={$theme === 'dark'}
         >
@@ -244,12 +251,18 @@
         </button>
         <button
           on:click={toggleTradingViewModal}
-          class="p-2 hover:text-slate-800 focus:outline-none"
+          class="p-2 hover:text-slate-800 focus:outline-none hidden md:block"
           class:text-slate-900={$theme === 'light'}
           class:text-slate-100={$theme === 'dark'}
         >
           <Info class="w-5 h-5" />
         </button>
+        <MobileFooterMenu
+          {showFavoritesModal}
+          {showTradingViewModal}
+          on:toggleFavorites={handleMobileToggleFavorites}
+          on:toggleInfo={handleMobileToggleInfo}
+        />
       </div>
       <div class="flex items-center mr-8 space-x-2 sm:space-x-4">
         <button
