@@ -6,13 +6,13 @@
   import FavoritesModal from './lib/components/FavoritesModal.svelte';
   import ThemeToggle from './lib/components/ThemeToggle.svelte';
   import TradingViewModal from './lib/components/TradingViewModal.svelte';
-  import { Menu, List, Info, ArrowLeft, ArrowRight, Expand, Shrink } from 'lucide-svelte';
 
   import { theme } from './lib/stores/themeStore';
 
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
+  import { Star, ArrowLeft, ArrowRight, Expand, Shrink, List, Info } from 'lucide-svelte';
 
   let currentIndex = 0;
   let selectedFile = 'largecap.json';
@@ -20,7 +20,6 @@
   let isFullscreen = false;
   let showFavoritesModal = false;
   let showTradingViewModal = false;
-  let menuOpen = false;
 
   let vh: number;
 
@@ -66,7 +65,6 @@
         .catch((err) => console.error('Error exiting fullscreen:', err));
     }
   }
-
   function toggleTradingViewModal() {
     showTradingViewModal = !showTradingViewModal;
   }
@@ -132,22 +130,20 @@
       loadStockData($stocks[currentIndex], selectedInterval);
     }
   }
-
+  // add event listener for keydown event
+  window.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        handlePrevious();
+      } else if (event.key === 'ArrowRight') {
+        handleNext();
+      }
+    });
   function handleToggleFavorite(stock: Stock) {
     toggleFavorite(stock.Symbol);
   }
 
   function toggleFavoritesModal() {
     showFavoritesModal = !showFavoritesModal;
-  }
-
-  function toggleMenu() {
-    menuOpen = !menuOpen;
-  }
-
-  function handleMenuOptionClick(action: () => void) {
-    action();
-    toggleMenu();
   }
 
   onMount(() => {
@@ -168,15 +164,6 @@
       window.removeEventListener('orientationchange', throttledUpdateVH);
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
     };
-  });
-
-  // add event listener for keydown event
-  window.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowLeft') {
-      handlePrevious();
-    } else if (event.key === 'ArrowRight') {
-      handleNext();
-    }
   });
 </script>
 
@@ -210,7 +197,7 @@
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-12 flex-shrink-0 shadow-md relative"
+  <footer class="h-12 flex-shrink-0 shadow-md"
     class:bg-slate-50={$theme === 'light'}
     class:border-slate-600={$theme === 'light'}
     class:bg-slate-950={$theme === 'dark'}
@@ -218,50 +205,50 @@
   >
     <div class="max-w-4xl mx-auto px-2 h-full flex items-center justify-between space-x-4">
       <div class="flex items-center space-x-2 sm:space-x-4">
-        <div class="relative">
-          <button
-            on:click={toggleMenu}
-            class="p-2 hover:text-slate-800 focus:outline-none"
-            class:text-slate-900={$theme === 'light'}
-            class:text-slate-100={$theme === 'dark'}
-          >
-            <Menu class="w-5 h-5" />
-          </button>
-          {#if menuOpen}
-            <div class="absolute bottom-full left-0 mb-2 bg-slate-50 dark:bg-slate-800 rounded-lg shadow-lg p-2 flex space-x-2">
-              <button
-                on:click={() => handleMenuOptionClick(toggleFavoritesModal)}
-                class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg"
-                class:text-slate-900={$theme === 'light'}
-                class:text-slate-100={$theme === 'dark'}
-              >
-                <List class="w-5 h-5" />
-              </button>
-              <ThemeToggle on:click={() => handleMenuOptionClick(() => {})} />
-              <button
-                on:click={() => handleMenuOptionClick(toggleTradingViewModal)}
-                class="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg"
-                class:text-slate-900={$theme === 'light'}
-                class:text-slate-100={$theme === 'dark'}
-              >
-                <Info class="w-5 h-5" />
-              </button>
-            </div>
-          {/if}
-        </div>
-        <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
-        <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
+        <ThemeToggle />
+
         <button
+          class="p-2 hover:text-slate-900 focus:outline-none lg:hidden"
+          class:text-slate-800={$theme === 'light'}
+          class:text-slate-200={$theme === 'dark'}
           on:click={toggleFullscreen}
-          class="p-2 hover:text-slate-800 focus:outline-none"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
         >
           {#if isFullscreen}
             <Shrink class="w-5 h-5" />
           {:else}
             <Expand class="w-5 h-5" />
           {/if}
+        </button>
+        <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
+        <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
+        <button
+          class="p-2 hover:text-slate-800 focus:outline-none"
+          class:text-slate-900={$theme === 'light'}
+          class:text-slate-100={$theme === 'dark'}
+          on:click={toggleFavoritesModal}
+        >
+          <List class="w-5 h-5" />
+        </button>
+        <button
+          on:click={() => $currentStock && handleToggleFavorite($currentStock)}
+          class="p-2 hover:text-orange-600 focus:outline-none"
+          class:text-slate-800={$theme === 'light'}
+          class:text-slate-200={$theme === 'dark'}
+        >
+          <span
+            class="w-5 h-5"
+            class:text-orange-700={$currentStock && $favorites.has($currentStock.Symbol)}
+          >
+            <Star />
+          </span>
+        </button>
+        <button
+          on:click={toggleTradingViewModal}
+          class="p-2 hover:text-slate-800 focus:outline-none"
+          class:text-slate-900={$theme === 'light'}
+          class:text-slate-100={$theme === 'dark'}
+        >
+          <Info class="w-5 h-5" />
         </button>
       </div>
       <div class="flex items-center mr-8 space-x-2 sm:space-x-4">
@@ -295,4 +282,3 @@
     <TradingViewModal symbol={$currentStock.Symbol} onClose={toggleTradingViewModal} />
   {/if}
 </main>
-
