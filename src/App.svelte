@@ -46,12 +46,6 @@
       }
     };
   }
-function handleMobileToggleFavorites() {
-    toggleFavoritesModal();
-  }
-
-  function handleMobileToggleInfo() {
-    t
 
   const throttledUpdateVH = throttle(updateVHUnit, 200);
 
@@ -72,6 +66,7 @@ function handleMobileToggleFavorites() {
         .catch((err) => console.error('Error exiting fullscreen:', err));
     }
   }
+
   function toggleTradingViewModal() {
     showTradingViewModal = !showTradingViewModal;
   }
@@ -137,20 +132,21 @@ function handleMobileToggleFavorites() {
       loadStockData($stocks[currentIndex], selectedInterval);
     }
   }
-  // add event listener for keydown event
-  window.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowLeft') {
-        handlePrevious();
-      } else if (event.key === 'ArrowRight') {
-        handleNext();
-      }
-    });
+
   function handleToggleFavorite(stock: Stock) {
     toggleFavorite(stock.Symbol);
   }
 
   function toggleFavoritesModal() {
     showFavoritesModal = !showFavoritesModal;
+  }
+
+  function handleMobileToggleFavorites() {
+    toggleFavoritesModal();
+  }
+
+  function handleMobileToggleInfo() {
+    toggleTradingViewModal();
   }
 
   onMount(() => {
@@ -171,6 +167,15 @@ function handleMobileToggleFavorites() {
       window.removeEventListener('orientationchange', throttledUpdateVH);
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
     };
+  });
+
+  // add event listener for keydown event
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowLeft') {
+      handlePrevious();
+    } else if (event.key === 'ArrowRight') {
+      handleNext();
+    }
   });
 </script>
 
