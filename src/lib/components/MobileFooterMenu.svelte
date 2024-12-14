@@ -1,7 +1,8 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
-  import { Moon, Sun, List, Info } from 'lucide-svelte';
+  import { Menu, Moon, Sun, List, Info, Star } from 'lucide-svelte';
   import { theme } from '../stores/themeStore';
+  import { favorites, currentStock } from '../stores/stockStore';
 
   const dispatch = createEventDispatcher();
 
@@ -28,6 +29,10 @@
     dispatch('toggleInfo');
     isOpen = false;
   }
+
+  function handleToggleFavorite() {
+    dispatch('toggleFavorite');
+  }
 </script>
 
 <div class="md:hidden">
@@ -37,7 +42,7 @@
     class:text-slate-900={$theme === 'light'}
     class:text-slate-100={$theme === 'dark'}
   >
-    <List class="w-5 h-5" />
+    <Menu class="w-5 h-5" />
   </button>
 
   {#if isOpen}
@@ -77,3 +82,4 @@
     </div>
   {/if}
 </div>
+
