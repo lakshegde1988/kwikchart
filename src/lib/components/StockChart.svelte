@@ -79,14 +79,14 @@
       },
       timeScale: {
         timeVisible: false,
-        rightOffset: 25,
-        minBarSpacing: 6,
+        rightOffset: 15,
+        minBarSpacing: 8,
         borderColor: '#e5e7eb',
       },
     });
 
     barSeries = chart.addBarSeries({
-      upColor: '#4338ca',
+      upColor: '#1d4ed8',
       downColor: '#c026d3',
       thinBars: false
     });
@@ -140,7 +140,7 @@
           high,
           low,
           close,
-          color: isUp ? '#4f46e5' : '#c026d3',
+          color: isUp ? '#1d4ed8' : '#c026d3',
         };
       });
 
@@ -150,7 +150,7 @@
         return {
           time,
           value: volume,
-          color: isUp ? 'rgba(79, 70, 229, 0.5)' : 'rgba(192, 38, 211, 0.5)', // Same colors with transparency
+          color: isUp ? 'rgba(30, 64, 175, 0.5)' : 'rgba(192, 38, 211, 0.5)', // Same colors with transparency
           lineWidth: 1,
         };
       });
