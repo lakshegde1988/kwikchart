@@ -252,25 +252,25 @@
       </div>
       <div class="flex items-center mr-8 space-x-2">
         <button
-          class="py-2 px-2"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-          on:click={handlePrevious}
-          disabled={currentIndex === 0}
-        >
-          <span>Previous</span>
-          <ArrowLeft class="w-5 h-5" />
-        </button>
-        <button
-          class="py-2"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-          on:click={handleNext}
-          disabled={currentIndex === totalStocks - 1}
-        >
-          <span>Next</span>
-          <ArrowRight class="w-5 h-5" />
-        </button>
+  class="flex items-center gap-2 py-2 px-2"
+  class:text-slate-900={$theme === 'light'}
+  class:text-slate-100={$theme === 'dark'}
+  on:click={handlePrevious}
+  disabled={currentIndex === 0}
+>
+  <ArrowLeft class="w-5 h-5" />
+  <span>Previous</span>
+</button>
+<button
+  class="flex items-center gap-2 py-2 px-2"
+  class:text-slate-900={$theme === 'light'}
+  class:text-slate-100={$theme === 'dark'}
+  on:click={handleNext}
+  disabled={currentIndex === totalStocks - 1}
+>
+  <span>Next</span>
+  <ArrowRight class="w-5 h-5" />
+</button>
       </div>
     </div>
   </footer>
