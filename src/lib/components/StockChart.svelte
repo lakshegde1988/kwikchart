@@ -2,6 +2,7 @@
   import { onMount, onDestroy } from 'svelte';
   import { createChart, ColorType } from 'lightweight-charts';
   import type { StockData } from '../types';
+  import { theme } from '../stores/themeStore';
 
   export let data: StockData[] = [];
   export let stockName: string = '';
@@ -9,7 +10,7 @@
   let chartContainer: HTMLElement;
   let legendContainer: HTMLElement;
   let chart: any;
-  let barSeries: any;
+  let candlestickSeries: any;
   let volumeSeries: any;
   let resizeObserver: ResizeObserver;
 
@@ -31,16 +32,16 @@
   }
 
   function updateLegend(param: any) {
-    const barData = param.seriesData.get(barSeries);
+    const candleData = param.seriesData.get(candlestickSeries);
     const volumeData = param.seriesData.get(volumeSeries);
-    if (barData) {
-      const dataPoint = data.find((d) => d.time === barData.time);
+    if (candleData) {
+      const dataPoint = data.find((d) => d.time === candleData.time);
       if (!dataPoint) return;
 
       const previousDataPoint = data[data.indexOf(dataPoint) - 1];
       const previousClose = previousDataPoint ? previousDataPoint.close : dataPoint.open;
 
-      const priceChange = barData.close - previousClose;
+      const priceChange = candleData.close - previousClose;
       const percentageChange = (priceChange / previousClose) * 100;
       const isPositive = priceChange >= 0;
 
@@ -48,10 +49,10 @@
         <h2 class="text-md font-bold mb-2">${stockName}</h2>
         <div class="flex items-center space-x-4 mb-2">
           <div class="flex flex-col">
-            <span class="text-sm font-semibold">${formatPrice(barData.close)}</span>
+            <span class="text-sm font-semibold">${formatPrice(candleData.close)}</span>
           </div>
           <div class="flex flex-col">
-            <span class="text-sm font-semibold ${isPositive ? 'text-purple-600' : 'text-pink-600'}">
+            <span class="text-sm font-semibold ${isPositive ? 'text-green-500' : 'text-red-500'}">
               ${isPositive ? '+' : ''}${formatPrice(priceChange)} (${formatPercentage(percentageChange)})
             </span>
           </div>
@@ -67,32 +68,31 @@
       width: chartContainer.clientWidth,
       height: chartContainer.clientHeight,
       layout: {
-        background: { 
-          type: ColorType.Solid, 
-          color: '#18181b' 
-        },
-        textColor: '#f4f4f5',
+        background: { type: ColorType.Solid, color: $theme === 'light' ? '#ffffff' : '#020617' },
+        textColor: $theme === 'light' ? '#131722' : '#d1d4dc',
       },
       grid: {
-        vertLines: { visible: false  },
-        horzLines: { visible: false  },
+        vertLines: { visible:false },
+        horzLines: { visible:false },
       },
       timeScale: {
         timeVisible: false,
-        rightOffset: 25,
-        minBarSpacing: 4,
-        borderColor: '#3f3f46',
+        rightOffset: 15,
+        minBarSpacing: 3,
+        borderColor: $theme === 'light' ? '#e1e3ea' : '#363c4e',
       },
     });
 
-    barSeries = chart.addBarSeries({
-      upColor: '#6d28d9', // Changed to purple
-      downColor: '#a21caf', // Changed to pink
-      thinBars: false
+    candlestickSeries = chart.addCandlestickSeries({
+      upColor: '#26a69a',
+      downColor: '#ef5350',
+      borderVisible: false,
+      wickUpColor: '#26a69a',
+      wickDownColor: '#ef5350',
     });
 
     volumeSeries = chart.addHistogramSeries({
-      color: 'rgba(244, 244, 245, 0.5)',
+      color: $theme === 'light' ? '#26a69a80' : '#26a69a80',
       priceFormat: {
         type: 'volume',
       },
@@ -101,7 +101,6 @@
         top: 0.8,
         bottom: 0,
       },
-      lineWidth: 1,
     });
 
     chart.priceScale('volume').applyOptions({
@@ -111,12 +110,12 @@
       },
     });
 
-    barSeries.priceScale().applyOptions({
+    candlestickSeries.priceScale().applyOptions({
       scaleMargins: {
-        top: 0.2,
+        top: 0.1,
         bottom: 0.2,
       },
-      borderColor: '#3f3f46',
+      borderColor: $theme === 'light' ? '#e1e3ea' : '#363c4e',
     });
 
     updateChartData();
@@ -130,19 +129,14 @@
   }
 
   function updateChartData() {
-    if (barSeries && volumeSeries && data && data.length > 0) {
-      const barData = data.map(({ time, high, low, close }, index) => {
-        const previousClose = index > 0 ? data[index - 1].close : close;
-        const isUp = close >= previousClose;
-        return {
-          time,
-          open: close,
-          high,
-          low,
-          close,
-          color: isUp ? '#6d28d9' : '#a21caf', // Changed colors here too
-        };
-      });
+    if (candlestickSeries && volumeSeries && data && data.length > 0) {
+      const candleData = data.map(({ time, open, high, low, close }) => ({
+        time,
+        open,
+        high,
+        low,
+        close,
+      }));
 
       const volumeData = data.map(({ time, close, volume }, index) => {
         const previousClose = index > 0 ? data[index - 1].close : close;
@@ -150,12 +144,11 @@
         return {
           time,
           value: volume,
-          color: isUp ? 'rgba(109, 40, 217, 0.5)' : 'rgba(162, 28, 175, 0.5)', // Updated volume colors with opacity
-          lineWidth: 1,
+          color: isUp ? '#26a69a80' : '#ef535080',
         };
       });
 
-      barSeries.setData(barData);
+      candlestickSeries.setData(candleData);
       volumeSeries.setData(volumeData);
 
       chart.timeScale().fitContent();
@@ -168,7 +161,7 @@
       const lastDataPoint = data[data.length - 1];
       updateLegend({
         seriesData: new Map([
-          [barSeries, lastDataPoint],
+          [candlestickSeries, lastDataPoint],
         ]),
       });
     }
@@ -227,6 +220,30 @@
     };
   });
 
+  $: if (chart && $theme) {
+    chart.applyOptions({
+      layout: {
+        background: { 
+          type: ColorType.Solid, 
+          color: $theme === 'light' ? '#ffffff' : '#131722' 
+        },
+        textColor: $theme === 'light' ? '#131722' : '#d1d4dc',
+      },
+      grid: {
+        vertLines: { 
+          visible:false 
+        },
+        horzLines: { 
+          visible:false
+        },
+      },
+    });
+    candlestickSeries.priceScale().applyOptions({
+      borderColor: $theme === 'light' ? '#e1e3ea' : '#363c4e',
+    });
+    updateChartData();
+  }
+
   $: if (chart && data) {
     updateChartData();
   }
@@ -236,6 +253,8 @@
   <div bind:this={chartContainer} class="w-full h-full"></div>
   <div 
     bind:this={legendContainer} 
-    class="absolute top-1 left-1 z-10 font-sans p-1 text-zinc-50"
+    class="absolute top-1 left-1 z-10 font-sans p-1"
+    class:text-slate-900={$theme === 'light'}
+    class:text-slate-50={$theme === 'dark'}
   ></div>
 </div>
