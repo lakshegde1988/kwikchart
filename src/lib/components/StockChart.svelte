@@ -150,7 +150,7 @@
         return {
           time,
           value: volume,
-          color: isUp ? 'rgba(79, 70, 229, 0.3)' : 'rgba(192, 38, 211, 0.3)', // Same colors with transparency
+          color: isUp ? 'rgba(79, 70, 229, 0.5)' : 'rgba(192, 38, 211, 0.5)', // Same colors with transparency
           lineWidth: 1,
         };
       });
