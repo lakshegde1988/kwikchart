@@ -79,8 +79,8 @@
       },
       timeScale: {
         timeVisible: false,
-        rightOffset: 15,
-        minBarSpacing: 8,
+        rightOffset: 10,
+        minBarSpacing: 5,
         borderColor: '#e5e7eb',
       },
     });
