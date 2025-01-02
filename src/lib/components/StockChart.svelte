@@ -51,7 +51,7 @@
             <span class="text-sm font-semibold text-gray-900">${formatPrice(barData.close)}</span>
           </div>
           <div class="flex flex-col">
-            <span class="text-sm font-semibold ${isPositive ? 'text-purple-700' : 'text-pink-700'}">
+            <span class="text-sm font-semibold" style="color: ${isPositive ? '#4f46e5' : '#c026d3'}">
               ${isPositive ? '+' : ''}${formatPrice(priceChange)} (${formatPercentage(percentageChange)})
             </span>
           </div>
@@ -86,8 +86,8 @@
     });
 
     barSeries = chart.addBarSeries({
-      upColor: '#6d28d9',
-      downColor: '#a21caf',
+      upColor: '#4f46e5', // Marketsmith's up color
+      downColor: '#c026d3', // Marketsmith's down color
       thinBars: false
     });
 
@@ -140,7 +140,7 @@
           high,
           low,
           close,
-          color: isUp ? '#6d28d9' : '#a21caf',
+          color: isUp ? '#4f46e5' : '#c026d3',
         };
       });
 
@@ -150,7 +150,7 @@
         return {
           time,
           value: volume,
-          color: isUp ? 'rgba(109, 40, 217, 0.3)' : 'rgba(162, 28, 175, 0.3)',
+          color: isUp ? 'rgba(79, 70, 229, 0.3)' : 'rgba(192, 38, 211, 0.3)', // Same colors with transparency
           lineWidth: 1,
         };
       });
