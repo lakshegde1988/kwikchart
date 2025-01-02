@@ -86,8 +86,8 @@
     });
 
     barSeries = chart.addBarSeries({
-      upColor: '#4f46e5', // Marketsmith's up color
-      downColor: '#c026d3', // Marketsmith's down color
+      upColor: '#4338ca',
+      downColor: '#c026d3',
       thinBars: false
     });
 
