@@ -240,15 +240,7 @@
           >
             <Star />
           </span>
-        </button>
-        <button
-          on:click={toggleTradingViewModal}
-          class="p-2 hover:text-slate-800 focus:outline-none"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-        >
-          <Info class="w-5 h-5" />
-        </button>
+        </button>  
       </div>
       <div class="flex items-center mr-8 space-x-2">
         <button
