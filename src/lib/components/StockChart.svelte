@@ -51,7 +51,7 @@
             <span class="text-sm font-semibold">${formatPrice(barData.close)}</span>
           </div>
           <div class="flex flex-col">
-            <span class="text-sm font-semibold ${isPositive ? 'text-green-500' : 'text-red-500'}">
+            <span class="text-sm font-semibold ${isPositive ? 'text-purple-600' : 'text-pink-600'}">
               ${isPositive ? '+' : ''}${formatPrice(priceChange)} (${formatPercentage(percentageChange)})
             </span>
           </div>
@@ -86,8 +86,8 @@
     });
 
     barSeries = chart.addBarSeries({
-      upColor: '#22c55e',
-      downColor: '#f97316',
+      upColor: '#6d28d9', // Changed to purple
+      downColor: '#a21caf', // Changed to pink
       thinBars: false
     });
 
@@ -140,7 +140,7 @@
           high,
           low,
           close,
-          color: isUp ? '#16a34a' : '#f97316',
+          color: isUp ? '#6d28d9' : '#a21caf', // Changed colors here too
         };
       });
 
@@ -150,7 +150,7 @@
         return {
           time,
           value: volume,
-          color: isUp ? 'rgba(22, 163, 74, 0.5)' : 'rgba(249, 115, 22, 0.5)',
+          color: isUp ? 'rgba(109, 40, 217, 0.5)' : 'rgba(162, 28, 175, 0.5)', // Updated volume colors with opacity
           lineWidth: 1,
         };
       });
