@@ -129,14 +129,19 @@
   }
 
   function updateChartData() {
-    if (candlestickSeries && volumeSeries && data && data.length > 0) {
-      const candleData = data.map(({ time, open, high, low, close }) => ({
-        time,
-        open,
-        high,
-        low,
-        close,
-      }));
+    if (barSeries && volumeSeries && data && data.length > 0) {
+      const barData = data.map(({ time, high, low, close }, index) => {
+        const previousClose = index > 0 ? data[index - 1].close : close;
+        const isUp = close >= previousClose;
+        return {
+          time,
+          open: close,
+          high,
+          low,
+          close,
+          color: isUp ? '#6d28d9' : '#a21caf', // Changed colors here too
+        };
+      });
 
       const volumeData = data.map(({ time, close, volume }, index) => {
         const previousClose = index > 0 ? data[index - 1].close : close;
@@ -144,11 +149,12 @@
         return {
           time,
           value: volume,
-          color: isUp ? '#26a69a80' : '#ef535080',
+          color: isUp ? 'rgba(109, 40, 217, 0.5)' : 'rgba(162, 28, 175, 0.5)', // Updated volume colors with opacity
+          lineWidth: 1,
         };
       });
 
-      candlestickSeries.setData(candleData);
+      barSeries.setData(barData);
       volumeSeries.setData(volumeData);
 
       chart.timeScale().fitContent();
