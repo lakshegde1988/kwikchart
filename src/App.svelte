@@ -16,7 +16,7 @@
 
   let currentIndex = 0;
   let selectedFile = 'large.json';
-  let selectedInterval: Interval = { label: '6M', value: '1d', range: '6mo' };
+  let selectedInterval: Interval = { label: 'D', value: '1d', range: '2y' };
   let isFullscreen = false;
   let showFavoritesModal = false;
   let showTradingViewModal = false;
