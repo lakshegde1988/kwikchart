@@ -259,7 +259,7 @@
   disabled={currentIndex === 0}
 >
   <ArrowLeft class="w-5 h-5" />
-  <span>Previous</span>
+  <span>Prev</span>
 </button>
 <button
   class="flex items-center gap-2 py-2 px-2"
