@@ -258,7 +258,7 @@
           on:click={handlePrevious}
           disabled={currentIndex === 0}
         >
-          <span class="lg:block hidden">Previous</span>
+          <span>Previous</span>
           <ArrowLeft class="w-5 h-5 lg:hidden" />
         </button>
         <button
@@ -268,7 +268,7 @@
           on:click={handleNext}
           disabled={currentIndex === totalStocks - 1}
         >
-          <span class="lg:block hidden">Next</span>
+          <span>Next</span>
           <ArrowRight class="w-5 h-5 lg:hidden" />
         </button>
       </div>
