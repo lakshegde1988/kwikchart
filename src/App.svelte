@@ -15,7 +15,7 @@
   import { Star, ArrowLeft, ArrowRight, Expand, Shrink, List, Info } from 'lucide-svelte';
 
   let currentIndex = 0;
-  let selectedFile = 'large.json';
+  let selectedFile = 'largecaps.json';
   let selectedInterval: Interval = { label: 'D', value: '1d', range: '2y' };
   let isFullscreen = false;
   let showFavoritesModal = false;
