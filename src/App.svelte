@@ -174,7 +174,7 @@
   class:text-slate-900={$theme === 'light'}
   class:bg-slate-900={$theme === 'dark'}
   class:text-slate-50={$theme === 'dark'}
-  style="height: {vh ? `${vh * 100}px` : '100vh'};"
+  style="height: {vh ? `${vh * 100}px` : '80vh'};"
 >
   <!-- Content Area -->
   <div class="flex flex-grow overflow-auto">
