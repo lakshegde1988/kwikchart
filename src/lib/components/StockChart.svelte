@@ -97,7 +97,7 @@
       },
       priceScaleId: 'volume',
       scaleMargins: {
-        top: 0.8,
+        top: 0.5,
         bottom: 0,
       },
       lineWidth: 1,
@@ -105,7 +105,7 @@
 
     chart.priceScale('volume').applyOptions({
       scaleMargins: {
-        top: 0.8,
+        top: 0.5,
         bottom: 0,
       },
       borderColor: '#e5e7eb',
@@ -113,8 +113,8 @@
 
     barSeries.priceScale().applyOptions({
       scaleMargins: {
-        top: 0.2,
-        bottom: 0.2,
+        top: 0,
+        bottom: 0,
       },
       borderColor: '#e5e7eb',
     });
