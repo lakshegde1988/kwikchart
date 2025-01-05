@@ -198,7 +198,7 @@
 
   <!-- Sticky Footer -->
   <footer class="h-12 flex-shrink-0 shadow-md"
-    class:bg-slate-50={$theme === 'light'}
+    class:bg-white={$theme === 'light'}
     class:border-slate-600={$theme === 'light'}
     class:bg-slate-950={$theme === 'dark'}
     class:border-slate-400={$theme === 'dark'}
