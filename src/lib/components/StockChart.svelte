@@ -80,7 +80,7 @@
       timeScale: {
         timeVisible: false,
         rightOffset: 5,
-        minBarSpacing: 6,
+        minBarSpacing: 7,
         borderColor: '#e5e7eb',
       },
     });
@@ -97,7 +97,7 @@
       },
       priceScaleId: 'volume',
       scaleMargins: {
-        top: 0.7,
+        top: 0.8,
         bottom: 0,
       },
       lineWidth: 1,
@@ -105,7 +105,7 @@
 
     chart.priceScale('volume').applyOptions({
       scaleMargins: {
-        top: 0.7,
+        top: 0.8,
         bottom: 0,
       },
       borderColor: '#e5e7eb',
