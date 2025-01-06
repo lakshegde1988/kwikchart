@@ -45,8 +45,10 @@
       const isPositive = priceChange >= 0;
 
       legendContainer.innerHTML = `
-        <h2 class="text-md font-bold mb-2 text-gray-900">${stockName}</h2>
-        <div class="flex items-center space-x-4 mb-2">
+        <div class="flex items-center space-x-4">
+          <div class="flex flex-col">
+            <span class="text-sm font-bold text-gray-900">${stockName}</span>
+          </div>
           <div class="flex flex-col">
             <span class="text-sm font-semibold text-gray-900">${formatPrice(barData.close)}</span>
           </div>
