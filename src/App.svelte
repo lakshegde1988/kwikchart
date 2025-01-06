@@ -12,7 +12,7 @@
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
-  import { Star, ArrowLeft, ArrowRight, Expand, Shrink, List, Info } from 'lucide-svelte';
+  import { Star, ArrowLeft, ArrowRight, Expand, Shrink, FileHeart, Info } from 'lucide-svelte';
 
   let currentIndex = 0;
   let selectedFile = 'largecaps.json';
@@ -226,7 +226,7 @@
           class:text-slate-100={$theme === 'dark'}
           on:click={toggleFavoritesModal}
         >
-          <List class="w-5 h-5" />
+         <FileHeart class="w-5 h-5" />
         </button>
         <button
           on:click={() => $currentStock && handleToggleFavorite($currentStock)}
