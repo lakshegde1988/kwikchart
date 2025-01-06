@@ -253,14 +253,6 @@
         </button>
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
         <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
-    /*    <button
-          class="p-2 hover:text-slate-800 focus:outline-none"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-          on:click={toggleFavoritesModal}
-        >
-          // <List class="w-5 h-5" />
-        </button> */
       </div>
       <div class="flex items-center mr-8 space-x-2">
         <button
