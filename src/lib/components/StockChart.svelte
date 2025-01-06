@@ -82,7 +82,7 @@
       timeScale: {
         timeVisible: false,
         rightOffset: 5,
-        minBarSpacing: 7,
+        minBarSpacing: 5,
         borderColor: '#e5e7eb',
       },
     });
@@ -115,8 +115,8 @@
 
     barSeries.priceScale().applyOptions({
       scaleMargins: {
-        top: 0.3,
-        bottom: 0.3,
+        top: 0.2,
+        bottom: 0.2,
       },
       borderColor: '#e5e7eb',
     });
