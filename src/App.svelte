@@ -203,7 +203,7 @@
     class:bg-slate-950={$theme === 'dark'}
     class:border-slate-400={$theme === 'dark'}
   >
-    <div class="max-w-2xl mx-auto px-2 h-full flex items-center justify-between space-x-2">
+    <div class="max-w-3xl mx-auto px-2 h-full flex items-center justify-between space-x-2">
       <div class="flex items-center space-x-2">
         
         <button
