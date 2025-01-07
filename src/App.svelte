@@ -169,7 +169,7 @@
 
 <main
   id="app"
-  class="max-w-2xl mx-auto flex flex-col h-screen overflow-hidden shadow-md rounded-lg m-2"
+  class="max-w-2xl mx-auto flex flex-col h-dvh overflow-hidden shadow-md rounded-lg m-2"
   class:bg-slate-50={$theme === 'light'}
   class:text-slate-900={$theme === 'light'}
   class:bg-slate-900={$theme === 'dark'}
@@ -177,7 +177,7 @@
   style="height: {vh ? `${vh * 100}px` : '80vh'};"
 >
   <!-- Content Area -->
-  <div class="flex flex-grow">
+  <div class="flex flex-grow overflow-auto">
     <!-- Main Content -->
     <div class="flex-grow flex flex-col">
       {#if $loading}
