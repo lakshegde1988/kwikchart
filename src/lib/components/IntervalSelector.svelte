@@ -6,7 +6,7 @@
   const dispatch = createEventDispatcher<{ change: Interval }>();
 
   const intervals: Interval[] = [
-    { label: 'D', value: '1d', range: '2y' },
+    { label: 'D', value: '1d', range: '5y' },
     { label: 'W', value: '1wk', range: '5y' },
     { label: 'M', value: '1mo', range: 'max' },
   ];
