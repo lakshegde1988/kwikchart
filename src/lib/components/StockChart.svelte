@@ -90,7 +90,12 @@
     barSeries = chart.addBarSeries({
       upColor: '#1d4ed8',
       downColor: '#c026d3',
-      thinBars: false
+      thinBars: false,
+      priceFormat: {
+        type: 'price',
+        precision: 2,
+        minMove: 0.01,
+      },
     });
 
     volumeSeries = chart.addHistogramSeries({
@@ -113,12 +118,14 @@
       borderColor: '#e5e7eb',
     });
 
+    // Set logarithmic scale for the price scale
     barSeries.priceScale().applyOptions({
       scaleMargins: {
         top: 0.1,
         bottom: 0.2,
       },
       borderColor: '#e5e7eb',
+      mode: 1, // 0 is linear, 1 is logarithmic
     });
 
     updateChartData();
