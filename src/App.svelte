@@ -169,7 +169,7 @@
 
 <main
   id="app"
-  class="max-w-3xl mx-auto flex flex-col overflow-hidden shadow-md rounded-lg p-2"
+  class="max-w-2xl mx-auto flex flex-col overflow-hidden shadow-md rounded-lg p-2"
   class:bg-slate-50={$theme === 'light'}
   class:text-slate-900={$theme === 'light'}
   class:bg-slate-900={$theme === 'dark'}
@@ -203,7 +203,7 @@
     class:bg-slate-950={$theme === 'dark'}
     class:border-slate-400={$theme === 'dark'}
   >
-    <div class="max-w-3xl mx-auto px-2 h-full flex items-center justify-between space-x-2">
+    <div class="max-w-2xl mx-auto px-2 h-full flex items-center justify-between space-x-2">
       <div class="flex items-center space-x-2">
         
         <button
