@@ -8,7 +8,6 @@
   import TradingViewModal from './lib/components/TradingViewModal.svelte';
 
   import { theme } from './lib/stores/themeStore';
-
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
@@ -65,6 +64,7 @@
         .catch((err) => console.error('Error exiting fullscreen:', err));
     }
   }
+
   function toggleTradingViewModal() {
     showTradingViewModal = !showTradingViewModal;
   }
@@ -130,14 +130,7 @@
       loadStockData($stocks[currentIndex], selectedInterval);
     }
   }
-  // add event listener for keydown event
-  window.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowLeft') {
-        handlePrevious();
-      } else if (event.key === 'ArrowRight') {
-        handleNext();
-      }
-    });
+
   function handleToggleFavorite(stock: Stock) {
     toggleFavorite(stock.Symbol);
   }
@@ -169,7 +162,7 @@
 
 <main
   id="app"
-  class=" max-w-xl mx-auto flex flex-col h-dvh overflow-hidden"
+  class="max-w-xl mx-auto flex flex-col h-dvh overflow-hidden"
   class:bg-white={$theme === 'light'}
   class:text-slate-900={$theme === 'light'}
   class:bg-slate-900={$theme === 'dark'}
@@ -177,95 +170,50 @@
   style="height: {vh ? `${vh * 100}px` : '80vh'};"
 >
   <!-- Content Area -->
-  <div class="flex flex-grow overflow-auto">
-    <!-- Main Content -->
-    <div class="flex-grow flex flex-col">
-      {#if $loading}
-        <div class="flex justify-center items-center flex-grow">
-          <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-slate-400"></div>
-        </div>
-      {:else if $error}
-        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mx-4" role="alert">
-          <p>{$error}</p>
-        </div>
-      {:else if $stockData.length > 0 && $currentStock}
-        <div class="flex-grow">
-          <StockChart data={$stockData} stockName={$currentStock["Symbol"]} />
-        </div>
-      {/if}
-    </div>
+  <div class="flex flex-grow overflow-auto justify-center items-center">
+    {#if $loading}
+      <div class="flex justify-center items-center flex-grow">
+        <div class="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-slate-400"></div>
+      </div>
+    {:else if $error}
+      <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mx-4" role="alert">
+        <p>{$error}</p>
+      </div>
+    {:else if $stockData.length > 0 && $currentStock}
+      <!-- Responsive Chart Container -->
+      <div class="w-full h-full md:w-4/5 md:h-4/5 lg:w-full lg:h-full portrait:w-3/4 portrait:h-3/4 portrait:max-w-md flex justify-center items-center">
+        <StockChart data={$stockData} stockName={$currentStock["Symbol"]} />
+      </div>
+    {/if}
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-8 flex-shrink-0"
-    class:bg-white={$theme === 'light'}
-    class:border-slate-600={$theme === 'light'}
-    class:bg-slate-950={$theme === 'dark'}
-    class:border-slate-400={$theme === 'dark'}
-  >
+  <footer class="h-8 flex-shrink-0">
     <div class="mx-auto px-2 h-full flex items-center justify-between space-x-2">
-      <div class="flex items-center space-x-2">
-        
-        <button
-          class="p-2 hover:text-slate-900 focus:outline-none lg:hidden"
-          class:text-slate-800={$theme === 'light'}
-          class:text-slate-200={$theme === 'dark'}
-          on:click={toggleFullscreen}
-        >
-          {#if isFullscreen}
-            <Shrink class="w-5 h-5" />
-          {:else}
-            <Expand class="w-5 h-5" />
-          {/if}
-        </button>
-        <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
-        <IntervalSelector class="text-sm sm:text-base px-2" on:change={handleIntervalChange} />
-        <button
-          class="p-2 hover:text-slate-800 focus:outline-none"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-          on:click={toggleFavoritesModal}
-        >
-         <FileHeart class="w-5 h-5" />
-        </button>
-        <button
-          on:click={() => $currentStock && handleToggleFavorite($currentStock)}
-          class="p-2 hover:text-orange-600 focus:outline-none"
-          class:text-slate-800={$theme === 'light'}
-          class:text-slate-200={$theme === 'dark'}
-        >
-          <span
-            class="w-5 h-5"
-            class:text-orange-700={$currentStock && $favorites.has($currentStock.Symbol)}
-          >
-            <Star />
-          </span>
-        </button>  
-      </div>
-      <div class="flex items-center mr-8 space-x-2">
-        <button
-  class="flex items-center gap-2 py-2 px-2"
-  class:text-slate-900={$theme === 'light'}
-  class:text-slate-100={$theme === 'dark'}
-  on:click={handlePrevious}
-  disabled={currentIndex === 0}
->
-  <ArrowLeft class="w-5 h-5" />
-  <span>Prev</span>
-</button>
-<button
-  class="flex items-center gap-2 py-2 px-2"
-  class:text-slate-900={$theme === 'light'}
-  class:text-slate-100={$theme === 'dark'}
-  on:click={handleNext}
-  disabled={currentIndex === totalStocks - 1}
->
-  <span>Next</span>
-  <ArrowRight class="w-5 h-5" />
-</button>
-      </div>
+      <button class="p-2" on:click={toggleFullscreen}>
+        {#if isFullscreen}
+          <Shrink class="w-5 h-5" />
+        {:else}
+          <Expand class="w-5 h-5" />
+        {/if}
+      </button>
+      <IndexSelector on:select={handleIndexSelect} />
+      <IntervalSelector on:change={handleIntervalChange} />
+      <button on:click={toggleFavoritesModal}>
+        <FileHeart class="w-5 h-5" />
+      </button>
+      <button on:click={() => $currentStock && handleToggleFavorite($currentStock)}>
+        <Star class="w-5 h-5" />
+      </button>
+      <button on:click={handlePrevious} disabled={currentIndex === 0}>
+        <ArrowLeft class="w-5 h-5" /> Prev
+      </button>
+      <button on:click={handleNext} disabled={currentIndex === totalStocks - 1}>
+        Next <ArrowRight class="w-5 h-5" />
+      </button>
     </div>
   </footer>
+
   {#if showFavoritesModal}
     <FavoritesModal on:close={toggleFavoritesModal} />
   {/if}
