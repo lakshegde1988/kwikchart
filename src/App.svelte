@@ -162,7 +162,7 @@
 
 <main
   id="app"
-  class="max-w-xl mx-auto flex flex-col h-dvh overflow-hidden"
+  class="max-w-2xl mx-auto flex flex-col h-dvh overflow-hidden"
   class:bg-white={$theme === 'light'}
   class:text-slate-900={$theme === 'light'}
   class:bg-slate-900={$theme === 'dark'}
@@ -181,7 +181,7 @@
       </div>
     {:else if $stockData.length > 0 && $currentStock}
       <!-- Responsive Chart Container -->
-      <div class="w-full h-full md:w-4/5 md:h-4/5 lg:w-full lg:h-full portrait:w-3/4 portrait:h-3/4 portrait:max-w-md flex justify-center items-center">
+      <div class="w-full h-full sm:h-3/4 sm:max-w-md flex justify-center items-center">
         <StockChart data={$stockData} stockName={$currentStock["Symbol"]} />
       </div>
     {/if}
