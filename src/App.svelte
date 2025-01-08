@@ -169,12 +169,12 @@
 
 <main
   id="app"
-  class=" max-w-xl mx-auto flex flex-col h-dvh overflow-hidden"
+  class=" max-w-2xl mx-auto flex flex-col overflow-hidden"
   class:bg-white={$theme === 'light'}
   class:text-slate-900={$theme === 'light'}
   class:bg-slate-900={$theme === 'dark'}
   class:text-slate-50={$theme === 'dark'}
-  style="height: {vh ? `${vh * 100}px` : '80vh'};"
+  style="height: {vh ? `${vh * 100}px` : '70vh'};"
 >
   <!-- Content Area -->
   <div class="flex flex-grow overflow-auto">
