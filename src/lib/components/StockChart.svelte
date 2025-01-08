@@ -71,7 +71,7 @@
       layout: {
         background: { 
           type: ColorType.Solid, 
-          color: '#000' 
+          color: '#ffffff' 
         },
         textColor: '#333333',
       },
