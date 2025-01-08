@@ -12,11 +12,11 @@
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
-  import { Star, ArrowLeft, ArrowRight, Expand, Shrink, FileHeart, Info } from 'lucide-svelte';
+  import { Star, ArrowLeft, ArrowRight, Expand, Shrink, List, Info } from 'lucide-svelte';
 
   let currentIndex = 0;
-  let selectedFile = 'largecaps.json';
-  let selectedInterval: Interval = { label: 'Q', value: '1d', range: '3mo' };
+  let selectedFile = 'large.json';
+  let selectedInterval: Interval = { label: '3M', value: '1d', range: '3mo' };
   let isFullscreen = false;
   let showFavoritesModal = false;
   let showTradingViewModal = false;
@@ -169,12 +169,12 @@
 
 <main
   id="app"
-  class=" max-w-xl mx-auto flex flex-col overflow-hidden"
-  class:bg-white={$theme === 'light'}
+  class="flex flex-col overflow-hidden"
+  class:bg-slate-50={$theme === 'light'}
   class:text-slate-900={$theme === 'light'}
   class:bg-slate-900={$theme === 'dark'}
   class:text-slate-50={$theme === 'dark'}
-  style="height: {vh ? `${vh * 100}px` : '70vh'};"
+  style="height: {vh ? `${vh * 100}px` : '100vh'};"
 >
   <!-- Content Area -->
   <div class="flex flex-grow overflow-auto">
@@ -197,15 +197,16 @@
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-8 flex-shrink-0"
-    class:bg-white={$theme === 'light'}
+  <footer class="h-12 flex-shrink-0 shadow-md"
+    class:bg-slate-50={$theme === 'light'}
     class:border-slate-600={$theme === 'light'}
     class:bg-slate-950={$theme === 'dark'}
     class:border-slate-400={$theme === 'dark'}
   >
-    <div class="mx-auto px-2 h-full flex items-center justify-between space-x-2">
+    <div class="max-w-4xl mx-auto px-2 h-full flex items-center justify-between space-x-2">
       <div class="flex items-center space-x-2">
-        
+        <ThemeToggle />
+
         <button
           class="p-2 hover:text-slate-900 focus:outline-none lg:hidden"
           class:text-slate-800={$theme === 'light'}
@@ -226,7 +227,7 @@
           class:text-slate-100={$theme === 'dark'}
           on:click={toggleFavoritesModal}
         >
-         <FileHeart class="w-5 h-5" />
+          <List class="w-5 h-5" />
         </button>
         <button
           on:click={() => $currentStock && handleToggleFavorite($currentStock)}
@@ -240,29 +241,37 @@
           >
             <Star />
           </span>
-        </button>  
+        </button>
+        <button
+          on:click={toggleTradingViewModal}
+          class="p-2 hover:text-slate-800 focus:outline-none"
+          class:text-slate-900={$theme === 'light'}
+          class:text-slate-100={$theme === 'dark'}
+        >
+          <Info class="w-5 h-5" />
+        </button>
       </div>
       <div class="flex items-center mr-8 space-x-2">
         <button
-  class="flex items-center gap-2 py-2 px-2"
-  class:text-slate-900={$theme === 'light'}
-  class:text-slate-100={$theme === 'dark'}
-  on:click={handlePrevious}
-  disabled={currentIndex === 0}
->
-  <ArrowLeft class="w-5 h-5" />
-  <span>Prev</span>
-</button>
-<button
-  class="flex items-center gap-2 py-2 px-2"
-  class:text-slate-900={$theme === 'light'}
-  class:text-slate-100={$theme === 'dark'}
-  on:click={handleNext}
-  disabled={currentIndex === totalStocks - 1}
->
-  <span>Next</span>
-  <ArrowRight class="w-5 h-5" />
-</button>
+          class="py-2 px-2"
+          class:text-slate-900={$theme === 'light'}
+          class:text-slate-100={$theme === 'dark'}
+          on:click={handlePrevious}
+          disabled={currentIndex === 0}
+        >
+          <span class="lg:block hidden">Previous</span>
+          <ArrowLeft class="w-5 h-5 lg:hidden" />
+        </button>
+        <button
+          class="py-2"
+          class:text-slate-900={$theme === 'light'}
+          class:text-slate-100={$theme === 'dark'}
+          on:click={handleNext}
+          disabled={currentIndex === totalStocks - 1}
+        >
+          <span class="lg:block hidden">Next</span>
+          <ArrowRight class="w-5 h-5 lg:hidden" />
+        </button>
       </div>
     </div>
   </footer>
