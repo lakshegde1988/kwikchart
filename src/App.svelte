@@ -16,7 +16,7 @@
 
   let currentIndex = 0;
   let selectedFile = 'largecaps.json';
-  let selectedInterval: Interval = { label: 'Q', value: '1d', range: '3mo' };
+  let selectedInterval: Interval = { label: 'Q', value: '1d', range: '6mo' };
   let isFullscreen = false;
   let showFavoritesModal = false;
   let showTradingViewModal = false;
