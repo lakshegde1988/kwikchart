@@ -8,7 +8,6 @@
   import TradingViewModal from './lib/components/TradingViewModal.svelte';
 
   import { theme } from './lib/stores/themeStore';
-
   import { fetchYahooFinanceData } from './lib/api/yahooFinance';
   import { stocks, currentStock, stockData, loading, error, favorites, toggleFavorite } from './lib/stores/stockStore';
   import type { Stock, Interval } from './lib/types';
@@ -21,50 +20,28 @@
   let showFavoritesModal = false;
   let showTradingViewModal = false;
 
-  let vh: number;
-
   $: totalStocks = $stocks.length;
 
   $: {
     document.documentElement.setAttribute('data-theme', $theme);
   }
 
-  function updateVHUnit() {
-    vh = window.innerHeight * 0.01;
-    document.documentElement.style.setProperty('--vh', `${vh}px`);
-  }
-
-  function throttle(fn: () => void, delay: number) {
-    let timeout: NodeJS.Timeout | null = null;
-    return () => {
-      if (!timeout) {
-        timeout = setTimeout(() => {
-          fn();
-          timeout = null;
-        }, delay);
-      }
-    };
-  }
-
-  const throttledUpdateVH = throttle(updateVHUnit, 200);
-
   function toggleFullscreen() {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen()
         .then(() => {
           isFullscreen = true;
-          setTimeout(throttledUpdateVH, 100);
         })
         .catch((err) => console.error('Error entering fullscreen:', err));
     } else {
       document.exitFullscreen()
         .then(() => {
           isFullscreen = false;
-          setTimeout(throttledUpdateVH, 100);
         })
         .catch((err) => console.error('Error exiting fullscreen:', err));
     }
   }
+
   function toggleTradingViewModal() {
     showTradingViewModal = !showTradingViewModal;
   }
@@ -130,14 +107,15 @@
       loadStockData($stocks[currentIndex], selectedInterval);
     }
   }
-  // add event listener for keydown event
+
   window.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowLeft') {
-        handlePrevious();
-      } else if (event.key === 'ArrowRight') {
-        handleNext();
-      }
-    });
+    if (event.key === 'ArrowLeft') {
+      handlePrevious();
+    } else if (event.key === 'ArrowRight') {
+      handleNext();
+    }
+  });
+
   function handleToggleFavorite(stock: Stock) {
     toggleFavorite(stock.Symbol);
   }
@@ -147,21 +125,13 @@
   }
 
   onMount(() => {
-    updateVHUnit();
-    window.addEventListener('resize', throttledUpdateVH);
-    window.addEventListener('orientationchange', throttledUpdateVH);
-
     const handleFullscreenChange = () => {
       isFullscreen = !!document.fullscreenElement;
-      throttledUpdateVH();
     };
     document.addEventListener('fullscreenchange', handleFullscreenChange);
-
     loadStocksFromFile(selectedFile);
 
     return () => {
-      window.removeEventListener('resize', throttledUpdateVH);
-      window.removeEventListener('orientationchange', throttledUpdateVH);
       document.removeEventListener('fullscreenchange', handleFullscreenChange);
     };
   });
@@ -169,12 +139,11 @@
 
 <main
   id="app"
-  class=" max-w-2xl mx-auto flex flex-col h-dvh overflow-hidden"
+  class="max-w-xl mx-auto flex flex-col sm:h-[60vh] md:h-screen lg:h-screen overflow-hidden sm:my-8"
   class:bg-white={$theme === 'light'}
   class:text-slate-900={$theme === 'light'}
   class:bg-slate-900={$theme === 'dark'}
   class:text-slate-50={$theme === 'dark'}
-  style="height: {vh ? `${vh * 100}px` : '80vh'};"
 >
   <!-- Content Area -->
   <div class="flex flex-grow overflow-auto">
@@ -197,7 +166,8 @@
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-8 flex-shrink-0"
+  <footer 
+    class="h-8 flex-shrink-0"
     class:bg-white={$theme === 'light'}
     class:border-slate-600={$theme === 'light'}
     class:bg-slate-950={$theme === 'dark'}
@@ -205,7 +175,6 @@
   >
     <div class="mx-auto px-2 h-full flex items-center justify-between space-x-2">
       <div class="flex items-center space-x-2">
-        
         <button
           class="p-2 hover:text-slate-900 focus:outline-none lg:hidden"
           class:text-slate-800={$theme === 'light'}
@@ -226,7 +195,7 @@
           class:text-slate-100={$theme === 'dark'}
           on:click={toggleFavoritesModal}
         >
-         <FileHeart class="w-5 h-5" />
+          <FileHeart class="w-5 h-5" />
         </button>
         <button
           on:click={() => $currentStock && handleToggleFavorite($currentStock)}
@@ -244,31 +213,33 @@
       </div>
       <div class="flex items-center mr-8 space-x-2">
         <button
-  class="flex items-center gap-2 py-2 px-2"
-  class:text-slate-900={$theme === 'light'}
-  class:text-slate-100={$theme === 'dark'}
-  on:click={handlePrevious}
-  disabled={currentIndex === 0}
->
-  <ArrowLeft class="w-5 h-5" />
-  <span>Prev</span>
-</button>
-<button
-  class="flex items-center gap-2 py-2 px-2"
-  class:text-slate-900={$theme === 'light'}
-  class:text-slate-100={$theme === 'dark'}
-  on:click={handleNext}
-  disabled={currentIndex === totalStocks - 1}
->
-  <span>Next</span>
-  <ArrowRight class="w-5 h-5" />
-</button>
+          class="flex items-center gap-2 py-2 px-2"
+          class:text-slate-900={$theme === 'light'}
+          class:text-slate-100={$theme === 'dark'}
+          on:click={handlePrevious}
+          disabled={currentIndex === 0}
+        >
+          <ArrowLeft class="w-5 h-5" />
+          <span>Prev</span>
+        </button>
+        <button
+          class="flex items-center gap-2 py-2 px-2"
+          class:text-slate-900={$theme === 'light'}
+          class:text-slate-100={$theme === 'dark'}
+          on:click={handleNext}
+          disabled={currentIndex === totalStocks - 1}
+        >
+          <span>Next</span>
+          <ArrowRight class="w-5 h-5" />
+        </button>
       </div>
     </div>
   </footer>
+
   {#if showFavoritesModal}
     <FavoritesModal on:close={toggleFavoritesModal} />
   {/if}
+  
   {#if showTradingViewModal && $currentStock}
     <TradingViewModal symbol={$currentStock.Symbol} onClose={toggleTradingViewModal} />
   {/if}
