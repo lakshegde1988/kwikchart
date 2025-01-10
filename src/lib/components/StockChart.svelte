@@ -105,8 +105,8 @@
     });
 
     barSeries = chart.addBarSeries({
-      upColor: '#00FF00',
-      downColor: '#FF0000',
+      upColor: theme === 'light' ? '#0000FF' : '#00FF00', // Blue for light theme, Green for dark theme
+      downColor: theme === 'light' ? '#800080' : '#FF0000', // Purple for light theme, Red for dark theme
       thinBars: false,
       priceFormat: {
         type: 'price',
@@ -171,7 +171,7 @@
           high,
           low,
           close,
-          color: isUp ? '#00FF00' : '#FF0000',
+          color: isUp ? (theme === 'light' ? '#0000FF' : '#00FF00') : (theme === 'light' ? '#800080' : '#FF0000'), // Apply colors based on theme
         };
       });
 
