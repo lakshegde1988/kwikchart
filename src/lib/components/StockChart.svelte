@@ -12,7 +12,6 @@
   let chart: any;
   let barSeries: any;
   let volumeSeries: any;
-  let ma10Series: any;
   let ma21Series: any;
   let ma50Series: any;
   let ma200Series: any;
@@ -127,9 +126,9 @@
       lineWidth: 1,
     });
 
-    ma10Series = chart.addLineSeries({ color: 'blue', lineWidth: 1 });
-    ma21Series = chart.addLineSeries({ color: 'green', lineWidth: 1 });
-    ma50Series = chart.addLineSeries({ color: 'orange', lineWidth: 1 });
+  
+    ma21Series = chart.addLineSeries({ color: 'blue', lineWidth: 1 });
+    ma50Series = chart.addLineSeries({ color: 'green', lineWidth: 1 });
     ma200Series = chart.addLineSeries({ color: 'red', lineWidth: 1 });
 
     chart.priceScale('volume').applyOptions({
@@ -186,14 +185,14 @@
         };
       });
 
-      const ma10Data = calculateMovingAverage(data, 10);
+    
       const ma21Data = calculateMovingAverage(data, 21);
       const ma50Data = calculateMovingAverage(data, 50);
       const ma200Data = calculateMovingAverage(data, 200);
 
       barSeries.setData(barData);
       volumeSeries.setData(volumeData);
-      ma10Series.setData(ma10Data);
+    
       ma21Series.setData(ma21Data);
       ma50Series.setData(ma50Data);
       ma200Series.setData(ma200Data);
