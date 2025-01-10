@@ -70,7 +70,7 @@
             <span class="text-sm font-semibold ${theme === 'light' ? 'text-gray-900' : 'text-gray-200'}">${formatPrice(barData.close)}</span>
           </div>
           <div class="flex flex-col">
-            <span class="text-sm font-semibold" style="color: ${isPositive ? '#00FF00' : '#FF0000'}">
+            <span class="text-sm font-semibold" style="color: ${isPositive ? '#1d4ed8' : '#c026d3
               ${isPositive ? '+' : ''}${formatPrice(priceChange)} (${formatPercentage(percentageChange)})
             </span>
           </div>
