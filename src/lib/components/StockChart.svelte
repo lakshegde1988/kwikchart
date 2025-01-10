@@ -47,13 +47,13 @@
       legendContainer.innerHTML = `
         <div class="flex items-center space-x-4">
           <div class="flex flex-col">
-            <span class="text-sm font-bold text-gray-900">${stockName}</span>
+            <span class="text-sm font-bold text-gray-200">${stockName}</span>
           </div>
           <div class="flex flex-col">
-            <span class="text-sm font-semibold text-gray-900">${formatPrice(barData.close)}</span>
+            <span class="text-sm font-semibold text-gray-200">${formatPrice(barData.close)}</span>
           </div>
           <div class="flex flex-col">
-            <span class="text-sm font-semibold" style="color: ${isPositive ? '#4f46e5' : '#c026d3'}">
+            <span class="text-sm font-semibold" style="color: ${isPositive ? '#00FF00' : '#FF0000'}">
               ${isPositive ? '+' : ''}${formatPrice(priceChange)} (${formatPercentage(percentageChange)})
             </span>
           </div>
@@ -71,25 +71,25 @@
       layout: {
         background: { 
           type: ColorType.Solid, 
-          color: '#ffffff' 
+          color: '#000000' 
         },
-        textColor: '#333333',
+        textColor: '#CCCCCC',
       },
       grid: {
-        vertLines: { color: '#e5e7eb', style: 1 },
-        horzLines: { color: '#e5e7eb', style: 1 },
+        vertLines: { color: '#444444', style: 1 },
+        horzLines: { color: '#444444', style: 1 },
       },
       timeScale: {
         timeVisible: false,
         rightOffset: 7,
         minBarSpacing: 0,
-        borderColor: '#e5e7eb',
+        borderColor: '#444444',
       },
     });
 
     barSeries = chart.addBarSeries({
-      upColor: '#1d4ed8',
-      downColor: '#c026d3',
+      upColor: '#00FF00',
+      downColor: '#FF0000',
       thinBars: false,
       priceFormat: {
         type: 'price',
@@ -115,7 +115,7 @@
         top: 0.8,
         bottom: 0,
       },
-      borderColor: '#e5e7eb',
+      borderColor: '#444444',
     });
 
     // Set logarithmic scale for the price scale
@@ -124,7 +124,7 @@
         top: 0.1,
         bottom: 0.2,
       },
-      borderColor: '#e5e7eb',
+      borderColor: '#444444',
       mode: 1, // 0 is linear, 1 is logarithmic
     });
 
@@ -149,7 +149,7 @@
           high,
           low,
           close,
-          color: isUp ? '#1d4ed8' : '#c026d3',
+          color: isUp ? '#00FF00' : '#FF0000',
         };
       });
 
@@ -159,7 +159,7 @@
         return {
           time,
           value: volume,
-          color: isUp ? 'rgba(30, 64, 175, 0.75)' : 'rgba(192, 38, 211, 0.75)', // Same colors with transparency
+          color: isUp ? 'rgba(0, 255, 0, 0.75)' : 'rgba(255, 0, 0, 0.75)', // Same colors with transparency
           lineWidth: 1,
         };
       });
