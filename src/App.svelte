@@ -240,7 +240,7 @@
           >
             <Star />
           </span>
-        </button>  
+        </button>
       </div>
       <div class="flex items-center mr-8 space-x-2">
         <button
