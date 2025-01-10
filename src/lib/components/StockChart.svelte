@@ -105,8 +105,8 @@
     });
 
     barSeries = chart.addBarSeries({
-      upColor: theme === 'light' ? '#0000FF' : '#00FF00', // Blue for light theme, Green for dark theme
-      downColor: theme === 'light' ? '#800080' : '#FF0000', // Purple for light theme, Red for dark theme
+      upColor: theme === 'light' ? '#1d4ed8' : '#00FF00', // Blue for light theme, Green for dark theme
+      downColor: theme === 'light' ? '#c026d3' : '#FF0000', // Purple for light theme, Red for dark theme
       thinBars: false,
       priceFormat: {
         type: 'price',
@@ -129,7 +129,7 @@
 
     ma10Series = chart.addLineSeries({ color: 'blue', lineWidth: 1 });
     ma21Series = chart.addLineSeries({ color: 'green', lineWidth: 1 });
-    ma50Series = chart.addLineSeries({ color: 'yellow', lineWidth: 1 });
+    ma50Series = chart.addLineSeries({ color: 'orange', lineWidth: 1 });
     ma200Series = chart.addLineSeries({ color: 'red', lineWidth: 1 });
 
     chart.priceScale('volume').applyOptions({
@@ -171,7 +171,7 @@
           high,
           low,
           close,
-          color: isUp ? (theme === 'light' ? '#0000FF' : '#00FF00') : (theme === 'light' ? '#800080' : '#FF0000'), // Apply colors based on theme
+          color: isUp ? (theme === 'light' ? '#1d4ed8' : '#00FF00') : (theme === 'light' ? '#c026d3' : '#FF0000'), // Apply colors based on theme
         };
       });
 
