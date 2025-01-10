@@ -12,6 +12,10 @@
   let chart: any;
   let barSeries: any;
   let volumeSeries: any;
+  let ma10Series: any;
+  let ma21Series: any;
+  let ma50Series: any;
+  let ma200Series: any;
   let resizeObserver: ResizeObserver;
 
   function formatPrice(price: number): string {
@@ -29,6 +33,18 @@
       return (volume / 1000).toFixed(2) + 'K';
     }
     return volume.toString();
+  }
+
+  function calculateMovingAverage(data: StockData[], period: number): { time: number, value: number }[] {
+    let result: { time: number, value: number }[] = [];
+    for (let i = period - 1; i < data.length; i++) {
+      let sum = 0;
+      for (let j = 0; j < period; j++) {
+        sum += data[i - j].close;
+      }
+      result.push({ time: data[i].time, value: sum / period });
+    }
+    return result;
   }
 
   function updateLegend(param: any) {
@@ -111,6 +127,11 @@
       lineWidth: 1,
     });
 
+    ma10Series = chart.addLineSeries({ color: 'blue', lineWidth: 1 });
+    ma21Series = chart.addLineSeries({ color: 'green', lineWidth: 1 });
+    ma50Series = chart.addLineSeries({ color: 'yellow', lineWidth: 1 });
+    ma200Series = chart.addLineSeries({ color: 'red', lineWidth: 1 });
+
     chart.priceScale('volume').applyOptions({
       scaleMargins: {
         top: 0.8,
@@ -165,8 +186,17 @@
         };
       });
 
+      const ma10Data = calculateMovingAverage(data, 10);
+      const ma21Data = calculateMovingAverage(data, 21);
+      const ma50Data = calculateMovingAverage(data, 50);
+      const ma200Data = calculateMovingAverage(data, 200);
+
       barSeries.setData(barData);
       volumeSeries.setData(volumeData);
+      ma10Series.setData(ma10Data);
+      ma21Series.setData(ma21Data);
+      ma50Series.setData(ma50Data);
+      ma200Series.setData(ma200Data);
 
       chart.timeScale().fitContent();
       setInitialLegend();
