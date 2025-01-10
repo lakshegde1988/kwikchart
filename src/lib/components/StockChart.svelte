@@ -5,6 +5,7 @@
 
   export let data: StockData[] = [];
   export let stockName: string = '';
+  export let theme: string = 'light'; // Add theme prop
 
   let chartContainer: HTMLElement;
   let legendContainer: HTMLElement;
@@ -47,10 +48,10 @@
       legendContainer.innerHTML = `
         <div class="flex items-center space-x-4">
           <div class="flex flex-col">
-            <span class="text-sm font-bold text-gray-200">${stockName}</span>
+            <span class="text-sm font-bold ${theme === 'light' ? 'text-gray-900' : 'text-gray-200'}">${stockName}</span>
           </div>
           <div class="flex flex-col">
-            <span class="text-sm font-semibold text-gray-200">${formatPrice(barData.close)}</span>
+            <span class="text-sm font-semibold ${theme === 'light' ? 'text-gray-900' : 'text-gray-200'}">${formatPrice(barData.close)}</span>
           </div>
           <div class="flex flex-col">
             <span class="text-sm font-semibold" style="color: ${isPositive ? '#00FF00' : '#FF0000'}">
@@ -71,19 +72,19 @@
       layout: {
         background: { 
           type: ColorType.Solid, 
-          color: '#000000' 
+          color: theme === 'light' ? '#ffffff' : '#000000' 
         },
-        textColor: '#CCCCCC',
+        textColor: theme === 'light' ? '#333333' : '#CCCCCC',
       },
       grid: {
-        vertLines: { color: '#444444', style: 1 },
-        horzLines: { color: '#444444', style: 1 },
+        vertLines: { color: theme === 'light' ? '#e5e7eb' : '#444444', style: 1 },
+        horzLines: { color: theme === 'light' ? '#e5e7eb' : '#444444', style: 1 },
       },
       timeScale: {
         timeVisible: false,
         rightOffset: 7,
         minBarSpacing: 0,
-        borderColor: '#444444',
+        borderColor: theme === 'light' ? '#e5e7eb' : '#444444',
       },
     });
 
@@ -115,7 +116,7 @@
         top: 0.8,
         bottom: 0,
       },
-      borderColor: '#444444',
+      borderColor: theme === 'light' ? '#e5e7eb' : '#444444',
     });
 
     // Set logarithmic scale for the price scale
@@ -124,7 +125,7 @@
         top: 0.1,
         bottom: 0.2,
       },
-      borderColor: '#444444',
+      borderColor: theme === 'light' ? '#e5e7eb' : '#444444',
       mode: 1, // 0 is linear, 1 is logarithmic
     });
 
