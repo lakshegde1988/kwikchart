@@ -5,7 +5,7 @@
 
   export let data: StockData[] = [];
   export let stockName: string = '';
-  export let theme: string = 'light';
+  export let theme: string = 'light'; // Add theme prop
 
   let chartContainer: HTMLElement;
   let legendContainer: HTMLElement;
@@ -268,11 +268,6 @@
 
   $: if (chart && data) {
     updateChartData();
-  }
-
-  // Watch for changes in theme and reinitialize the chart
-  $: if (chart && theme) {
-    initializeChart();
   }
 </script>
 
