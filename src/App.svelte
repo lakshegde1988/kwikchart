@@ -20,11 +20,10 @@
   let isFullscreen = false;
   let showFavoritesModal = false;
   let showTradingViewModal = false;
-  let stockSymbols: string[] = [];
 
   let vh: number;
 
-  $: totalStocks = stockSymbols.length;
+  $: totalStocks = $stocks.length;
 
   $: {
     document.documentElement.setAttribute('data-theme', $theme);
@@ -66,7 +65,6 @@
         .catch((err) => console.error('Error exiting fullscreen:', err));
     }
   }
-
   function toggleTradingViewModal() {
     showTradingViewModal = !showTradingViewModal;
   }
@@ -122,44 +120,30 @@
   function handlePrevious() {
     if (currentIndex > 0) {
       currentIndex--;
-      loadStockData({ Symbol: stockSymbols[currentIndex] }, selectedInterval);
+      loadStockData($stocks[currentIndex], selectedInterval);
     }
   }
 
   function handleNext() {
     if (currentIndex < totalStocks - 1) {
       currentIndex++;
-      loadStockData({ Symbol: stockSymbols[currentIndex] }, selectedInterval);
+      loadStockData($stocks[currentIndex], selectedInterval);
     }
   }
-
+  // add event listener for keydown event
+  window.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowLeft') {
+        handlePrevious();
+      } else if (event.key === 'ArrowRight') {
+        handleNext();
+      }
+    });
   function handleToggleFavorite(stock: Stock) {
     toggleFavorite(stock.Symbol);
   }
 
   function toggleFavoritesModal() {
     showFavoritesModal = !showFavoritesModal;
-  }
-
-  async function handleFileUpload(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      const reader = new FileReader();
-
-      reader.onload = async (e) => {
-        const text = e.target?.result;
-        if (typeof text === 'string') {
-          stockSymbols = text.split('\n').map(line => line.trim()).filter(line => line);
-          if (stockSymbols.length > 0) {
-            currentIndex = 0;
-            await loadStockData({ Symbol: stockSymbols[currentIndex] }, selectedInterval);
-          }
-        }
-      };
-
-      reader.readAsText(file);
-    }
   }
 
   onMount(() => {
@@ -185,7 +169,7 @@
 
 <main
   id="app"
-  class=" max-w-3xl mx-auto flex flex-col overflow-hidden"
+  class=" max-w-2xl mx-auto flex flex-col overflow-hidden"
   class:bg-white={$theme === 'light'}
   class:text-slate-900={$theme === 'light'}
   class:bg-slate-900={$theme === 'dark'}
@@ -219,7 +203,7 @@
     class:bg-slate-950={$theme === 'dark'}
     class:border-slate-400={$theme === 'dark'}
   >
-    <div class=" max-w-3xl mx-auto px-2 h-full flex items-center justify-between space-x-2">
+    <div class="mx-auto px-2 h-full flex items-center justify-between space-x-2">
       <div class="flex items-center space-x-2">
         <ThemeToggle />
         <button
@@ -257,12 +241,10 @@
             <Star />
           </span>
         </button>
-        <!-- File Upload Button -->
-        <input type="file" accept=".csv" on:change={handleFileUpload} />
       </div>
-      <div class="flex items-center space-x-2">
+      <div class="flex items-center mr-8 space-x-2">
         <button
-  class="flex items-center py-2 px-2"
+  class="flex items-center gap-2 py-2 px-2"
   class:text-slate-900={$theme === 'light'}
   class:text-slate-100={$theme === 'dark'}
   on:click={handlePrevious}
@@ -272,7 +254,7 @@
   <span>Prev</span>
 </button>
 <button
-  class="flex items-center  py-2 px-2"
+  class="flex items-center gap-2 py-2 px-2"
   class:text-slate-900={$theme === 'light'}
   class:text-slate-100={$theme === 'dark'}
   on:click={handleNext}
