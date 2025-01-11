@@ -5,7 +5,7 @@
 
   export let data: StockData[] = [];
   export let stockName: string = '';
-  export let theme: string = 'light'; // Add theme prop
+  export let theme: string = 'dark'; // Add theme prop
 
   let chartContainer: HTMLElement;
   let legendContainer: HTMLElement;
@@ -87,9 +87,9 @@
       layout: {
         background: { 
           type: ColorType.Solid, 
-          color: theme === 'light' ? '#ffffff' : '#000000' 
+          color: theme === 'dark' ? '#000000' : '#ffffff' 
         },
-        textColor: theme === 'light' ? '#333333' : '#CCCCCC',
+        textColor: theme === 'light' ? '#cccccc' : '#333333',
       },
       grid: {
         vertLines: { color: theme === 'light' ? '#e5e7eb' : '#444444', style: 1 },
@@ -104,8 +104,8 @@
     });
 
     barSeries = chart.addBarSeries({
-      upColor: theme === 'light' ? '#1d4ed8' : '#00FF00', // Blue for light theme, Green for dark theme
-      downColor: theme === 'light' ? '#c026d3' : '#FF0000', // Purple for light theme, Red for dark theme
+      upColor: theme === 'dark' ? '#1d4ed8' : '#00FF00', // Blue for light theme, Green for dark theme
+      downColor: theme === 'dark' ? '#c026d3' : '#FF0000', // Purple for light theme, Red for dark theme
       thinBars: false,
       priceFormat: {
         type: 'price',
