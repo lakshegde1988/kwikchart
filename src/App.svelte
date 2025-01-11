@@ -272,7 +272,7 @@
   <span>Prev</span>
 </button>
 <button
-  class="flex items-center py-2 px-2"
+  class="flex items-center  py-2 px-2"
   class:text-slate-900={$theme === 'light'}
   class:text-slate-100={$theme === 'dark'}
   on:click={handleNext}
