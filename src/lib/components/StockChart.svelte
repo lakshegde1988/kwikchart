@@ -83,7 +83,7 @@
 
     chart = createChart(chartContainer, {
       width: chartContainer.clientWidth,
-      height: chartContainer.clientHeight,
+      height: 350,
       layout: {
         background: { 
           type: ColorType.Solid, 
