@@ -260,9 +260,9 @@
         <!-- File Upload Button -->
         <input type="file" accept=".csv" on:change={handleFileUpload} />
       </div>
-      <div class="flex items-center mr-8 space-x-2">
+      <div class="flex items-center space-x-2">
         <button
-  class="flex items-center gap-2 py-2 px-2"
+  class="flex items-center py-2 px-2"
   class:text-slate-900={$theme === 'light'}
   class:text-slate-100={$theme === 'dark'}
   on:click={handlePrevious}
@@ -272,7 +272,7 @@
   <span>Prev</span>
 </button>
 <button
-  class="flex items-center gap-2 py-2 px-2"
+  class="flex items-center py-2 px-2"
   class:text-slate-900={$theme === 'light'}
   class:text-slate-100={$theme === 'dark'}
   on:click={handleNext}
