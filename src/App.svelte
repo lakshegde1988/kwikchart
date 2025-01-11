@@ -20,10 +20,11 @@
   let isFullscreen = false;
   let showFavoritesModal = false;
   let showTradingViewModal = false;
+  let stockSymbols: string[] = [];
 
   let vh: number;
 
-  $: totalStocks = $stocks.length;
+  $: totalStocks = stockSymbols.length;
 
   $: {
     document.documentElement.setAttribute('data-theme', $theme);
@@ -65,6 +66,7 @@
         .catch((err) => console.error('Error exiting fullscreen:', err));
     }
   }
+
   function toggleTradingViewModal() {
     showTradingViewModal = !showTradingViewModal;
   }
@@ -120,30 +122,44 @@
   function handlePrevious() {
     if (currentIndex > 0) {
       currentIndex--;
-      loadStockData($stocks[currentIndex], selectedInterval);
+      loadStockData({ Symbol: stockSymbols[currentIndex] }, selectedInterval);
     }
   }
 
   function handleNext() {
     if (currentIndex < totalStocks - 1) {
       currentIndex++;
-      loadStockData($stocks[currentIndex], selectedInterval);
+      loadStockData({ Symbol: stockSymbols[currentIndex] }, selectedInterval);
     }
   }
-  // add event listener for keydown event
-  window.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowLeft') {
-        handlePrevious();
-      } else if (event.key === 'ArrowRight') {
-        handleNext();
-      }
-    });
+
   function handleToggleFavorite(stock: Stock) {
     toggleFavorite(stock.Symbol);
   }
 
   function toggleFavoritesModal() {
     showFavoritesModal = !showFavoritesModal;
+  }
+
+  async function handleFileUpload(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = async (e) => {
+        const text = e.target?.result;
+        if (typeof text === 'string') {
+          stockSymbols = text.split('\n').map(line => line.trim()).filter(line => line);
+          if (stockSymbols.length > 0) {
+            currentIndex = 0;
+            await loadStockData({ Symbol: stockSymbols[currentIndex] }, selectedInterval);
+          }
+        }
+      };
+
+      reader.readAsText(file);
+    }
   }
 
   onMount(() => {
@@ -241,6 +257,8 @@
             <Star />
           </span>
         </button>
+        <!-- File Upload Button -->
+        <input type="file" accept=".csv" on:change={handleFileUpload} />
       </div>
       <div class="flex items-center mr-8 space-x-2">
         <button
