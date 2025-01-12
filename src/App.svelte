@@ -216,7 +216,7 @@
           {/if}
         </button>
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
-        <IntervalSelector class="w-2 text-sm sm:text-base px-2" on:change={handleIntervalChange} />
+       
         <button
           class="p-2 hover:text-slate-800 focus:outline-none"
           class:text-slate-900={$theme === 'light'}
