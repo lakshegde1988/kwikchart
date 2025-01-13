@@ -142,7 +142,7 @@
     // Set logarithmic scale for the price scale
     barSeries.priceScale().applyOptions({
       scaleMargins: {
-        top: 0.4,
+        top: 0.2,
         bottom: 0.2,
       },
       borderColor: theme === 'light' ? '#e5e7eb' : '#444444',
