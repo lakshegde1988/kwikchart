@@ -133,7 +133,7 @@
 
     chart.priceScale('volume').applyOptions({
       scaleMargins: {
-        top: 0.8,
+        top: 0.7,
         bottom: 0,
       },
       borderColor: theme === 'light' ? '#e5e7eb' : '#444444',
@@ -143,7 +143,7 @@
     barSeries.priceScale().applyOptions({
       scaleMargins: {
         top: 0.2,
-        bottom: 0.2,
+        bottom: 0.1,
       },
       borderColor: theme === 'light' ? '#e5e7eb' : '#444444',
       mode: 1, // 0 is linear, 1 is logarithmic
