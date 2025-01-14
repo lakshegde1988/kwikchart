@@ -175,7 +175,7 @@
   style="height: {vh ? `${vh * 100}px` : '70vh'};"
 >
   <!-- Content Area -->
-  <div class=" max-w-2xl flex flex-grow overflow-auto">
+  <div class=" max-w-2xl flex flex-grow item-center overflow-auto">
     <!-- Main Content -->
     <div class="flex-grow flex flex-col">
       {#if $loading}
