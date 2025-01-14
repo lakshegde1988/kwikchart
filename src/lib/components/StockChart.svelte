@@ -4,7 +4,6 @@
   import type { StockData } from '../types';
 
   export let data: StockData[] = [];
-  export let indexData: StockData[] = [];
   export let stockName: string = '';
   export let theme: string = 'light';
 
@@ -17,7 +16,6 @@
   let ma50Series: any;
   let ma200Series: any;
   let resizeObserver: ResizeObserver;
-  let rsSeries: any;
 
   function formatPrice(price: number): string {
     return price.toFixed(2);
@@ -46,17 +44,6 @@
       result.push({ time: data[i].time, value: sum / period });
     }
     return result;
-  }
-
-  function calculateRSRating(stockData: StockData[], indexData: StockData[]): { time: number, value: number }[] {
-    let rsRatingData: { time: number, value: number }[] = [];
-    for (let i = 0; i < stockData.length; i++) {
-      const stockReturn = (stockData[i].close - stockData[0].close) / stockData[0].close;
-      const indexReturn = (indexData[i].close - indexData[0].close) / indexData[0].close;
-      const rsRating = stockReturn / indexReturn;
-      rsRatingData.push({ time: stockData[i].time, value: rsRating });
-    }
-    return rsRatingData;
   }
 
   function updateLegend(param: any) {
@@ -137,10 +124,10 @@
       lineWidth: 1,
     }, { pane: "volume" });
 
+  
     ma21Series = chart.addLineSeries({ color: 'black', lineWidth: 1 });
     ma50Series = chart.addLineSeries({ color: 'green', lineWidth: 1 });
     ma200Series = chart.addLineSeries({ color: 'red', lineWidth: 1 });
-    rsSeries = chart.addLineSeries({ color: 'blue', lineWidth: 1 });
 
     chart.priceScale('volume').applyOptions({
       scaleMargins: {
@@ -195,17 +182,17 @@
         };
       });
 
+    
       const ma21Data = calculateMovingAverage(data, 21);
       const ma50Data = calculateMovingAverage(data, 50);
       const ma200Data = calculateMovingAverage(data, 200);
-      const rsRatingData = calculateRSRating(data, indexData);
 
       barSeries.setData(barData);
       volumeSeries.setData(volumeData);
+    
       ma21Series.setData(ma21Data);
       ma50Series.setData(ma50Data);
       ma200Series.setData(ma200Data);
-      rsSeries.setData(rsRatingData);
 
       chart.timeScale().fitContent();
       setInitialLegend();
@@ -276,7 +263,7 @@
     };
   });
 
-  $: if (chart && data && indexData) {
+  $: if (chart && data) {
     updateChartData();
   }
 </script>
