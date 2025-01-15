@@ -3,7 +3,7 @@
   import { Sun, Moon } from 'lucide-svelte';
 
   function toggleTheme() {
-    theme.update(currentTheme => currentTheme === 'light' ? 'dark' : 'light');
+    theme.update(currentTheme => currentTheme === 'dark' ? 'light' : 'dark');
   }
 </script>
 
