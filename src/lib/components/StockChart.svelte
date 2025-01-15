@@ -5,7 +5,7 @@
 
   export let data: StockData[] = [];
   export let stockName: string = '';
-  export let theme: string = 'light';
+  export let theme: string = 'dark';
 
   let chartContainer: HTMLElement;
   let legendContainer: HTMLElement;
