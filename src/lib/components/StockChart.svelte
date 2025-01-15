@@ -5,7 +5,6 @@
 
   export let data: StockData[] = [];
   export let stockName: string = '';
-  export let theme: string = 'dark';
 
   let chartContainer: HTMLElement;
   let legendContainer: HTMLElement;
@@ -63,13 +62,13 @@
       legendContainer.innerHTML = `
         <div class="flex items-center space-x-4">
           <div class="flex flex-col">
-            <span class="text-sm font-bold ${theme === 'light' ? 'text-gray-900' : 'text-gray-200'}">${stockName}</span>
+            <span class="text-sm font-bold text-gray-200">${stockName}</span>
           </div>
           <div class="flex flex-col">
-            <span class="text-sm font-semibold ${theme === 'light' ? 'text-gray-900' : 'text-gray-200'}">${formatPrice(barData.close)}</span>
+            <span class="text-sm font-semibold text-gray-200">${formatPrice(barData.close)}</span>
           </div>
           <div class="flex flex-col">
-            <span class="text-sm font-semibold" style="color: ${isPositive ? '#1d4ed8' : '#c026d3'}">
+            <span class="text-sm font-semibold" style="color: ${isPositive ? '#00FF00' : '#FF0000'}">
               ${isPositive ? '+' : ''}${formatPrice(priceChange)} (${formatPercentage(percentageChange)})
             </span>
           </div>
@@ -83,27 +82,27 @@
 
     chart = createChart(chartContainer, {
       layout: {
-        background: { 
-          type: ColorType.Solid, 
-          color:'#000000' 
+        background: {
+          type: ColorType.Solid,
+          color: '#000000'
         },
-        textColor:'#CCCCCC',
+        textColor: '#CCCCCC',
       },
       grid: {
-        vertLines: { visible:false },
+        vertLines: { visible: false },
         horzLines: { visible: false },
       },
       timeScale: {
         timeVisible: false,
         rightOffset: 5,
         minBarSpacing: 4,
-        borderColor: theme === 'light' ? '#e5e7eb' : '#444444',
+        borderColor: '#444444',
       },
     });
 
     barSeries = chart.addBarSeries({
       upColor: '#00FF00',
-      downColor:'#FF0000',
+      downColor: '#FF0000',
       thinBars: false,
       priceFormat: {
         type: 'price',
@@ -124,7 +123,6 @@
       lineWidth: 1,
     }, { pane: "volume" });
 
-  
     ma21Series = chart.addLineSeries({ color: 'blue', lineWidth: 1 });
     ma50Series = chart.addLineSeries({ color: 'green', lineWidth: 1 });
     ma200Series = chart.addLineSeries({ color: 'red', lineWidth: 1 });
@@ -142,7 +140,7 @@
         top: 0.2,
         bottom: 0.2,
       },
-      borderColor: theme === 'light' ? '#e5e7eb' : '#444444',
+      borderColor: '#444444',
       mode: 1,
     });
 
@@ -167,7 +165,7 @@
           high,
           low,
           close,
-          color: isUp ? (theme === 'light' ? '#1d4ed8' : '#00FF00') : (theme === 'light' ? '#c026d3' : '#FF0000'),
+          color: isUp ? '#00FF00' : '#FF0000',
         };
       });
 
@@ -177,19 +175,18 @@
         return {
           time,
           value: volume,
-          color: isUp ? 'rgba(30, 64, 175, 0.75)' : 'rgba(192, 38, 211, 0.75)',
+          color: isUp ? 'rgba(0, 255, 0, 0.75)' : 'rgba(255, 0, 0, 0.75)',
           lineWidth: 1,
         };
       });
 
-    
       const ma21Data = calculateMovingAverage(data, 21);
       const ma50Data = calculateMovingAverage(data, 50);
       const ma200Data = calculateMovingAverage(data, 200);
 
       barSeries.setData(barData);
       volumeSeries.setData(volumeData);
-    
+
       ma21Series.setData(ma21Data);
       ma50Series.setData(ma50Data);
       ma200Series.setData(ma200Data);
@@ -234,11 +231,11 @@
 
   onMount(() => {
     initializeChart();
-    
+
     resizeObserver = new ResizeObserver(() => {
       requestAnimationFrame(adjustChartSize);
     });
-    
+
     if (chartContainer) {
       resizeObserver.observe(chartContainer);
     }
