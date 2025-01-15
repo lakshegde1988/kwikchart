@@ -22,7 +22,7 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
   color: #d1d4dc;
-  background-color: #1e222d;
+  background-color: #000000;
 }
 
 * {
