@@ -85,13 +85,13 @@
       layout: {
         background: { 
           type: ColorType.Solid, 
-          color: theme === 'light' ? '#ffffff' : '#000000' 
+          color:'#000000' 
         },
-        textColor: theme === 'light' ? '#333333' : '#CCCCCC',
+        textColor:'#CCCCCC',
       },
       grid: {
-        vertLines: { color: theme === 'light' ? '#e5e7eb' : '#444444', style: 1 },
-        horzLines: { color: theme === 'light' ? '#e5e7eb' : '#444444', style: 1 },
+        vertLines: { visible:false },
+        horzLines: { visible: false },
       },
       timeScale: {
         timeVisible: false,
@@ -102,8 +102,8 @@
     });
 
     barSeries = chart.addBarSeries({
-      upColor: theme === 'light' ? '#1d4ed8' : '#00FF00',
-      downColor: theme === 'light' ? '#c026d3' : '#FF0000',
+      upColor: '#00FF00',
+      downColor:'#FF0000',
       thinBars: false,
       priceFormat: {
         type: 'price',
@@ -125,7 +125,7 @@
     }, { pane: "volume" });
 
   
-    ma21Series = chart.addLineSeries({ color: 'black', lineWidth: 1 });
+    ma21Series = chart.addLineSeries({ color: 'blue', lineWidth: 1 });
     ma50Series = chart.addLineSeries({ color: 'green', lineWidth: 1 });
     ma200Series = chart.addLineSeries({ color: 'red', lineWidth: 1 });
 
@@ -134,7 +134,7 @@
         top: 0.7,
         bottom: 0,
       },
-      borderColor: theme === 'light' ? '#e5e7eb' : '#444444',
+      borderColor: '#444444',
     });
 
     barSeries.priceScale().applyOptions({
