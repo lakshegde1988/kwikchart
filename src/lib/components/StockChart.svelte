@@ -1,18 +1,19 @@
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
   import { createChart, ColorType } from 'lightweight-charts';
-  import type { StockData } from '../types';
+  import type { StockData, Interval } from '../types';
 
   export let data: StockData[] = [];
   export let stockName: string = '';
+  export let interval: Interval = { label: 'D', value: '1d', range: '5y' };
 
   let chartContainer: HTMLElement;
   let legendContainer: HTMLElement;
   let chart: any;
   let barSeries: any;
   let volumeSeries: any;
-  let ma21Series: any;
-  let ma50Series: any;
+  let ma1Series: any;
+  let ma2Series: any;
   let ma200Series: any;
   let resizeObserver: ResizeObserver;
 
@@ -123,8 +124,8 @@
       lineWidth: 1,
     }, { pane: "volume" });
 
-    ma21Series = chart.addLineSeries({ color: 'blue', lineWidth: 1 });
-    ma50Series = chart.addLineSeries({ color: 'green', lineWidth: 1 });
+    ma1Series = chart.addLineSeries({ color: 'blue', lineWidth: 1 });
+    ma2Series = chart.addLineSeries({ color: 'green', lineWidth: 1 });
     ma200Series = chart.addLineSeries({ color: 'red', lineWidth: 1 });
 
     chart.priceScale('volume').applyOptions({
@@ -180,15 +181,22 @@
         };
       });
 
-      const ma21Data = calculateMovingAverage(data, 21);
-      const ma50Data = calculateMovingAverage(data, 50);
+      let ma1Period = 21;
+      let ma2Period = 50;
+      if (interval.value === '1wk') {
+        ma1Period = 10;
+        ma2Period = 40;
+      }
+
+      const ma1Data = calculateMovingAverage(data, ma1Period);
+      const ma2Data = calculateMovingAverage(data, ma2Period);
       const ma200Data = calculateMovingAverage(data, 200);
 
       barSeries.setData(barData);
       volumeSeries.setData(volumeData);
 
-      ma21Series.setData(ma21Data);
-      ma50Series.setData(ma50Data);
+      ma1Series.setData(ma1Data);
+      ma2Series.setData(ma2Data);
       ma200Series.setData(ma200Data);
 
       chart.timeScale().fitContent();
