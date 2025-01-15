@@ -111,17 +111,16 @@
       },
     });
 
-    volumeSeries = chart.addHistogramSeries({
-      priceFormat: {
-        type: 'volume',
-      },
+    volumeSeries = chart.addBarSeries({
+      upColor: 'rgba(0, 255, 0, 0.75)',
+      downColor: 'rgba(255, 0, 0, 0.75)',
+      thinBars: true,
       priceScaleId: 'volume',
       scaleMargins: {
         top: 0.8,
         bottom: 0,
       },
-      lineWidth: 1,
-    }, { pane: "volume" });
+    });
 
     ma21Series = chart.addLineSeries({ color: 'blue', lineWidth: 1 });
     ma50Series = chart.addLineSeries({ color: 'green', lineWidth: 1 });
@@ -176,7 +175,6 @@
           time,
           value: volume,
           color: isUp ? 'rgba(0, 255, 0, 0.75)' : 'rgba(255, 0, 0, 0.75)',
-          lineWidth: 1,
         };
       });
 
