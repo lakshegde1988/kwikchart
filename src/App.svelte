@@ -195,74 +195,74 @@
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-8 flex-shrink-0"
-    class:bg-white={$theme === 'light'}
-    class:border-slate-600={$theme === 'light'}
-    class:bg-slate-950={$theme === 'dark'}
-    class:border-slate-400={$theme === 'dark'}
-  >
-    <div class="mx-auto px-2 h-full flex items-center justify-between space-x-2">
-      <div class="flex items-center space-x-2">
-        <button
-          class="p-2 hover:text-slate-900 focus:outline-none lg:hidden"
-          class:text-slate-800={$theme === 'light'}
-          class:text-slate-200={$theme === 'dark'}
-          on:click={toggleFullscreen}
-        >
-          {#if isFullscreen}
-            <Shrink class="w-5 h-5" />
-          {:else}
-            <Expand class="w-5 h-5" />
-          {/if}
-        </button>
-        <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
-       <IntervalSelector class="w-2 text-sm sm:text-base px-2" on:change={handleIntervalChange} />
-        <button
-          class="p-2 hover:text-slate-800 focus:outline-none"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-          on:click={toggleFavoritesModal}
-        >
-         <FileHeart class="w-5 h-5" />
-        </button>
-        <button
-          on:click={() => $currentStock && handleToggleFavorite($currentStock)}
-          class="p-2 hover:text-orange-600 focus:outline-none"
-          class:text-slate-800={$theme === 'light'}
-          class:text-slate-200={$theme === 'dark'}
-        >
-          <span
-            class="w-5 h-5"
-            class:text-orange-700={$currentStock && $favorites.has($currentStock.Symbol)}
-          >
-            <Star />
-          </span>
-        </button>
-      </div>
-      <div class="flex items-center mr-8 space-x-2">
-        <button
-  class="flex items-center gap-2 py-2 px-2"
-  class:text-slate-900={$theme === 'light'}
-  class:text-slate-100={$theme === 'dark'}
-  on:click={handlePrevious}
-  disabled={currentIndex === 0}
+ <footer class="h-8 flex-shrink-0"
+  class:bg-white={$theme === 'light'}
+  class:border-slate-600={$theme === 'light'}
+  class:bg-slate-950={$theme === 'dark'}
+  class:border-slate-400={$theme === 'dark'}
 >
-  <ArrowLeft class="w-5 h-5" />
-  <span>Prev</span>
-</button>
-<button
-  class="flex items-center gap-2 py-2 px-2"
-  class:text-slate-900={$theme === 'light'}
-  class:text-slate-100={$theme === 'dark'}
-  on:click={handleNext}
-  disabled={currentIndex === totalStocks - 1}
->
-  <span>Next</span>
-  <ArrowRight class="w-5 h-5" />
-</button>
-      </div>
+  <div class="mx-auto px-2 h-full flex items-center justify-between space-x-2 flex-wrap">
+    <div class="flex items-center space-x-2">
+      <button
+        class="p-2 hover:text-slate-900 focus:outline-none lg:hidden"
+        class:text-slate-800={$theme === 'light'}
+        class:text-slate-200={$theme === 'dark'}
+        on:click={toggleFullscreen}
+      >
+        {#if isFullscreen}
+          <Shrink class="w-5 h-5" />
+        {:else}
+          <Expand class="w-5 h-5" />
+        {/if}
+      </button>
+      <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
+      <IntervalSelector class="w-2 text-sm sm:text-base px-2" on:change={handleIntervalChange} />
+      <button
+        class="p-2 hover:text-slate-800 focus:outline-none"
+        class:text-slate-900={$theme === 'light'}
+        class:text-slate-100={$theme === 'dark'}
+        on:click={toggleFavoritesModal}
+      >
+        <FileHeart class="w-5 h-5" />
+      </button>
+      <button
+        on:click={() => $currentStock && handleToggleFavorite($currentStock)}
+        class="p-2 hover:text-orange-600 focus:outline-none"
+        class:text-slate-800={$theme === 'light'}
+        class:text-slate-200={$theme === 'dark'}
+      >
+        <span
+          class="w-5 h-5"
+          class:text-orange-700={$currentStock && $favorites.has($currentStock.Symbol)}
+        >
+          <Star />
+        </span>
+      </button>
     </div>
-  </footer>
+    <div class="flex items-center mr-8 space-x-2 w-full justify-center lg:w-auto lg:justify-start">
+      <button
+        class="flex items-center gap-2 py-2 px-2"
+        class:text-slate-900={$theme === 'light'}
+        class:text-slate-100={$theme === 'dark'}
+        on:click={handlePrevious}
+        disabled={currentIndex === 0}
+      >
+        <ArrowLeft class="w-5 h-5" />
+        <span>Prev</span>
+      </button>
+      <button
+        class="flex items-center gap-2 py-2 px-2"
+        class:text-slate-900={$theme === 'light'}
+        class:text-slate-100={$theme === 'dark'}
+        on:click={handleNext}
+        disabled={currentIndex === totalStocks - 1}
+      >
+        <span>Next</span>
+        <ArrowRight class="w-5 h-5" />
+      </button>
+    </div>
+  </div>
+</footer>
   {#if showFavoritesModal}
     <FavoritesModal on:close={toggleFavoritesModal} />
   {/if}
