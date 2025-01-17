@@ -185,7 +185,6 @@
       let ma2Period = 50;
       if (interval.value === '1wk') {
         ma1Period = 10;
-        ma2Period = 40;
       }
 
       const ma1Data = calculateMovingAverage(data, ma1Period);
