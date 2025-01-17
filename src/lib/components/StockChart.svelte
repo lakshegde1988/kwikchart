@@ -124,8 +124,8 @@
       lineWidth: 1,
     }, { pane: "volume" });
 
-    ma1Series = chart.addLineSeries({ color: 'blue', lineWidth: 1 });
-    ma2Series = chart.addLineSeries({ color: 'green', lineWidth: 1 });
+    ma1Series = chart.addLineSeries({ color: '#3b82f6', lineWidth: 1 });
+    ma2Series = chart.addLineSeries({ color: '#16a34a', lineWidth: 1 });
     ma200Series = chart.addLineSeries({ color: 'red', lineWidth: 1 });
 
     chart.priceScale('volume').applyOptions({
