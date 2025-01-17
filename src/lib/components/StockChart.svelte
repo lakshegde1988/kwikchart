@@ -154,60 +154,66 @@
       setInitialLegend();
     });
   }
-function updateChartData() {
-  if (barSeries && volumeSeries && data && data.length > 0) {
-    const barData = data.map(({ time, high, low, close }, index) => {
-      const previousClose = index > 0 ? data[index - 1].close : close;
-      const isUp = close >= previousClose;
-      return {
-        time,
-        open: close,
-        high,
-        low,
-        close,
-        color: isUp ? '#00FF00' : '#FF0000',
-      };
-    });
 
-    const volumeData = data.map(({ time, close, volume }, index) => {
-      const previousClose = index > 0 ? data[index - 1].close : close;
-      const isUp = close >= previousClose;
-      return {
-        time,
-        value: volume,
-        color: isUp ? 'rgba(0, 255, 0, 0.75)' : 'rgba(255, 0, 0, 0.75)',
-        lineWidth: 1,
-      };
-    });
+  function updateChartData() {
+    if (barSeries && volumeSeries && data && data.length > 0) {
+      const barData = data.map(({ time, high, low, close }, index) => {
+        const previousClose = index > 0 ? data[index - 1].close : close;
+        const isUp = close >= previousClose;
+        return {
+          time,
+          open: close,
+          high,
+          low,
+          close,
+          color: isUp ? '#00FF00' : '#FF0000',
+        };
+      });
 
-    let ma1Period = 21;
-    let ma2Period = 50;
-    if (interval.value === '1wk') {
-      ma1Period = 10;
-      ma2Period = 40;
-    }
+      const volumeData = data.map(({ time, close, volume }, index) => {
+        const previousClose = index > 0 ? data[index - 1].close : close;
+        const isUp = close >= previousClose;
+        return {
+          time,
+          value: volume,
+          color: isUp ? 'rgba(0, 255, 0, 0.75)' : 'rgba(255, 0, 0, 0.75)',
+          lineWidth: 1,
+        };
+      });
 
-    const ma1Data = calculateMovingAverage(data, ma1Period);
-    const ma2Data = calculateMovingAverage(data, ma2Period);
+      let ma1Period = 21;
+      let ma2Period = 50;
+      if (interval.value === '1wk') {
+        ma1Period = 10;
+        ma2Period = 40;
+      }
 
-    barSeries.setData(barData);
-    volumeSeries.setData(volumeData);
-
-    ma1Series.setData(ma1Data);
-    ma2Series.setData(ma2Data);
-
-    if (interval.value === '1d') {
+      const ma1Data = calculateMovingAverage(data, ma1Period);
+      const ma2Data = calculateMovingAverage(data, ma2Period);
       const ma200Data = calculateMovingAverage(data, 200);
-      ma200Series.setData(ma200Data);
-    } else {
-      ma200Series.setData([]);
-    }
 
-    chart.timeScale().fitContent();
-    setInitialLegend();
+      barSeries.setData(barData);
+      volumeSeries.setData(volumeData);
+
+      ma1Series.setData(ma1Data);
+      ma2Series.setData(ma2Data);
+      ma200Series.setData(ma200Data);
+
+      chart.timeScale().fitContent();
+      setInitialLegend();
+    }
   }
-}
-  
+
+  function setInitialLegend() {
+    if (data && data.length > 0) {
+      const lastDataPoint = data[data.length - 1];
+      updateLegend({
+        seriesData: new Map([
+          [barSeries, lastDataPoint],
+        ]),
+      });
+    }
+  }
 
   function adjustChartSize() {
     if (chart && chartContainer) {
