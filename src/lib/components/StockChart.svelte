@@ -181,22 +181,25 @@
         };
       });
 
-      let ma1Period = 21;
-      let ma2Period = 50;
-      if (interval.value === '1wk') {
-        ma1Period = 10;
-      }
-
-      const ma1Data = calculateMovingAverage(data, ma1Period);
-      const ma2Data = calculateMovingAverage(data, ma2Period);
-      const ma200Data = calculateMovingAverage(data, 200);
-
       barSeries.setData(barData);
       volumeSeries.setData(volumeData);
 
-      ma1Series.setData(ma1Data);
-      ma2Series.setData(ma2Data);
-      ma200Series.setData(ma200Data);
+      if (interval.value === '1d') {
+        const ma50Data = calculateMovingAverage(data, 50);
+        const ma200Data = calculateMovingAverage(data, 200);
+        ma1Series.setData([]);
+        ma2Series.setData(ma50Data);
+        ma200Series.setData(ma200Data);
+      } else if (interval.value === '1wk') {
+        const ma10Data = calculateMovingAverage(data, 10);
+        ma1Series.setData(ma10Data);
+        ma2Series.setData([]);
+        ma200Series.setData([]);
+      } else if (interval.value === '1mo') {
+        ma1Series.setData([]);
+        ma2Series.setData([]);
+        ma200Series.setData([]);
+      }
 
       chart.timeScale().fitContent();
       setInitialLegend();
