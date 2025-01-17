@@ -187,8 +187,8 @@
       if (interval.value === '1d') {
         const ma50Data = calculateMovingAverage(data, 50);
         const ma200Data = calculateMovingAverage(data, 200);
-        ma1Series.setData([]);
-        ma2Series.setData(ma50Data);
+        ma1Series.setData(ma50Data);
+        ma2Series.setData([]);
         ma200Series.setData(ma200Data);
       } else if (interval.value === '1wk') {
         const ma10Data = calculateMovingAverage(data, 10);
