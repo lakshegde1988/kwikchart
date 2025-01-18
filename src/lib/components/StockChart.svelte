@@ -181,13 +181,9 @@
         };
       });
 
-      let ma1Period = 50;
-      let ma2Period = 200;
-      if (interval.value === '1wk') {
-        ma1Period = 10;
-        ma2Period = 40;
-      }
-
+      let ma1Period = 10;
+      let ma2Period = 40;
+  
       const ma1Data = calculateMovingAverage(data, ma1Period);
       const ma2Data = calculateMovingAverage(data, ma2Period);
     
