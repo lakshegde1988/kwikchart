@@ -182,23 +182,28 @@
       barSeries.setData(barData);
       volumeSeries.setData(volumeData);
     
-    ma1Series.setData([]);
-     ma2Series.setData([])
+    
+  // Clear all MA series initially
+  ma1Series.setData([]);
+  ma2Series.setData([]);
 
-      // Calculate and set MAs based on the interval
-    switch (interval.value) {
-      case '1d':
-        ma1Series.setData(calculateMovingAverage(data, 50));
-        ma2Series.setData(calculateMovingAverage(data, 200));
-        break;
-      case '1wk':
-        ma1Series.setData(calculateMovingAverage(data, 10));
-        ma2Series.setData(calculateMovingAverage(data, 40));
-        break;
-      case '1mo':
-        
-        break;
-    }
+  // Calculate and set MAs based on the interval
+  if (interval.value === '1d') {
+    const ma50Data = calculateMovingAverage(data, 50);
+    const ma200Data = calculateMovingAverage(data, 200);
+    ma1Series.setData(ma50Data);
+    ma2Series.setData(ma200Data);
+  } else if (interval.value === '1wk') {
+    const ma10Data = calculateMovingAverage(data, 10);
+    ma1Series.setData(ma10Data);
+    // Ensure the second MA is explicitly cleared
+    ma2Series.setData([]);
+  } else if (interval.value === '1mo') {
+    // Explicitly clear both MAs for 1mo interval
+    ma1Series.setData([]);
+    ma2Series.setData([]);
+  }
+
   
 
       chart.timeScale().fitContent();
