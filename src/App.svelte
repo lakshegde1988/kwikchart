@@ -198,7 +198,7 @@
   <footer class="h-8 flex-shrink-0"
     class:bg-white={$theme === 'light'}
     class:border-slate-600={$theme === 'light'}
-    class:bg-slate-950={$theme === 'dark'}
+    class:bg-black={$theme === 'dark'}
     class:border-slate-400={$theme === 'dark'}
   >
     <div class="mx-auto px-2 h-full flex items-center justify-between space-x-2">
