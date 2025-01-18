@@ -14,7 +14,6 @@
   let volumeSeries: any;
   let ma1Series: any;
   let ma2Series: any;
-  let ma200Series: any;
   let resizeObserver: ResizeObserver;
 
   function formatPrice(price: number): string {
@@ -126,7 +125,6 @@
 
     ma1Series = chart.addLineSeries({ color: '#3b82f6', lineWidth: 1 });
     ma2Series = chart.addLineSeries({ color: '#16a34a', lineWidth: 1 });
-    ma200Series = chart.addLineSeries({ color: 'red', lineWidth: 1 });
 
     chart.priceScale('volume').applyOptions({
       scaleMargins: {
@@ -188,17 +186,14 @@
         const ma50Data = calculateMovingAverage(data, 50);
         const ma200Data = calculateMovingAverage(data, 200);
         ma1Series.setData(ma50Data);
-        ma2Series.setData([]);
-        ma200Series.setData(ma200Data);
+        ma2Series.setData(ma200Data);
       } else if (interval.value === '1wk') {
         const ma10Data = calculateMovingAverage(data, 10);
         ma1Series.setData(ma10Data);
         ma2Series.setData([]);
-        ma200Series.setData([]);
       } else if (interval.value === '1mo') {
         ma1Series.setData([]);
         ma2Series.setData([]);
-        ma200Series.setData([]);
       }
 
       chart.timeScale().fitContent();
