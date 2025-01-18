@@ -102,7 +102,7 @@
     });
 
     barSeries = chart.addBarSeries({
-      upColor: '#00FF00',
+      upColor: '#84cc16',
       downColor: '#FF0000',
       thinBars: false,
       priceFormat: {
@@ -166,7 +166,7 @@
           high,
           low,
           close,
-          color: isUp ? '#00FF00' : '#FF0000',
+          color: isUp ? '#84cc16' : '#FF0000',
         };
       });
 
@@ -176,7 +176,7 @@
         return {
           time,
           value: volume,
-          color: isUp ? 'rgba(0, 255, 0, 0.75)' : 'rgba(255, 0, 0, 0.75)',
+          color: isUp ? 'rgba(132, 204, 22, 0.75)' : 'rgba(255, 0, 0, 0.75)',
           lineWidth: 1,
         };
       });
