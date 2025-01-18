@@ -181,6 +181,9 @@
 
       barSeries.setData(barData);
       volumeSeries.setData(volumeData);
+    
+    ma1Series.setData([]);
+     ma2Series.setData([])
 
       // Calculate and set MAs based on the interval
     switch (interval.value) {
@@ -193,8 +196,7 @@
         ma2Series.setData(calculateMovingAverage(data, 40));
         break;
       case '1mo':
-        ma1Series.setData([]);
-        ma2Series.setData([]);
+        
         break;
     }
   
