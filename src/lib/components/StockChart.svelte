@@ -12,8 +12,8 @@
   let chart: any;
   let barSeries: any;
   let volumeSeries: any;
-  let ma1Series: any;
-  let ma2Series: any;
+  let maSeries: any;
+  
   
   let resizeObserver: ResizeObserver;
 
@@ -124,8 +124,8 @@
       lineWidth: 1,
     }, { pane: "volume" });
 
-    ma1Series = chart.addLineSeries({ color: 'green', lineWidth: 1 });
-    ma2Series = chart.addLineSeries({ color: 'red', lineWidth: 1 });
+    maSeries = chart.addLineSeries({ color: 'green', lineWidth: 1 });
+    
     
 
     chart.priceScale('volume').applyOptions({
@@ -181,18 +181,18 @@
         };
       });
 
-      let ma1Period = 10;
-      let ma2Period = 40;
+      
+      
   
-      const ma1Data = calculateMovingAverage(data, ma1Period);
-      const ma2Data = calculateMovingAverage(data, ma2Period);
+      
+      
     
 
       barSeries.setData(barData);
       volumeSeries.setData(volumeData);
 
-      ma1Series.setData(ma1Data);
-      ma2Series.setData(ma2Data);
+      maSeries.setData(calculateMovingAverage(data, 10));
+      
       
 
       chart.timeScale().fitContent();
