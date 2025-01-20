@@ -69,7 +69,7 @@
             <span class="text-sm font-semibold text-gray-200">${formatPrice(barData.close)}</span>
           </div>
           <div class="flex flex-col">
-            <span class="text-sm font-semibold" style="color: ${isPositive ? '#00FF00' : '#FF0000'}">
+            <span class="text-sm font-semibold" style="color: ${isPositive ? '#3AAB3A' : '#FF0000'}">
               ${isPositive ? '+' : ''}${formatPrice(priceChange)} (${formatPercentage(percentageChange)})
             </span>
           </div>
@@ -102,7 +102,7 @@
     });
 
     barSeries = chart.addBarSeries({
-      upColor: '#00FF00',
+      upColor: '#3AAB3A',
       downColor: '#FF0000',
       thinBars: false,
       priceFormat: {
@@ -166,7 +166,7 @@
           high,
           low,
           close,
-          color: isUp ? '#00FF00' : '#FF0000',
+          color: isUp ? '#3AAB3A' : '#FF0000',
         };
       });
 
