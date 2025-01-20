@@ -239,7 +239,7 @@
           </span>
         </button>
       </div>
-      <div class="flex items-center mr-8 space-x-2">
+      <div class="flex items-center gap-2 space-x-2">
         <button
   class="flex items-center gap-2 py-2 px-2"
   class:text-slate-900={$theme === 'light'}
