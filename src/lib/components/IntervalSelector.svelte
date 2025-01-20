@@ -8,7 +8,7 @@
   const intervals: Interval[] = [
      { label: 'H', value: '1d', range: '6mo' },
      { label: 'D', value: '1d', range: '2y' },
-     { label: 'W', value: '1wk', range: '10y' },
+     { label: 'W', value: '1wk', range: '5y' },
    
      { label: 'M', value: '1mo', range: 'max' }
   ];
