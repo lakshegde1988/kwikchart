@@ -6,10 +6,11 @@
   const dispatch = createEventDispatcher<{ change: Interval }>();
 
   const intervals: Interval[] = [
-    
-    { label: 'W', value: '1wk', range: '10y' },
-    { label: 'D', value: '1d', range: '2y' },
-    { label: 'M', value: '1mo', range: 'max' }
+     { label: 'H', value: '1d', range: '6mo' },
+     { label: 'D', value: '1d', range: '2y' },
+     { label: 'W', value: '1wk', range: '10y' },
+   
+     { label: 'M', value: '1mo', range: 'max' }
   ];
 
   function handleChange(event: Event) {
