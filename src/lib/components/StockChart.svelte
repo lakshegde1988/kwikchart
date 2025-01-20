@@ -95,8 +95,8 @@
       },
       timeScale: {
         timeVisible: false,
-        rightOffset: 7,
-        minBarSpacing: 5,
+        rightOffset: 5,
+        minBarSpacing: 1,
         borderColor: '#444444',
       },
     });
