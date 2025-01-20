@@ -7,10 +7,9 @@
 
   const intervals: Interval[] = [
      { label: 'H', value: '1d', range: '6mo' },
-     { label: 'D', value: '1d', range: '2y' },
-     { label: 'W', value: '1wk', range: '5y' },
-   
-     { label: 'M', value: '1mo', range: 'max' }
+     { label: 'D', value: '1d', range: '1y' },
+     { label: 'W', value: '1wk', range: '2y' },
+     { label: 'M', value: '1mo', range: '5y' }
   ];
 
   function handleChange(event: Event) {
