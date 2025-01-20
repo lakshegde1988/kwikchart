@@ -248,7 +248,7 @@
   disabled={currentIndex === 0}
 >
   <ArrowLeft class="w-5 h-5" />
-  <span class="sm:hidden">Prev</span>
+  <span class="hidden sm:inline">Prev</span>
 </button>
 <button
   class="flex items-center gap-2 py-2 px-2"
@@ -257,7 +257,7 @@
   on:click={handleNext}
   disabled={currentIndex === totalStocks - 1}
 >
-  <span class="sm:hidden">Next</span>
+  <span class="hidden sm:inline">Next</span>
   <ArrowRight class="w-5 h-5" />
 </button>
       </div>
