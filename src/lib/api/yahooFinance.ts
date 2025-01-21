@@ -54,7 +54,7 @@ const aggregateCandles = (dailyData: StockData[], interval: string): StockData[]
 };
 
 export async function fetchYahooFinanceData(symbol: string, interval: string, range: string): Promise<StockData[]> {
-  const formattedSymbol = encodeURIComponent(symbol);
+  let formattedSymbol = encodeURIComponent(symbol);
   if (selectedIndex !== 'indices.json') {
     formattedSymbol = encodeURIComponent(`${symbol}.NS`);
   }
