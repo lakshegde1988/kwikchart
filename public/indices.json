@@ -1,5 +1,4 @@
-{
-  
+[
     { "Symbol": "^NSEI" },
     { "Symbol": "^NSEBANK" },
     { "Symbol": "^CNXIT" },
@@ -17,5 +16,4 @@
     { "Symbol": "^CNXFINANCE" },
     { "Symbol": "^CNXSERVICE" },
     { "Symbol": "^CNXMIDCAP" }
-  
-}
+  ]
