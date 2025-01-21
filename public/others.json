@@ -597,9 +597,6 @@
         "Symbol": "NAVKARCORP"
     },
     {
-        "Symbol": "NAVNETEDUL"
-    },
-    {
         "Symbol": "NCLIND"
     },
     {
@@ -779,9 +776,7 @@
     {
         "Symbol": "RPSGVENT"
     },
-    {
-        "Symbol": "RSSOFTWARE"
-    },
+    
     {
         "Symbol": "RSYSTEMS"
     },
