@@ -13,7 +13,7 @@
   import { Star, ArrowLeft, ArrowRight, Expand, Shrink, FileHeart, Info } from 'lucide-svelte';
 
   let currentIndex = 0;
-  let selectedFile = 'indices.json';
+  let selectedFile = 'nifty50.json';
   let selectedInterval: Interval = { label: 'D', value: '1d', range: '6mo' };
   let isFullscreen = false;
   let showFavoritesModal = false;
