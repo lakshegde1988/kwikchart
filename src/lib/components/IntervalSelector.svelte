@@ -9,7 +9,7 @@
      { label: '6M', value: '1d', range: '6mo' },
      { label: '2Y', value: '1wk', range: '2y' },
      { label: '5Y', value: '1wk', range: '5y' },
-     { label: 'XY', value: '1wk', range: '10y' }
+     { label: 'XY', value: '1mo', range: '10y' }
   ];
 
   function handleChange(event: Event) {
