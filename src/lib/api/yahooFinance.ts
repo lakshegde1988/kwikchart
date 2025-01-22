@@ -53,11 +53,8 @@ const aggregateCandles = (dailyData: StockData[], interval: string): StockData[]
   return aggregatedData;
 };
 
-export async function fetchYahooFinanceData(symbol: string, interval: string,selectedFile: string, range: string): Promise<StockData[]> {
-  let formattedSymbol = encodeURIComponent(symbol);
-  if (selectedFile !== 'indices.json') {
-    formattedSymbol = encodeURIComponent(`${symbol}.NS`);
-  }
+export async function fetchYahooFinanceData(symbol: string, interval: string, range: string): Promise<StockData[]> {
+  const formattedSymbol = encodeURIComponent(`${symbol}.NS`);
   const cacheKey = `${formattedSymbol}-${range}-${interval}`;
 
   if (cache.has(cacheKey)) {
@@ -119,4 +116,3 @@ export async function fetchYahooFinanceData(symbol: string, interval: string,sel
     throw new Error(`Error fetching stock data: ${error.message}`);
   }
 }
-
