@@ -1,16 +1,5 @@
 [
-  {
-    "Symbol": "20MICRONS"
-  },
-  {
-    "Symbol": "21STCENMGM"
-  },
-  {
-    "Symbol": "3IINFOLTD"
-  },
-  {
-    "Symbol": "3PLAND"
-  },
+  
   {
     "Symbol": "5PAISA"
   },
@@ -199,12 +188,6 @@
     "Symbol": "ANMOL"
   },
   {
-    "Symbol": "ANSALAPI"
-  },
-  {
-    "Symbol": "ANTGRAPHIC"
-  },
-  {
     "Symbol": "APCL"
   },
   {
@@ -239,12 +222,6 @@
   },
   {
     "Symbol": "AROGRANITE"
-  },
-  {
-    "Symbol": "ARSHIYA"
-  },
-  {
-    "Symbol": "ARSSINFRA"
   },
   {
     "Symbol": "ARTNIRMAN"
@@ -320,9 +297,6 @@
   },
   {
     "Symbol": "AYMSYNTEX"
-  },
-  {
-    "Symbol": "BAFNAPH"
   },
   {
     "Symbol": "BAGFILMS"
@@ -430,9 +404,6 @@
     "Symbol": "BLKASHYAP"
   },
   {
-    "Symbol": "BLUECHIP"
-  },
-  {
     "Symbol": "BRNL"
   },
   {
@@ -459,18 +430,14 @@
   {
     "Symbol": "BYKE"
   },
-  {
-    "Symbol": "CALSOFT"
-  },
+  
   {
     "Symbol": "CAPITALSFB"
   },
   {
     "Symbol": "CAPTRUST"
   },
-  {
-    "Symbol": "CCCL"
-  },
+  
   {
     "Symbol": "CCHHL"
   },
@@ -540,9 +507,7 @@
   {
     "Symbol": "CROWN"
   },
-  {
-    "Symbol": "CSLFINANCE"
-  },
+  
   {
     "Symbol": "CTE"
   },
@@ -567,18 +532,14 @@
   {
     "Symbol": "DBEIL"
   },
-  {
-    "Symbol": "DBSTOCKBRO"
-  },
+  
   {
     "Symbol": "DCI"
   },
   {
     "Symbol": "DCM"
   },
-  {
-    "Symbol": "DCMFINSERV"
-  },
+  
   {
     "Symbol": "DCMNVL"
   },
@@ -708,9 +669,7 @@
   {
     "Symbol": "EMMBI"
   },
-  {
-    "Symbol": "EMSLIMITED"
-  },
+ 
   {
     "Symbol": "ENERGYDEV"
   },
@@ -732,15 +691,11 @@
   {
     "Symbol": "ESSENTIA"
   },
-  {
-    "Symbol": "EUROTEXIND"
-  },
+ 
   {
     "Symbol": "EVERESTIND"
   },
-  {
-    "Symbol": "EXCEL"
-  },
+  
   {
     "Symbol": "EXCELINDUS"
   },
@@ -754,29 +709,13 @@
     "Symbol": "FAZE3Q"
   },
   {
-    "Symbol": "FCSSOFT"
-  },
-  {
-    "Symbol": "FEL"
-  },
-  {
-    "Symbol": "FELDVR"
-  },
-  {
     "Symbol": "FIBERWEB"
   },
-  {
-    "Symbol": "FILATFASH"
-  },
+  
   {
     "Symbol": "FLEXITUFF"
   },
-  {
-    "Symbol": "FLFL"
-  },
-  {
-    "Symbol": "FMNL"
-  },
+ 
   {
     "Symbol": "FOSECOIND"
   },
@@ -786,26 +725,9 @@
   {
     "Symbol": "GANDHITUBE"
   },
-  {
-    "Symbol": "GANGAFORGE"
-  },
-  {
-    "Symbol": "GANGESSECU"
-  },
+ 
   {
     "Symbol": "GARUDA"
-  },
-  {
-    "Symbol": "GATECH"
-  },
-  {
-    "Symbol": "GATECHDVR"
-  },
-  {
-    "Symbol": "GAYAHWS"
-  },
-  {
-    "Symbol": "GAYAPROJ"
   },
   {
     "Symbol": "GEECEE"
@@ -831,9 +753,7 @@
   {
     "Symbol": "GKWLIMITED"
   },
-  {
-    "Symbol": "GLFL"
-  },
+ 
   {
     "Symbol": "GLOBAL"
   },
@@ -868,9 +788,6 @@
     "Symbol": "GODHA"
   },
   {
-    "Symbol": "GOENKA"
-  },
-  {
     "Symbol": "GOKUL"
   },
   {
@@ -885,9 +802,7 @@
   {
     "Symbol": "GOLDTECH"
   },
-  {
-    "Symbol": "GOYALALUM"
-  },
+  
   {
     "Symbol": "GPTHEALTH"
   },
@@ -913,9 +828,6 @@
     "Symbol": "GTL"
   },
   {
-    "Symbol": "GTLINFRA"
-  },
-  {
     "Symbol": "GTPL"
   },
   {
@@ -926,15 +838,6 @@
   },
   {
     "Symbol": "GULPOLY"
-  },
-  {
-    "Symbol": "GVKPIL"
-  },
-  {
-    "Symbol": "GVPTECH"
-  },
-  {
-    "Symbol": "GVT&D"
   },
   {
     "Symbol": "HARDWYN"
@@ -949,17 +852,12 @@
     "Symbol": "HATSUN"
   },
   {
-    "Symbol": "HAVISHA"
-  },
-  {
     "Symbol": "HBSL"
   },
   {
     "Symbol": "HCL-INSYS"
   },
-  {
-    "Symbol": "HDIL"
-  },
+ 
   {
     "Symbol": "HEADSUP"
   },
@@ -987,9 +885,7 @@
   {
     "Symbol": "HINDMOTORS"
   },
-  {
-    "Symbol": "HINDNATGLS"
-  },
+  
   
   {
     "Symbol": "HIRECT"
@@ -1006,9 +902,7 @@
   {
     "Symbol": "HLVLTD"
   },
-  {
-    "Symbol": "HMAAGRO"
-  },
+  
   {
     "Symbol": "HMT"
   },
@@ -1027,9 +921,7 @@
   {
     "Symbol": "HTMEDIA"
   },
-  {
-    "Symbol": "HYBRIDFIN"
-  },
+  
   {
     "Symbol": "ICDSLTD"
   },
@@ -1055,17 +947,9 @@
     "Symbol": "IITL"
   },
   {
-    "Symbol": "IL&FSENGG"
-  },
-  {
-    "Symbol": "IL&FSTRANS"
-  },
-  {
     "Symbol": "IMPAL"
   },
-  {
-    "Symbol": "IMPEXFERRO"
-  },
+  
   {
     "Symbol": "INCREDIBLE"
   },
@@ -1103,12 +987,6 @@
     "Symbol": "INFOBEAN"
   },
   {
-    "Symbol": "INFOMEDIA"
-  },
-  {
-    "Symbol": "INNOVACAP"
-  },
-  {
     "Symbol": "INSECTICID"
   },
   {
@@ -1129,15 +1007,11 @@
   {
     "Symbol": "IRISDOREME"
   },
-  {
-    "Symbol": "ISFT"
-  },
+  
   {
     "Symbol": "ITDC"
   },
-  {
-    "Symbol": "IVC"
-  },
+ 
   {
     "Symbol": "IVP"
   },
@@ -1171,9 +1045,7 @@
   {
     "Symbol": "JOCIL"
   },
-  {
-    "Symbol": "JPOLYINVST"
-  },
+ 
   {
     "Symbol": "JSWHL"
   },
@@ -1190,9 +1062,7 @@
   {
     "Symbol": "KAMOPAINTS"
   },
-  {
-    "Symbol": "KANANIIND"
-  },
+
   {
     "Symbol": "KANPRPLA"
   },
@@ -1202,24 +1072,14 @@
   {
     "Symbol": "KARMAENG"
   },
-  {
-    "Symbol": "KAUSHALYA"
-  },
-  {
-    "Symbol": "KAVVERITEL"
-  },
+  
   {
     "Symbol": "KAYA"
   },
   {
-    "Symbol": "KBCGLOBAL"
-  },
-  {
     "Symbol": "KDDL"
   },
-  {
-    "Symbol": "KEEPLEARN"
-  },
+ 
   {
     "Symbol": "KEYFINSERV"
   },
@@ -1228,9 +1088,6 @@
   },
   {
     "Symbol": "KHAITANLTD"
-  },
-  {
-    "Symbol": "KHANDSE"
   },
   {
     "Symbol": "KICL"
@@ -1262,36 +1119,28 @@
   {
     "Symbol": "KREBSBIO"
   },
-  {
-    "Symbol": "KRIDHANINF"
-  },
+
   {
     "Symbol": "KRISHANA"
   },
   {
     "Symbol": "KRITI"
   },
-  {
-    "Symbol": "KRITIKA"
-  },
+
   {
     "Symbol": "KRITINUT"
   },
   {
     "Symbol": "KRYSTAL"
   },
-  {
-    "Symbol": "KSHITIJPOL"
-  },
+  
   {
     "Symbol": "KSOLVES"
   },
   {
     "Symbol": "LAGNAM"
   },
-  {
-    "Symbol": "LAKPRE"
-  },
+
   {
     "Symbol": "LAL"
   },
@@ -1307,9 +1156,7 @@
   {
     "Symbol": "LAXMICOT"
   },
-  {
-    "Symbol": "LCCINFOTEC"
-  },
+
   {
     "Symbol": "LEXUS"
   },
@@ -1372,9 +1219,6 @@
   },
   {
     "Symbol": "MADHAV"
-  },
-  {
-    "Symbol": "MADHUCON"
   },
   {
     "Symbol": "MAGADSUGAR"
@@ -1445,9 +1289,7 @@
   {
     "Symbol": "MARSHALL"
   },
-  {
-    "Symbol": "MASKINVEST"
-  },
+  
   {
     "Symbol": "MASTERTR"
   },
@@ -1463,9 +1305,7 @@
   {
     "Symbol": "MBAPL"
   },
-  {
-    "Symbol": "MBECL"
-  },
+ 
   {
     "Symbol": "MBLINFRA"
   },
@@ -1515,12 +1355,6 @@
     "Symbol": "MITCON"
   },
   {
-    "Symbol": "MITTAL"
-  },
-  {
-    "Symbol": "MKPL"
-  },
-  {
     "Symbol": "MMFL"
   },
   {
@@ -1554,20 +1388,12 @@
     "Symbol": "MONTECARLO"
   },
   {
-    "Symbol": "MORARJEE"
-  },
-  {
-    "Symbol": "MOTOGENFIN"
-  },
-  {
     "Symbol": "MPSLTD"
   },
   {
     "Symbol": "MRO-TEK"
   },
-  {
-    "Symbol": "MTEDUCARE"
-  },
+  
   {
     "Symbol": "MUFIN"
   },
@@ -1620,14 +1446,9 @@
     "Symbol": "NATHBIOGEN"
   },
   {
-    "Symbol": "NBIFIN"
-  },
-  {
     "Symbol": "NDGL"
   },
-  {
-    "Symbol": "NDL"
-  },
+ 
   {
     "Symbol": "NDLVENTURE"
   },
@@ -1636,9 +1457,6 @@
   },
   {
     "Symbol": "NECLIFE"
-  },
-  {
-    "Symbol": "NEXTMEDIA"
   },
   {
     "Symbol": "NGIL"
@@ -1667,9 +1485,7 @@
   {
     "Symbol": "NIRAJ"
   },
-  {
-    "Symbol": "NIRAJISPAT"
-  },
+  
   {
     "Symbol": "NITCO"
   },
@@ -1683,12 +1499,6 @@
     "Symbol": "NKIND"
   },
   {
-    "Symbol": "NOIDATOLL"
-  },
-  {
-    "Symbol": "NORBTEAEXP"
-  },
-  {
     "Symbol": "NORTHARC"
   },
   {
@@ -1700,9 +1510,7 @@
   {
     "Symbol": "NSIL"
   },
-  {
-    "Symbol": "NTL"
-  },
+ 
   {
     "Symbol": "NUCLEUS"
   },
@@ -1718,27 +1526,15 @@
   {
     "Symbol": "OILCOUNTUB"
   },
-  {
-    "Symbol": "OMAXAUTO"
-  },
-  {
-    "Symbol": "OMAXE"
-  },
-  {
-    "Symbol": "ONELIFECAP"
-  },
+   
+ 
   {
     "Symbol": "ONWARDTEC"
   },
   {
     "Symbol": "ORBTEXP"
   },
-  {
-    "Symbol": "ORICONENT"
-  },
-  {
-    "Symbol": "ORIENTALTL"
-  },
+
   {
     "Symbol": "ORIENTBELL"
   },
@@ -1751,18 +1547,7 @@
   {
     "Symbol": "ORIENTLTD"
   },
-  {
-    "Symbol": "ORTINGLOBE"
-  },
-  {
-    "Symbol": "OSIAHYPER"
-  },
-  {
-    "Symbol": "OSWALAGRO"
-  },
-  {
-    "Symbol": "OSWALSEEDS"
-  },
+ 
   {
     "Symbol": "PALASHSECU"
   },
@@ -1778,18 +1563,14 @@
   {
     "Symbol": "PANSARI"
   },
-  {
-    "Symbol": "PARASPETRO"
-  },
+  
   {
     "Symbol": "PARSVNATH"
   },
   {
     "Symbol": "PASUPTAC"
   },
-  {
-    "Symbol": "PAVNAIND"
-  },
+ 
   {
     "Symbol": "PDSL"
   },
@@ -1805,12 +1586,8 @@
   {
     "Symbol": "PGIL"
   },
-  {
-    "Symbol": "PIGL"
-  },
-  {
-    "Symbol": "PILANIINVS"
-  },
+ 
+ 
   {
     "Symbol": "PILITA"
   },
@@ -1820,9 +1597,7 @@
   {
     "Symbol": "PITTIENG"
   },
-  {
-    "Symbol": "PKTEA"
-  },
+  
   {
     "Symbol": "PLASTIBLEN"
   },
@@ -1835,9 +1610,7 @@
   {
     "Symbol": "PNGJL"
   },
-  {
-    "Symbol": "PODDARHOUS"
-  },
+ 
   {
     "Symbol": "PODDARMENT"
   },
@@ -1850,12 +1623,7 @@
   {
     "Symbol": "PRAENG"
   },
-  {
-    "Symbol": "PRAKASHSTL"
-  },
-  {
-    "Symbol": "PRAXIS"
-  },
+ 
   {
     "Symbol": "PRECOT"
   },
@@ -1896,32 +1664,13 @@
     "Symbol": "RACE"
   },
   {
-    "Symbol": "RADAAN"
-  },
-  {
-    "Symbol": "RADIANTCMS"
-  },
-  {
-    "Symbol": "RADIOCITY"
-  },
-  {
-    "Symbol": "RAJMET"
-  },
-  {
     "Symbol": "RAJRATAN"
   },
-  {
-    "Symbol": "RAJRILTD"
-  },
+ 
   {
     "Symbol": "RAJSREESUG"
   },
-  {
-    "Symbol": "RAJTV"
-  },
-  {
-    "Symbol": "RAMANEWS"
-  },
+  
   {
     "Symbol": "RAMAPHO"
   },
@@ -1952,12 +1701,7 @@
   {
     "Symbol": "REGENCERAM"
   },
-  {
-    "Symbol": "RELCHEMQ"
-  },
-  {
-    "Symbol": "RELIABLE"
-  },
+ 
   {
     "Symbol": "RELTD"
   },
@@ -1973,36 +1717,26 @@
   {
     "Symbol": "RETAIL"
   },
-  {
-    "Symbol": "REVATHIEQU"
-  },
+  
   {
     "Symbol": "RGL"
   },
-  {
-    "Symbol": "RHFL"
-  },
+ 
   {
     "Symbol": "RHL"
   },
   {
     "Symbol": "RISHABH"
   },
-  {
-    "Symbol": "RKDL"
-  },
+ 
   {
     "Symbol": "RKSWAMY"
   },
-  {
-    "Symbol": "RML"
-  },
+  
   {
     "Symbol": "ROHLTD"
   },
-  {
-    "Symbol": "ROLLT"
-  },
+  
   {
     "Symbol": "ROML"
   },
@@ -2024,9 +1758,7 @@
   {
     "Symbol": "RUBYMILLS"
   },
-  {
-    "Symbol": "RUCHINFRA"
-  },
+ 
   {
     "Symbol": "RUCHIRA"
   },
@@ -2042,18 +1774,12 @@
   {
     "Symbol": "S&SPOWER"
   },
-  {
-    "Symbol": "SABEVENTS"
-  },
-  {
-    "Symbol": "SABTNL"
-  },
+ 
+  
   {
     "Symbol": "SADBHAV"
   },
-  {
-    "Symbol": "SADBHIN"
-  },
+
   {
     "Symbol": "SAGARDEEP"
   },
@@ -2073,14 +1799,9 @@
     "Symbol": "SAKAR"
   },
   {
-    "Symbol": "SAKUMA"
-  },
-  {
     "Symbol": "SALASAR"
   },
-  {
-    "Symbol": "SALONA"
-  },
+
   {
     "Symbol": "SALSTEEL"
   },
@@ -2090,9 +1811,7 @@
   {
     "Symbol": "SAMPANN"
   },
-  {
-    "Symbol": "SANCO"
-  },
+  
   {
     "Symbol": "SANDESH"
   },
@@ -2108,9 +1827,7 @@
   {
     "Symbol": "SANSTAR"
   },
-  {
-    "Symbol": "SANWARIA"
-  },
+  
   {
     "Symbol": "SARVESHWAR"
   },
@@ -2135,41 +1852,24 @@
   {
     "Symbol": "SECMARK"
   },
-  {
-    "Symbol": "SECURCRED"
-  },
+  
   {
     "Symbol": "SECURKLOUD"
   },
-  {
-    "Symbol": "SEJALLTD"
-  },
+  
   {
     "Symbol": "SELAN"
   },
-  {
-    "Symbol": "SELMC"
-  },
-  {
-    "Symbol": "SEMAC"
-  },
+  
   {
     "Symbol": "SESHAPAPER"
   },
-  {
-    "Symbol": "SETCO"
-  },
-  {
-    "Symbol": "SETUINFRA"
-  },
+
   {
     "Symbol": "SGIL"
   },
   {
     "Symbol": "SGL"
-  },
-  {
-    "Symbol": "SHAH"
   },
   {
     "Symbol": "SHAHALLOYS"
@@ -2185,9 +1885,6 @@
   },
   {
     "Symbol": "SHANTIGEAR"
-  },
-  {
-    "Symbol": "SHEKHAWATI"
   },
   {
     "Symbol": "SHEMAROO"
@@ -2216,18 +1913,14 @@
   {
     "Symbol": "SHREERAMA"
   },
-  {
-    "Symbol": "SHRENIK"
-  },
+  
   {
     "Symbol": "SHREYANIND"
   },
   {
     "Symbol": "SHYAMCENT"
   },
-  {
-    "Symbol": "SHYAMTEL"
-  },
+  
   {
     "Symbol": "SICALLOG"
   },
@@ -2240,18 +1933,12 @@
   {
     "Symbol": "SIL"
   },
-  {
-    "Symbol": "SILINV"
-  },
-  {
-    "Symbol": "SILLYMONKS"
-  },
+  
+ 
   {
     "Symbol": "SILVERTUC"
   },
-  {
-    "Symbol": "SIMBHALS"
-  },
+ 
   {
     "Symbol": "SIMPLEXINF"
   },
@@ -2261,9 +1948,7 @@
   {
     "Symbol": "SINTERCOM"
   },
-  {
-    "Symbol": "SITINET"
-  },
+ 
   {
     "Symbol": "SKMEGGPROD"
   },
@@ -2285,15 +1970,11 @@
   {
     "Symbol": "SMSLIFE"
   },
-  {
-    "Symbol": "SOFTTECH"
-  },
+ 
   {
     "Symbol": "SOMANYCERA"
   },
-  {
-    "Symbol": "SOMATEX"
-  },
+  
   {
     "Symbol": "SOMICONVEY"
   },
@@ -2318,9 +1999,7 @@
   {
     "Symbol": "SPMLINFRA"
   },
-  {
-    "Symbol": "SRD"
-  },
+
   {
     "Symbol": "SREEL"
   },
@@ -2333,9 +2012,7 @@
   {
     "Symbol": "SRM"
   },
-  {
-    "Symbol": "SRPL"
-  },
+  
   {
     "Symbol": "SSDL"
   },
@@ -2393,21 +2070,7 @@
   {
     "Symbol": "SUPERHOUSE"
   },
-  {
-    "Symbol": "SUPERSPIN"
-  },
-  {
-    "Symbol": "SUPREMEENG"
-  },
-  {
-    "Symbol": "SUPREMEINF"
-  },
-  {
-    "Symbol": "SURAJEST"
-  },
-  {
-    "Symbol": "SURAJLTD"
-  },
+  
   {
     "Symbol": "SURANASOL"
   },
@@ -2420,20 +2083,9 @@
   {
     "Symbol": "SUTLEJTEX"
   },
-  {
-    "Symbol": "SUULD"
-  },
-  {
-    "Symbol": "SUVIDHAA"
-  },
+  
   {
     "Symbol": "SUYOG"
-  },
-  {
-    "Symbol": "SVLL"
-  },
-  {
-    "Symbol": "SVPGLOB"
   },
   {
     "Symbol": "SWARAJENG"
@@ -2450,15 +2102,11 @@
   {
     "Symbol": "TAJGVK"
   },
-  {
-    "Symbol": "TAKE"
-  },
+  
   {
     "Symbol": "TARACHAND"
   },
-  {
-    "Symbol": "TARAPUR"
-  },
+
   {
     "Symbol": "TARMAT"
   },
@@ -2468,26 +2116,17 @@
   {
     "Symbol": "TATVA"
   },
-  {
-    "Symbol": "TCIFINANCE"
-  },
+  
   {
     "Symbol": "TCLCONS"
   },
   {
     "Symbol": "TCPLPACK"
   },
-  {
-    "Symbol": "TECHIN"
-  },
-  {
-    "Symbol": "TECILCHEM"
-  },
+ 
+ 
   {
     "Symbol": "TEMBO"
-  },
-  {
-    "Symbol": "TERASOFT"
   },
   {
     "Symbol": "TEXINFRA"
@@ -2498,41 +2137,16 @@
   {
     "Symbol": "TFCILTD"
   },
-  {
-    "Symbol": "TFL"
-  },
-  {
-    "Symbol": "TGBHOTELS"
-  },
+ 
   {
     "Symbol": "THEINVEST"
   },
   {
     "Symbol": "THEJO"
   },
-  {
-    "Symbol": "THOMASCOTT"
-  },
-  {
-    "Symbol": "TIJARIA"
-  },
-  {
-    "Symbol": "TIL"
-  },
-  {
-    "Symbol": "TIMESGTY"
-  },
-  {
-    "Symbol": "TIPSFILMS"
-  },
-  {
-    "Symbol": "TIRUPATIFL"
-  },
+ 
   {
     "Symbol": "TNPL"
-  },
-  {
-    "Symbol": "TNTELE"
   },
   {
     "Symbol": "TOKYOPLAST"
@@ -2546,17 +2160,9 @@
   {
     "Symbol": "TOUCHWOOD"
   },
-  {
-    "Symbol": "TPHQ"
-  },
+ 
   {
     "Symbol": "TRANSWORLD"
-  },
-  {
-    "Symbol": "TREEHOUSE"
-  },
-  {
-    "Symbol": "TREJHARA"
   },
   {
     "Symbol": "TREL"
@@ -2567,9 +2173,7 @@
   {
     "Symbol": "TRIGYN"
   },
-  {
-    "Symbol": "TRU"
-  },
+ 
   {
     "Symbol": "TTKHLTCARE"
   },
@@ -2588,27 +2192,19 @@
   {
     "Symbol": "TVSSRICHAK"
   },
-  {
-    "Symbol": "TVVISION"
-  },
+  
   {
     "Symbol": "UCAL"
   },
   {
     "Symbol": "UDAICEMENT"
   },
-  {
-    "Symbol": "UGROCAP"
-  },
-  {
-    "Symbol": "UMAEXPORTS"
-  },
+  
+ 
   {
     "Symbol": "UMANGDAIRY"
   },
-  {
-    "Symbol": "UMESLTD"
-  },
+ 
   {
     "Symbol": "UNICHEMLAB"
   },
@@ -2624,21 +2220,11 @@
   {
     "Symbol": "UNIPARTS"
   },
-  {
-    "Symbol": "UNITECH"
-  },
-  {
-    "Symbol": "UNITEDTEA"
-  },
-  {
-    "Symbol": "UNIVASTU"
-  },
+ 
   {
     "Symbol": "UNIVCABLES"
   },
-  {
-    "Symbol": "UNIVPHOTO"
-  },
+  
   {
     "Symbol": "URAVI"
   },
@@ -2663,18 +2249,12 @@
   {
     "Symbol": "VAKRANGEE"
   },
-  {
-    "Symbol": "VARDHACRLC"
-  },
-  {
-    "Symbol": "VARDMNPOLY"
-  },
+  
+ 
   {
     "Symbol": "VASWANI"
   },
-  {
-    "Symbol": "VCL"
-  },
+  
   {
     "Symbol": "VEEDOL"
   },
@@ -2690,18 +2270,12 @@
   {
     "Symbol": "VETO"
   },
-  {
-    "Symbol": "VHL"
-  },
-  {
-    "Symbol": "VHLTD"
-  },
+ 
+ 
   {
     "Symbol": "VIDHIING"
   },
-  {
-    "Symbol": "VIJIFIN"
-  },
+ 
   {
     "Symbol": "VIKASECO"
   },
@@ -2717,33 +2291,12 @@
   {
     "Symbol": "VINEETLAB"
   },
-  {
-    "Symbol": "VINNY"
-  },
+ 
   {
     "Symbol": "VINYLINDIA"
   },
-  {
-    "Symbol": "VIPULLTD"
-  },
-  {
-    "Symbol": "VIRINCHI"
-  },
-  {
-    "Symbol": "VISASTEEL"
-  },
-  {
-    "Symbol": "VISHWARAJ"
-  },
-  {
-    "Symbol": "VIVIDHA"
-  },
-  {
-    "Symbol": "VLSFINANCE"
-  },
-  {
-    "Symbol": "VRAJ"
-  },
+ 
+ 
   {
     "Symbol": "VSSL"
   },
@@ -2774,17 +2327,12 @@
   {
     "Symbol": "WHEELS"
   },
-  {
-    "Symbol": "WILLAMAGOR"
-  },
+ 
   {
     "Symbol": "WINDLAS"
   },
   {
     "Symbol": "WINDMACHIN"
-  },
-  {
-    "Symbol": "WINSOME"
   },
   {
     "Symbol": "WIPL"
@@ -2810,18 +2358,11 @@
   {
     "Symbol": "YUKEN"
   },
-  {
-    "Symbol": "ZEELEARN"
-  },
+  
   {
     "Symbol": "ZEEMEDIA"
   },
-  {
-    "Symbol": "ZENITHEXPO"
-  },
-  {
-    "Symbol": "ZENITHSTL"
-  },
+ 
   {
     "Symbol": "ZODIAC"
   },
