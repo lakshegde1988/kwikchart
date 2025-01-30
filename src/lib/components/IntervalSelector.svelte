@@ -23,7 +23,7 @@
   <div class="flex space-x-2">
     {#each intervals as interval}
       <button
-        class="px-4 py-2 text-base focus:outline-none focus:ring-2 focus:ring-opacity-50 sm:text-sm rounded-md shadow-sm"
+        class="px-2 py-2 text-base focus:outline-none focus:ring-2 focus:ring-opacity-50 sm:text-sm rounded-md shadow-sm"
         class:bg-slate-50={$theme === 'light'}
         class:text-slate-900={$theme === 'light'}
         class:border-slate-300={$theme === 'light'}
