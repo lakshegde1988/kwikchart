@@ -167,7 +167,7 @@
 
 <main
   id="app"
-  class=" max-w-lg mx-auto flex flex-col overflow-hidden"
+  class=" max-w-xl mx-auto flex flex-col overflow-hidden"
   class:bg-white={$theme === 'light'}
   class:text-slate-900={$theme === 'light'}
   class:bg-black={$theme === 'dark'}
