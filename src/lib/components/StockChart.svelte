@@ -105,24 +105,16 @@
       upColor: '#3AAB3A',
       downColor: '#FF0000',
       thinBars: false,
-      priceFormat: {
-        type: 'price',
-        precision: 2,
-        minMove: 0.01,
-      },
+      
     });
 
     volumeSeries = chart.addHistogramSeries({
-      priceFormat: {
-        type: 'volume',
-      },
       priceScaleId: 'volume',
       scaleMargins: {
-        top: 0.8,
+        top: 0.7,
         bottom: 0,
       },
-      lineWidth: 1,
-    }, { pane: "volume" });
+    });
 
     maSeries = chart.addLineSeries({ color: '#3b82f6', lineWidth: 1 });
     
@@ -138,7 +130,7 @@
 
     barSeries.priceScale().applyOptions({
       scaleMargins: {
-        top: 0.2,
+        top: 0.1,
         bottom: 0.2,
       },
       borderColor: '#444444',
