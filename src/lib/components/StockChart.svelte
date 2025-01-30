@@ -209,7 +209,7 @@
         const newWidth = chartContainer.clientWidth;
         const newHeight = chartContainer.clientHeight;
         chart.applyOptions({
-          width: '300',
+          width: '600',
           height: '350',
         });
         chart.timeScale().fitContent();
