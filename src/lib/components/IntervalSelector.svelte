@@ -2,10 +2,8 @@
   import { createEventDispatcher } from 'svelte';
   import { theme } from '../stores/themeStore';
   import type { Interval } from '../types';
-  import { writable } from 'svelte/store';
 
   const dispatch = createEventDispatcher<{ change: Interval }>();
-  const activeInterval = writable<Interval>(intervals[0]);
 
   const intervals: Interval[] = [
     { label: '6m', value: '1d', range: '6mo' },
@@ -17,7 +15,6 @@
   ];
 
   function handleChange(interval: Interval) {
-    activeInterval.set(interval);
     dispatch('change', interval);
   }
 </script>
@@ -37,8 +34,6 @@
         class:border-slate-950={$theme === 'dark'}
         class:focus:ring-slate-950={$theme === 'dark'}
         class:focus:border-slate-950={$theme === 'dark'}
-        class:bg-blue-500={activeInterval === interval}
-        class:text-white={activeInterval === interval}
         on:click={() => handleChange(interval)}
       >
         {interval.label}
