@@ -191,7 +191,7 @@
       barSeries.setData(barData);
       volumeSeries.setData(volumeData);
 
-      maSeries.setData(calculateMovingAverage(data, 50));
+      maSeries.setData(calculateMovingAverage(data, 10));
       
       
 
