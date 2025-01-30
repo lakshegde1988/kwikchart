@@ -209,8 +209,8 @@
         const newWidth = chartContainer.clientWidth;
         const newHeight = chartContainer.clientHeight;
         chart.applyOptions({
-          width: newWidth,
-          height: newHeight,
+          width: '300px',
+          height: '350px',
         });
         chart.timeScale().fitContent();
       });
