@@ -217,27 +217,7 @@
         </button>
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
        <IntervalSelector class="w-2 text-sm sm:text-base px-2" on:change={handleIntervalChange} />
-        <button
-          class="p-2 hover:text-slate-800 focus:outline-none"
-          class:text-slate-900={$theme === 'light'}
-          class:text-slate-100={$theme === 'dark'}
-          on:click={toggleFavoritesModal}
-        >
-         <FileHeart class="w-5 h-5" />
-        </button>
-        <button
-          on:click={() => $currentStock && handleToggleFavorite($currentStock)}
-          class="p-2 hover:text-orange-600 focus:outline-none"
-          class:text-slate-800={$theme === 'light'}
-          class:text-slate-200={$theme === 'dark'}
-        >
-          <span
-            class="w-5 h-5"
-            class:text-orange-700={$currentStock && $favorites.has($currentStock.Symbol)}
-          >
-            <Star />
-          </span>
-        </button>
+        
       </div>
       <div class="flex items-center gap-2 space-x-2">
         <button
