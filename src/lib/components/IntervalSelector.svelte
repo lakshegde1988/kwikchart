@@ -11,7 +11,7 @@
     { label: '2y', value: '1wk', range: '2y' },
     { label: '5y', value: '1wk', range: '5y' },
     { label: '10y', value: '1mo', range: '10y' },
-    { label: 'max', value: '1mo', range: 'max' }
+    { label: 'All', value: '1mo', range: 'max' }
   ];
 
   function handleChange(interval: Interval) {
