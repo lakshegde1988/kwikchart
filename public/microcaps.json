@@ -17,6 +17,9 @@
     {
         "Symbol": "AHLUCONT"
     },
+     {
+        "Symbol": "ALIVUS"
+    },
     {
         "Symbol": "ALLCARGO"
     },
@@ -206,9 +209,7 @@
     {
         "Symbol": "GHCL"
     },
-    {
-        "Symbol": "GLS"
-    },
+   
     {
         "Symbol": "GMMPFAUDLR"
     },
