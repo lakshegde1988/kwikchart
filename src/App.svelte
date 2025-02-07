@@ -167,12 +167,12 @@
 
 <main
   id="app"
-  class=" max-w-sm mx-auto flex flex-col overflow-hidden"
+  class=" max-w-xl mx-auto flex flex-col overflow-hidden"
   class:bg-white={$theme === 'light'}
   class:text-slate-900={$theme === 'light'}
   class:bg-black={$theme === 'dark'}
   class:text-slate-50={$theme === 'dark'}
-  style="height: 320px"
+  style="height: 350px"
 >
   <!-- Content Area -->
   <div class=" flex flex-grow overflow-auto">
