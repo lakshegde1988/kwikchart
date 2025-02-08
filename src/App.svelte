@@ -167,15 +167,11 @@
 
 <main
   id="app"
-  class=" max-w-3xl mx-auto flex flex-col overflow-hidden"
-  class:bg-white={$theme === 'light'}
-  class:text-slate-900={$theme === 'light'}
-  class:bg-black={$theme === 'dark'}
-  class:text-slate-50={$theme === 'dark'}
+  class="max-w-3xl mx-auto flex flex-col overflow-hidden bg-white dark:bg-black text-slate-900 dark:text-slate-50 p-4 rounded-lg shadow-md"
   style="height: 430px"
 >
   <!-- Content Area -->
-  <div class=" flex flex-grow overflow-auto">
+  <div class="flex flex-grow overflow-auto">
     <!-- Main Content -->
     <div class="flex-grow flex flex-col">
       {#if $loading}
@@ -195,16 +191,11 @@
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-8 flex-shrink-0"
-    class:bg-white={$theme === 'light'}
-    class:border-slate-600={$theme === 'light'}
-    class:bg-black={$theme === 'dark'}
-    class:border-slate-400={$theme === 'dark'}
-  >
+  <footer class="h-12 flex-shrink-0 bg-white dark:bg-black border-t border-slate-200 dark:border-slate-600">
     <div class="mx-auto px-2 h-full flex items-center justify-between space-x-2">
       <div class="flex items-center space-x-2">
         <button
-          class="p-2 hover:text-slate-900 focus:outline-none lg:hidden"
+          class="p-2 hover:text-slate-900 dark:hover:text-slate-200 focus:outline-none lg:hidden"
           class:text-slate-800={$theme === 'light'}
           class:text-slate-200={$theme === 'dark'}
           on:click={toggleFullscreen}
@@ -216,30 +207,25 @@
           {/if}
         </button>
         <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
-       <IntervalSelector class="w-2 text-sm sm:text-base px-2" on:change={handleIntervalChange} />
-        
+        <IntervalSelector class="w-2 text-sm sm:text-base px-2" on:change={handleIntervalChange} />
       </div>
       <div class="flex items-center gap-2 space-x-2">
         <button
-  class="flex items-center gap-2 py-2 px-2"
-  class:text-slate-900={$theme === 'light'}
-  class:text-slate-100={$theme === 'dark'}
-  on:click={handlePrevious}
-  disabled={currentIndex === 0}
->
-  <ArrowLeft class="w-5 h-5" />
-  <span class="hidden sm:inline">Prev</span>
-</button>
-<button
-  class="flex items-center gap-2 py-2 px-2"
-  class:text-slate-900={$theme === 'light'}
-  class:text-slate-100={$theme === 'dark'}
-  on:click={handleNext}
-  disabled={currentIndex === totalStocks - 1}
->
-  <span class="hidden sm:inline">Next</span>
-  <ArrowRight class="w-5 h-5" />
-</button>
+          class="flex items-center gap-2 py-2 px-2 text-slate-900 dark:text-slate-100"
+          on:click={handlePrevious}
+          disabled={currentIndex === 0}
+        >
+          <ArrowLeft class="w-5 h-5" />
+          <span class="hidden sm:inline">Prev</span>
+        </button>
+        <button
+          class="flex items-center gap-2 py-2 px-2 text-slate-900 dark:text-slate-100"
+          on:click={handleNext}
+          disabled={currentIndex === totalStocks - 1}
+        >
+          <span class="hidden sm:inline">Next</span>
+          <ArrowRight class="w-5 h-5" />
+        </button>
       </div>
     </div>
   </footer>
