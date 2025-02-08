@@ -236,3 +236,34 @@
     <TradingViewModal symbol={$currentStock.Symbol} onClose={toggleTradingViewModal} />
   {/if}
 </main>
+
+<style>
+  @media (max-width: 640px) {
+    main {
+      padding: 1rem;
+      height: auto;
+    }
+    footer {
+      flex-direction: column;
+      height: auto;
+    }
+    .flex-grow {
+      overflow-x: hidden;
+    }
+    .flex-grow > div {
+      padding: 0.5rem;
+    }
+    .flex.items-center.gap-2.space-x-2 {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .flex.items-center.space-x-2 {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .flex.items-center.space-x-2 button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
