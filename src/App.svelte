@@ -204,7 +204,7 @@
     <div class="mx-auto px-2 h-full flex items-center justify-between space-x-2">
       <div class="flex items-center space-x-2">
         <button
-          class="p-2 hover:text-slate-900 focus:outline-none lg:hidden"
+          class="p-2 hover:text-slate-900 focus:outline-none"
           class:text-slate-800={$theme === 'light'}
           class:text-slate-200={$theme === 'dark'}
           on:click={toggleFullscreen}
