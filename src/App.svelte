@@ -14,7 +14,7 @@
 
   let currentIndex = 0;
   let selectedFile = 'nifty50.json';
-  let selectedInterval: Interval = { label: '6M', value: '1d', range: '6mo' };
+  let selectedInterval: Interval = { label: 'D', value: '1d', range: '1y' };
   let isFullscreen = false;
   let showFavoritesModal = false;
   let showTradingViewModal = false;
