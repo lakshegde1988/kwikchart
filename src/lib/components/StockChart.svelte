@@ -12,7 +12,8 @@
   let chart: any;
   let barSeries: any;
   let volumeSeries: any;
-  let maSeries: any;
+  let maSeries1: any;
+  let maSeries2: any;
   
   
   let resizeObserver: ResizeObserver;
@@ -124,7 +125,8 @@
       lineWidth: 1,
     }, { pane: "volume" });
 
-    maSeries = chart.addLineSeries({ color: '#3b82f6', lineWidth: 1 });
+    maSeries1 = chart.addLineSeries({ color: 'green', lineWidth: 1 });
+    maSeries2 = chart.addLineSeries({ color: 'red', lineWidth: 1 });
     
     
 
@@ -191,8 +193,8 @@
       barSeries.setData(barData);
       volumeSeries.setData(volumeData);
 
-      maSeries.setData(calculateMovingAverage(data, 10));
-      maSeries.setData(calculateMovingAverage(data, 30));
+      maSeries1.setData(calculateMovingAverage(data, 10));
+      maSeries2.setData(calculateMovingAverage(data, 30));
 
       
       
