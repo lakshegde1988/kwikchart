@@ -5,7 +5,7 @@
 
   export let data: StockData[] = [];
   export let stockName: string = '';
-  export let interval: Interval = { label: 'D', value: '1d', range: '5y' };
+  export let interval: Interval = { label: 'D', value: '1d', range: '1y' };
 
   let chartContainer: HTMLElement;
   let legendContainer: HTMLElement;
@@ -96,7 +96,7 @@
       timeScale: {
         timeVisible: false,
         rightOffset: 5,
-        minBarSpacing: 1,
+        minBarSpacing: 3,
         borderColor: '#444444',
       },
     });
