@@ -201,7 +201,7 @@
   class:bg-black={$theme === 'dark'}
   class:border-slate-400={$theme === 'dark'}
 >
-  <div class="mx-auto px-2 h-full flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0 sm:space-x-2">
+  <div class="mx-auto px-2 h-full flex flex-col sm:flex-row  space-y-2 sm:space-y-0 sm:space-x-2">
     <div class="flex items-center space-x-2">
       <button
         class="p-2 hover:text-slate-900 focus:outline-none"
