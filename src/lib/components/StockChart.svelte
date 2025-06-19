@@ -194,7 +194,7 @@
       volumeSeries.setData(volumeData);
 
       maSeries1.setData(calculateMovingAverage(data, 10));
-      maSeries2.setData(calculateMovingAverage(data, 30));
+      maSeries2.setData(calculateMovingAverage(data, 21));
 
       
       
