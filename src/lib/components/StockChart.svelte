@@ -126,7 +126,7 @@
     }, { pane: "volume" });
 
     maSeries1 = chart.addLineSeries({ color: 'green', lineWidth: 1 });
-    maSeries2 = chart.addLineSeries({ color: 'red', lineWidth: 1 });
+    maSeries2 = chart.addLineSeries({ color: 'yellow', lineWidth: 1 });
     
     
 
