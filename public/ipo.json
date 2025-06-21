@@ -1,15 +1,18 @@
 [
   {
-    "Symbol": "AADHARHFC"
-  },
-  {
-    "Symbol": "ABDL"
-  },
-  {
     "Symbol": "ACMESOLAR"
   },
   {
+    "Symbol": "AADHARHFC"
+  },
+  {
+    "Symbol": "AEGISVOPAK"
+  },
+  {
     "Symbol": "AFCONS"
+  },
+  {
+    "Symbol": "AJAXENGG"
   },
   {
     "Symbol": "AFIL"
@@ -18,37 +21,40 @@
     "Symbol": "AKUMS"
   },
   {
+    "Symbol": "ABDL"
+  },
+  {
+    "Symbol": "PARKHOTELS"
+  },
+  {
     "Symbol": "ARKADE"
   },
   {
-    "Symbol": "ASKAUTOLTD"
+    "Symbol": "ATHERENERG"
   },
   {
     "Symbol": "AWFIS"
   },
   {
-    "Symbol": "AZAD"
+    "Symbol": "BLSE"
+  },
+  {
+    "Symbol": "STYLEBAAZA"
   },
   {
     "Symbol": "BAJAJHFL"
   },
   {
-    "Symbol": "BALAJEE"
+    "Symbol": "BANSALWIRE"
   },
   {
-    "Symbol": "BANSALWIRE"
+    "Symbol": "BELRISE"
   },
   {
     "Symbol": "BHARTIHEXA"
   },
   {
-    "Symbol": "BLACKBUCK"
-  },
-  {
-    "Symbol": "BLSE"
-  },
-  {
-    "Symbol": "BLUEJET"
+    "Symbol": "FIRSTCRY"
   },
   {
     "Symbol": "CAPITALSFB"
@@ -60,10 +66,10 @@
     "Symbol": "CEIGALL"
   },
   {
-    "Symbol": "CELLO"
+    "Symbol": "CEWATER"
   },
   {
-    "Symbol": "CEWATER"
+    "Symbol": "DEEDEV"
   },
   {
     "Symbol": "DAMCAPITAL"
@@ -72,19 +78,19 @@
     "Symbol": "DBEIL"
   },
   {
-    "Symbol": "DEEDEV"
+    "Symbol": "DENTA"
   },
   {
     "Symbol": "DIFFNKG"
   },
   {
-    "Symbol": "DOMS"
+    "Symbol": "AGARWALEYE"
+  },
+  {
+    "Symbol": "EPACK"
   },
   {
     "Symbol": "ECOSMOBLTY"
-  },
-  {
-    "Symbol": "EIEL"
   },
   {
     "Symbol": "EMCURE"
@@ -93,76 +99,52 @@
     "Symbol": "ENTERO"
   },
   {
-    "Symbol": "ESAFSFB"
+    "Symbol": "EIEL"
   },
   {
     "Symbol": "EXICOM"
   },
   {
-    "Symbol": "FEDFINA"
-  },
-  {
-    "Symbol": "FIRSTCRY"
-  },
-  {
-    "Symbol": "FLAIR"
+    "Symbol": "GPTHEALTH"
   },
   {
     "Symbol": "GALAPREC"
   },
   {
-    "Symbol": "GANDHAR"
-  },
-  {
     "Symbol": "GARUDA"
-  },
-  {
-    "Symbol": "GODAVARIB"
   },
   {
     "Symbol": "GODIGIT"
   },
   {
+    "Symbol": "GODAVARIB"
+  },
+  {
     "Symbol": "GOPAL"
   },
   {
-    "Symbol": "GPTHEALTH"
-  },
-  {
-    "Symbol": "HAPPYFORGE"
-  },
-  {
-    "Symbol": "HONASA"
+    "Symbol": "HEXT"
   },
   {
     "Symbol": "HYUNDAI"
+  },
+  {
+    "Symbol": "INDGN"
+  },
+  {
+    "Symbol": "INDOFARM"
+  },
+  {
+    "Symbol": "INNOVACAP"
+  },
+  {
+    "Symbol": "INTERARCH"
   },
   {
     "Symbol": "IGIL"
   },
   {
     "Symbol": "IKS"
-  },
-  {
-    "Symbol": "INDGN"
-  },
-  {
-    "Symbol": "INDIASHLTR"
-  },
-  {
-    "Symbol": "INNOVACAP"
-  },
-  {
-    "Symbol": "INOXINDIA"
-  },
-  {
-    "Symbol": "INTERARCH"
-  },
-  {
-    "Symbol": "IREDA"
-  },
-  {
-    "Symbol": "IXIGO"
   },
   {
     "Symbol": "JGCHEM"
@@ -192,6 +174,12 @@
     "Symbol": "KRYSTAL"
   },
   {
+    "Symbol": "LAXMIDENTL"
+  },
+  {
+    "Symbol": "IXIGO"
+  },
+  {
     "Symbol": "MAMATA"
   },
   {
@@ -201,19 +189,10 @@
     "Symbol": "MEDIASSIST"
   },
   {
-    "Symbol": "MOBIKWIK"
-  },
-  {
-    "Symbol": "MOTISONS"
-  },
-  {
-    "Symbol": "MUFTI"
-  },
-  {
     "Symbol": "MUKKA"
   },
   {
-    "Symbol": "MUTHOOTMF"
+    "Symbol": "NTPCGREEN"
   },
   {
     "Symbol": "NIVABUPA"
@@ -225,31 +204,43 @@
     "Symbol": "NOVAAGRI"
   },
   {
-    "Symbol": "NTPCGREEN"
-  },
-  {
     "Symbol": "OLAELEC"
   },
   {
-    "Symbol": "PARKHOTELS"
+    "Symbol": "MOBIKWIK"
   },
   {
-    "Symbol": "PLATIND"
+    "Symbol": "ORIENTTECH"
   },
   {
     "Symbol": "PNGJL"
   },
   {
-    "Symbol": "PREMIERENE"
+    "Symbol": "PLATIND"
   },
   {
     "Symbol": "PVSL"
+  },
+  {
+    "Symbol": "PREMIERENE"
+  },
+  {
+    "Symbol": "PROSTARM"
+  },
+  {
+    "Symbol": "QUADFUTURE"
+  },
+  {
+    "Symbol": "QPOWER"
   },
   {
     "Symbol": "RKSWAMY"
   },
   {
     "Symbol": "RPTECH"
+  },
+  {
+    "Symbol": "SAGILITY"
   },
   {
     "Symbol": "SAILIFE"
@@ -261,25 +252,34 @@
     "Symbol": "SANSTAR"
   },
   {
-    "Symbol": "SENORES"
-  },
-  {
     "Symbol": "SSDL"
   },
   {
-    "Symbol": "STANLEY"
+    "Symbol": "THELEELA"
   },
   {
-    "Symbol": "SURAJEST"
+    "Symbol": "SCODATUBES"
+  },
+  {
+    "Symbol": "SENORES"
+  },
+  {
+    "Symbol": "BALAJEE"
+  },
+  {
+    "Symbol": "STALLION"
+  },
+  {
+    "Symbol": "SGLTL"
+  },
+  {
+    "Symbol": "STANLEY"
   },
   {
     "Symbol": "SURAKSHA"
   },
   {
     "Symbol": "SWIGGY"
-  },
-  {
-    "Symbol": "TATATECH"
   },
   {
     "Symbol": "TBOTEK"
@@ -294,18 +294,27 @@
     "Symbol": "UNIECOM"
   },
   {
+    "Symbol": "UNIMECH"
+  },
+  {
     "Symbol": "VENTIVE"
   },
   {
-    "Symbol": "VRAJ"
+    "Symbol": "VSTL"
   },
   {
-    "Symbol": "VSTL"
+    "Symbol": "VMM"
+  },
+  {
+    "Symbol": "VRAJ"
   },
   {
     "Symbol": "WAAREEENER"
   },
   {
     "Symbol": "WCIL"
+  },
+  {
+    "Symbol": "BLACKBUCK"
   }
 ]
