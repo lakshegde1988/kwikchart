@@ -201,8 +201,7 @@
   class:bg-black={$theme === 'dark'}
   class:border-slate-400={$theme === 'dark'}
 >
-  <div class="mx-auto px-2 h-full flex flex-col sm:flex-row items-center justify-between space-y-2 sm:space-y-0 sm:space-x-2">
-    <div class="flex items-center space-x-2">
+  <div class="mx-auto px-2 h-full  items-center justify-between space-y-2 sm:space-y-0 sm:space-x-2">
       <button
         class="p-2 hover:text-slate-900 focus:outline-none"
         class:text-slate-800={$theme === 'light'}
@@ -217,10 +216,8 @@
       </button>
       <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
       <IntervalSelector class="w-2 text-sm sm:text-base px-2" on:change={handleIntervalChange} />
-    </div>
-    <div class="flex items-center gap-2 space-x-2">
       <button
-        class="flex items-center gap-2 py-2 px-2"
+        class=" items-center gap-2 py-2 px-2"
         class:text-slate-900={$theme === 'light'}
         class:text-slate-100={$theme === 'dark'}
         on:click={handlePrevious}
@@ -230,7 +227,7 @@
         <span class="hidden sm:inline">Prev</span>
       </button>
       <button
-        class="flex items-center gap-2 py-2 px-2"
+        class=" items-center gap-2 py-2 px-2"
         class:text-slate-900={$theme === 'light'}
         class:text-slate-100={$theme === 'dark'}
         on:click={handleNext}
