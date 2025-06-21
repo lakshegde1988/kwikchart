@@ -236,6 +236,7 @@
         <span class="sm:inline">Next</span>
         <ArrowRight class="w-5 h-5" />
       </button>
+</div>
 </footer>
   {#if showFavoritesModal}
     <FavoritesModal on:close={toggleFavoritesModal} />
