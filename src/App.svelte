@@ -195,13 +195,13 @@
   </div>
 
   <!-- Sticky Footer -->
-  <footer class="h-8 flex-shrink-0"
+ <footer class="h-8 flex-shrink-0"
   class:bg-white={$theme === 'light'}
   class:border-slate-600={$theme === 'light'}
   class:bg-black={$theme === 'dark'}
   class:border-slate-400={$theme === 'dark'}
 >
-  <div class="mx-auto px-2 h-full  items-center justify-between space-y-2 sm:space-y-0 sm:space-x-2">
+  <div class="mx-auto px-2 h-full flex items-center justify-between space-x-2">
       <button
         class="p-2 hover:text-slate-900 focus:outline-none"
         class:text-slate-800={$theme === 'light'}
@@ -217,23 +217,23 @@
       <IndexSelector class="text-sm sm:text-base px-2" on:select={handleIndexSelect} />
       <IntervalSelector class="w-2 text-sm sm:text-base px-2" on:change={handleIntervalChange} />
       <button
-        class=" items-center gap-2 py-2 px-2"
+        class="flex items-center gap-2 py-2 px-2"
         class:text-slate-900={$theme === 'light'}
         class:text-slate-100={$theme === 'dark'}
         on:click={handlePrevious}
         disabled={currentIndex === 0}
       >
         <ArrowLeft class="w-5 h-5" />
-        <span class="sm:inline">Prev</span>
+        <span class="hidden sm:inline">Prev</span>
       </button>
       <button
-        class=" items-center gap-2 py-2 px-2"
+        class="flex items-center gap-2 py-2 px-2"
         class:text-slate-900={$theme === 'light'}
         class:text-slate-100={$theme === 'dark'}
         on:click={handleNext}
         disabled={currentIndex === totalStocks - 1}
       >
-        <span class="sm:inline">Next</span>
+        <span class="hidden sm:inline">Next</span>
         <ArrowRight class="w-5 h-5" />
       </button>
 </div>
