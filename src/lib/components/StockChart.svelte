@@ -96,7 +96,7 @@
       },
       timeScale: {
         timeVisible: false,
-        rightOffset: 5,
+        rightOffset: 15,
         minBarSpacing: 5,
         borderColor: '#444444',
       },
@@ -105,7 +105,7 @@
     barSeries = chart.addBarSeries({
       upColor: '#3AAB3A',
       downColor: '#FF0000',
-      thinBars: false,
+      thinBars: true,
       priceFormat: {
         type: 'price',
         precision: 2,
@@ -119,7 +119,7 @@
       },
       priceScaleId: 'volume',
       scaleMargins: {
-        top: 0.8,
+        top: 0.7,
         bottom: 0,
       },
       lineWidth: 1,
@@ -140,8 +140,8 @@
 
     barSeries.priceScale().applyOptions({
       scaleMargins: {
-        top: 0.2,
-        bottom: 0.2,
+        top: 0.1,
+        bottom: 0.1,
       },
       borderColor: '#444444',
       mode: 1,
