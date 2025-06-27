@@ -172,7 +172,7 @@
   class:text-slate-900={$theme === 'light'}
   class:bg-black={$theme === 'dark'}
   class:text-slate-50={$theme === 'dark'}
-  style="height:500px"
+  style="height:600px"
 >
   <!-- Content Area -->
   <div class=" flex flex-grow overflow-auto">
