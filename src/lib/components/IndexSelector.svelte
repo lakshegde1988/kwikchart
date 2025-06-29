@@ -4,7 +4,7 @@
 
   const dispatch = createEventDispatcher<{ select: string }>();
 
-  const indexFiles = ['largecaps.json', 'midcaps.json', 'smallcaps.json', 'microcaps.json'];
+  const indexFiles = ['largecaps.json', 'midcaps.json', 'smallcaps.json', 'microcaps.json','10x.json'];
 
   function handleSelect(event: Event) {
     const selectedFile = (event.target as HTMLSelectElement).value;
