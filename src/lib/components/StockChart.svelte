@@ -249,18 +249,28 @@
 
       // Calculate and set yearly pivot point data
       const yearlyPivotData = calculateYearlyPivotPoint(data);
+      console.log('Yearly pivot data:', yearlyPivotData);
       
-  
-      
-      
-    
-
       barSeries.setData(barData);
       volumeSeries.setData(volumeData);
       
       // Set yearly pivot point data
-      if (yearlyPivotSeries && yearlyPivotData.length > 0) {
-        yearlyPivotSeries.setData(yearlyPivotData);
+      if (yearlyPivotSeries) {
+        if (yearlyPivotData.length > 0) {
+          console.log('Setting pivot data, first few points:', yearlyPivotData.slice(0, 5));
+          yearlyPivotSeries.setData(yearlyPivotData);
+        } else {
+          console.log('No yearly pivot data calculated');
+          // Try a simple test line to see if the series works at all
+          const testData = data.map(point => ({
+            time: point.time,
+            value: data[0].close * 1.1 // 10% above first close price
+          }));
+          console.log('Setting test data instead:', testData.slice(0, 3));
+          yearlyPivotSeries.setData(testData);
+        }
+      } else {
+        console.log('yearlyPivotSeries is not initialized');
       }
 
     //  maSeries1.setData(calculateMovingAverage(data, 10));
