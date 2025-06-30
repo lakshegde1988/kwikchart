@@ -14,6 +14,7 @@
   let volumeSeries: any;
   let maSeries1: any;
   let maSeries2: any;
+  let yearlyPivotSeries: any;
   
   
   let resizeObserver: ResizeObserver;
@@ -45,6 +46,64 @@
       result.push({ time: data[i].time, value: sum / period });
     }
     return result;
+  }
+
+  function calculateYearlyPivotPoint(data: StockData[]): { time: number, value: number }[] {
+    if (!data || data.length === 0) return [];
+    
+    const yearlyData = new Map<number, { high: number, low: number, close: number, firstTime: number, lastTime: number }>();
+    
+    // Group data by year and find yearly high, low, and last close
+    data.forEach(point => {
+      const date = new Date(point.time * 1000);
+      const year = date.getFullYear();
+      
+      if (!yearlyData.has(year)) {
+        yearlyData.set(year, {
+          high: point.high,
+          low: point.low,
+          close: point.close,
+          firstTime: point.time,
+          lastTime: point.time
+        });
+      } else {
+        const yearData = yearlyData.get(year)!;
+        yearData.high = Math.max(yearData.high, point.high);
+        yearData.low = Math.min(yearData.low, point.low);
+        yearData.close = point.close; // This will be the last close of the year
+        yearData.lastTime = point.time;
+      }
+    });
+    
+    const pivotPoints: { time: number, value: number }[] = [];
+    const sortedYears = Array.from(yearlyData.keys()).sort();
+    
+    // Calculate pivot points for each year based on previous year's data
+    for (let i = 1; i < sortedYears.length; i++) {
+      const currentYear = sortedYears[i];
+      const previousYear = sortedYears[i - 1];
+      const previousYearData = yearlyData.get(previousYear)!;
+      const currentYearData = yearlyData.get(currentYear)!;
+      
+      // Calculate yearly pivot point: (H + L + C) / 3
+      const pivotPoint = (previousYearData.high + previousYearData.low + previousYearData.close) / 3;
+      
+      // Add pivot point for the entire current year
+      const currentYearStart = new Date(currentYear, 0, 1).getTime() / 1000;
+      const currentYearEnd = currentYearData.lastTime;
+      
+      // Find all data points in the current year to create a continuous line
+      const currentYearPoints = data.filter(point => {
+        const pointDate = new Date(point.time * 1000);
+        return pointDate.getFullYear() === currentYear;
+      });
+      
+      currentYearPoints.forEach(point => {
+        pivotPoints.push({ time: point.time, value: pivotPoint });
+      });
+    }
+    
+    return pivotPoints;
   }
 
   function updateLegend(param: any) {
@@ -125,6 +184,14 @@
       lineWidth: 1,
     }, { pane: "volume" });
 
+    // Add yearly pivot point line series
+    yearlyPivotSeries = chart.addLineSeries({
+      color: '#FFD700', // Gold color for yearly pivot
+      lineWidth: 2,
+      lineStyle: 1, // Dashed line
+      title: 'Yearly Pivot'
+    });
+
    // maSeries1 = chart.addLineSeries({ color: 'green', lineWidth: 1 });
     //maSeries2 = chart.addLineSeries({ color: 'yellow', lineWidth: 1 });
     
@@ -183,7 +250,8 @@
         };
       });
 
-      
+      // Calculate and set yearly pivot point data
+      const yearlyPivotData = calculateYearlyPivotPoint(data);
       
   
       
@@ -192,6 +260,11 @@
 
       barSeries.setData(barData);
       volumeSeries.setData(volumeData);
+      
+      // Set yearly pivot point data
+      if (yearlyPivotSeries && yearlyPivotData.length > 0) {
+        yearlyPivotSeries.setData(yearlyPivotData);
+      }
 
     //  maSeries1.setData(calculateMovingAverage(data, 10));
      // maSeries2.setData(calculateMovingAverage(data, 21));
