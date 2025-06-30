@@ -51,7 +51,9 @@
   function calculateYearlyPivotPoint(data: StockData[]): { time: number, value: number }[] {
     if (!data || data.length === 0) return [];
     
-    const yearlyData = new Map<number, { high: number, low: number, close: number, firstTime: number, lastTime: number }>();
+    console.log('Calculating yearly pivot with data length:', data.length);
+    
+    const yearlyData = new Map<number, { high: number, low: number, close: number, times: number[] }>();
     
     // Group data by year and find yearly high, low, and last close
     data.forEach(point => {
@@ -63,20 +65,21 @@
           high: point.high,
           low: point.low,
           close: point.close,
-          firstTime: point.time,
-          lastTime: point.time
+          times: [point.time]
         });
       } else {
         const yearData = yearlyData.get(year)!;
         yearData.high = Math.max(yearData.high, point.high);
         yearData.low = Math.min(yearData.low, point.low);
         yearData.close = point.close; // This will be the last close of the year
-        yearData.lastTime = point.time;
+        yearData.times.push(point.time);
       }
     });
     
     const pivotPoints: { time: number, value: number }[] = [];
     const sortedYears = Array.from(yearlyData.keys()).sort();
+    
+    console.log('Years found:', sortedYears);
     
     // Calculate pivot points for each year based on previous year's data
     for (let i = 1; i < sortedYears.length; i++) {
@@ -88,22 +91,16 @@
       // Calculate yearly pivot point: (H + L + C) / 3
       const pivotPoint = (previousYearData.high + previousYearData.low + previousYearData.close) / 3;
       
-      // Add pivot point for the entire current year
-      const currentYearStart = new Date(currentYear, 0, 1).getTime() / 1000;
-      const currentYearEnd = currentYearData.lastTime;
+      console.log(`Year ${currentYear} pivot point: ${pivotPoint} (based on ${previousYear}: H=${previousYearData.high}, L=${previousYearData.low}, C=${previousYearData.close})`);
       
-      // Find all data points in the current year to create a continuous line
-      const currentYearPoints = data.filter(point => {
-        const pointDate = new Date(point.time * 1000);
-        return pointDate.getFullYear() === currentYear;
-      });
-      
-      currentYearPoints.forEach(point => {
-        pivotPoints.push({ time: point.time, value: pivotPoint });
+      // Add pivot point for all timestamps in the current year
+      currentYearData.times.forEach(time => {
+        pivotPoints.push({ time: time, value: pivotPoint });
       });
     }
     
-    return pivotPoints;
+    console.log('Total pivot points created:', pivotPoints.length);
+    return pivotPoints.sort((a, b) => a.time - b.time);
   }
 
   function updateLegend(param: any) {
@@ -188,7 +185,7 @@
     yearlyPivotSeries = chart.addLineSeries({
       color: '#FFD700', // Gold color for yearly pivot
       lineWidth: 2,
-      lineStyle: 1, // Dashed line
+      lineStyle: 0, // Solid line (0 = solid, 1 = dotted, 2 = dashed)
       title: 'Yearly Pivot'
     });
 
