@@ -53,10 +53,13 @@
     
     console.log('Calculating yearly pivot with data length:', data.length);
     
-    const yearlyData = new Map<number, { high: number, low: number, close: number, times: number[] }>();
+    // Sort data by time to ensure proper chronological order
+    const sortedData = [...data].sort((a, b) => a.time - b.time);
     
-    // Group data by year and find yearly high, low, and last close
-    data.forEach(point => {
+    const yearlyData = new Map<number, { high: number, low: number, close: number, firstDate: Date, lastDate: Date, dataPoints: StockData[] }>();
+    
+    // Group data by calendar year (Jan 1 - Dec 31)
+    sortedData.forEach(point => {
       const date = new Date(point.time * 1000);
       const year = date.getFullYear();
       
@@ -65,14 +68,27 @@
           high: point.high,
           low: point.low,
           close: point.close,
-          times: [point.time]
+          firstDate: date,
+          lastDate: date,
+          dataPoints: [point]
         });
       } else {
         const yearData = yearlyData.get(year)!;
         yearData.high = Math.max(yearData.high, point.high);
         yearData.low = Math.min(yearData.low, point.low);
-        yearData.close = point.close; // This will be the last close of the year
-        yearData.times.push(point.time);
+        
+        // Update close only if this is a later date in the year
+        if (date >= yearData.lastDate) {
+          yearData.close = point.close;
+          yearData.lastDate = date;
+        }
+        
+        // Update first date if this is earlier
+        if (date < yearData.firstDate) {
+          yearData.firstDate = date;
+        }
+        
+        yearData.dataPoints.push(point);
       }
     });
     
@@ -81,21 +97,41 @@
     
     console.log('Years found:', sortedYears);
     
-    // Calculate pivot points for each year based on previous year's data
+    // Log the date ranges for each year to verify we have complete calendar years
+    sortedYears.forEach(year => {
+      const yearData = yearlyData.get(year)!;
+      console.log(`Year ${year}: ${yearData.firstDate.toDateString()} to ${yearData.lastDate.toDateString()}`);
+      console.log(`  Data points: ${yearData.dataPoints.length}`);
+    });
+    
+    // Calculate pivot points for each year based on COMPLETE PREVIOUS CALENDAR YEAR
     for (let i = 1; i < sortedYears.length; i++) {
       const currentYear = sortedYears[i];
       const previousYear = sortedYears[i - 1];
       const previousYearData = yearlyData.get(previousYear)!;
       const currentYearData = yearlyData.get(currentYear)!;
       
-      // Calculate yearly pivot point: (H + L + C) / 3
+      // Verify we have complete previous year data (should ideally start near Jan 1 and end near Dec 31)
+      const janFirst = new Date(previousYear, 0, 1);
+      const decThirtyFirst = new Date(previousYear, 11, 31);
+      
+      console.log(`Previous year ${previousYear} date range check:`);
+      console.log(`  Should be: ${janFirst.toDateString()} to ${decThirtyFirst.toDateString()}`);
+      console.log(`  Actually: ${previousYearData.firstDate.toDateString()} to ${previousYearData.lastDate.toDateString()}`);
+      
+      // Calculate yearly pivot point using the complete previous calendar year: (H + L + C) / 3
       const pivotPoint = (previousYearData.high + previousYearData.low + previousYearData.close) / 3;
       
-      console.log(`Year ${currentYear} pivot point: ${pivotPoint} (based on ${previousYear}: H=${previousYearData.high}, L=${previousYearData.low}, C=${previousYearData.close})`);
+      console.log(`Year ${currentYear} pivot point: ${pivotPoint.toFixed(4)}`);
+      console.log(`  Based on complete ${previousYear} calendar year:`);
+      console.log(`  High: ${previousYearData.high.toFixed(4)} (highest during ${previousYear})`);
+      console.log(`  Low: ${previousYearData.low.toFixed(4)} (lowest during ${previousYear})`);
+      console.log(`  Close: ${previousYearData.close.toFixed(4)} (last close of ${previousYear})`);
+      console.log(`  Calculation: (${previousYearData.high.toFixed(4)} + ${previousYearData.low.toFixed(4)} + ${previousYearData.close.toFixed(4)}) / 3 = ${pivotPoint.toFixed(4)}`);
       
-      // Add pivot point for all timestamps in the current year
-      currentYearData.times.forEach(time => {
-        pivotPoints.push({ time: time, value: pivotPoint });
+      // Add pivot point for all data points in the current year
+      currentYearData.dataPoints.forEach(point => {
+        pivotPoints.push({ time: point.time, value: pivotPoint });
       });
     }
     
