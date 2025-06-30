@@ -14,7 +14,6 @@
   let volumeSeries: any;
   let maSeries1: any;
   let maSeries2: any;
-  let yearlyPivotSeries: any;
   
   
   let resizeObserver: ResizeObserver;
@@ -46,97 +45,6 @@
       result.push({ time: data[i].time, value: sum / period });
     }
     return result;
-  }
-
-  function calculateYearlyPivotPoint(data: StockData[]): { time: number, value: number }[] {
-    if (!data || data.length === 0) return [];
-    
-    console.log('Calculating yearly pivot with data length:', data.length);
-    
-    // Sort data by time to ensure proper chronological order
-    const sortedData = [...data].sort((a, b) => a.time - b.time);
-    
-    const yearlyData = new Map<number, { high: number, low: number, close: number, firstDate: Date, lastDate: Date, dataPoints: StockData[] }>();
-    
-    // Group data by calendar year (Jan 1 - Dec 31)
-    sortedData.forEach(point => {
-      const date = new Date(point.time * 1000);
-      const year = date.getFullYear();
-      
-      if (!yearlyData.has(year)) {
-        yearlyData.set(year, {
-          high: point.high,
-          low: point.low,
-          close: point.close,
-          firstDate: date,
-          lastDate: date,
-          dataPoints: [point]
-        });
-      } else {
-        const yearData = yearlyData.get(year)!;
-        yearData.high = Math.max(yearData.high, point.high);
-        yearData.low = Math.min(yearData.low, point.low);
-        
-        // Update close only if this is a later date in the year
-        if (date >= yearData.lastDate) {
-          yearData.close = point.close;
-          yearData.lastDate = date;
-        }
-        
-        // Update first date if this is earlier
-        if (date < yearData.firstDate) {
-          yearData.firstDate = date;
-        }
-        
-        yearData.dataPoints.push(point);
-      }
-    });
-    
-    const pivotPoints: { time: number, value: number }[] = [];
-    const sortedYears = Array.from(yearlyData.keys()).sort();
-    
-    console.log('Years found:', sortedYears);
-    
-    // Log the date ranges for each year to verify we have complete calendar years
-    sortedYears.forEach(year => {
-      const yearData = yearlyData.get(year)!;
-      console.log(`Year ${year}: ${yearData.firstDate.toDateString()} to ${yearData.lastDate.toDateString()}`);
-      console.log(`  Data points: ${yearData.dataPoints.length}`);
-    });
-    
-    // Calculate pivot points for each year based on COMPLETE PREVIOUS CALENDAR YEAR
-    for (let i = 1; i < sortedYears.length; i++) {
-      const currentYear = sortedYears[i];
-      const previousYear = sortedYears[i - 1];
-      const previousYearData = yearlyData.get(previousYear)!;
-      const currentYearData = yearlyData.get(currentYear)!;
-      
-      // Verify we have complete previous year data (should ideally start near Jan 1 and end near Dec 31)
-      const janFirst = new Date(previousYear, 0, 1);
-      const decThirtyFirst = new Date(previousYear, 11, 31);
-      
-      console.log(`Previous year ${previousYear} date range check:`);
-      console.log(`  Should be: ${janFirst.toDateString()} to ${decThirtyFirst.toDateString()}`);
-      console.log(`  Actually: ${previousYearData.firstDate.toDateString()} to ${previousYearData.lastDate.toDateString()}`);
-      
-      // Calculate yearly pivot point using the complete previous calendar year: (H + L + C) / 3
-      const pivotPoint = (previousYearData.high + previousYearData.low + previousYearData.close) / 3;
-      
-      console.log(`Year ${currentYear} pivot point: ${pivotPoint.toFixed(4)}`);
-      console.log(`  Based on complete ${previousYear} calendar year:`);
-      console.log(`  High: ${previousYearData.high.toFixed(4)} (highest during ${previousYear})`);
-      console.log(`  Low: ${previousYearData.low.toFixed(4)} (lowest during ${previousYear})`);
-      console.log(`  Close: ${previousYearData.close.toFixed(4)} (last close of ${previousYear})`);
-      console.log(`  Calculation: (${previousYearData.high.toFixed(4)} + ${previousYearData.low.toFixed(4)} + ${previousYearData.close.toFixed(4)}) / 3 = ${pivotPoint.toFixed(4)}`);
-      
-      // Add pivot point for all data points in the current year
-      currentYearData.dataPoints.forEach(point => {
-        pivotPoints.push({ time: point.time, value: pivotPoint });
-      });
-    }
-    
-    console.log('Total pivot points created:', pivotPoints.length);
-    return pivotPoints.sort((a, b) => a.time - b.time);
   }
 
   function updateLegend(param: any) {
@@ -217,14 +125,6 @@
       lineWidth: 1,
     }, { pane: "volume" });
 
-    // Add yearly pivot point line series
-    yearlyPivotSeries = chart.addLineSeries({
-      color: '#FFD700', // Gold color for yearly pivot
-      lineWidth: 2,
-      lineStyle: 0, // Solid line (0 = solid, 1 = dotted, 2 = dashed)
-      title: 'Yearly Pivot'
-    });
-
    // maSeries1 = chart.addLineSeries({ color: 'green', lineWidth: 1 });
     //maSeries2 = chart.addLineSeries({ color: 'yellow', lineWidth: 1 });
     
@@ -283,31 +183,15 @@
         };
       });
 
-      // Calculate and set yearly pivot point data
-      const yearlyPivotData = calculateYearlyPivotPoint(data);
-      console.log('Yearly pivot data:', yearlyPivotData);
       
+      
+  
+      
+      
+    
+
       barSeries.setData(barData);
       volumeSeries.setData(volumeData);
-      
-      // Set yearly pivot point data
-      if (yearlyPivotSeries) {
-        if (yearlyPivotData.length > 0) {
-          console.log('Setting pivot data, first few points:', yearlyPivotData.slice(0, 5));
-          yearlyPivotSeries.setData(yearlyPivotData);
-        } else {
-          console.log('No yearly pivot data calculated');
-          // Try a simple test line to see if the series works at all
-          const testData = data.map(point => ({
-            time: point.time,
-            value: data[0].close * 1.1 // 10% above first close price
-          }));
-          console.log('Setting test data instead:', testData.slice(0, 3));
-          yearlyPivotSeries.setData(testData);
-        }
-      } else {
-        console.log('yearlyPivotSeries is not initialized');
-      }
 
     //  maSeries1.setData(calculateMovingAverage(data, 10));
      // maSeries2.setData(calculateMovingAverage(data, 21));
