@@ -199,7 +199,8 @@
       
       
 
-      chart.timeScale().fitContent();
+chart.timeScale().fitContent();
+chart.priceScale('right').applyOptions({ autoScale: false });
       setInitialLegend();
     }
   }
