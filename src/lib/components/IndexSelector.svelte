@@ -4,7 +4,7 @@
 
   const dispatch = createEventDispatcher<{ select: string }>();
 
-  const indexFiles = ['fno.json'];
+  const indexFiles = ['fno.json','ipo.json'];
 
   function handleSelect(event: Event) {
     const selectedFile = (event.target as HTMLSelectElement).value;
