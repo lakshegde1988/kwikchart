@@ -132,7 +132,7 @@
 
     chart.priceScale('volume').applyOptions({
       scaleMargins: {
-        top: 0.9,
+        top: 0.8,
         bottom: 0,
       },
       borderColor: '#444444',
@@ -141,7 +141,7 @@
     barSeries.priceScale().applyOptions({
       scaleMargins: {
         top: 0.3,
-        bottom: 0.3,
+        bottom: 0.2,
       },
       borderColor: '#444444',
     });
