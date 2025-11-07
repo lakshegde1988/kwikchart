@@ -97,7 +97,7 @@
       timeScale: {
         timeVisible: false,
         rightOffset: 5,
-        minBarSpacing: 4,
+        minBarSpacing: 5,
         borderColor: '#444444',
       },
     });
@@ -144,7 +144,6 @@
         bottom: 0.3,
       },
       borderColor: '#444444',
-      mode: 1,
     });
 
     updateChartData();
