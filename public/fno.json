@@ -1,18 +1,11 @@
 [
 
   {
-    "Symbol": "ADANIENSOL"
-  },
-  {
     "Symbol": "ADANIENT"
-  },
-  {
-    "Symbol": "ADANIGREEN"
   },
   {
     "Symbol": "ADANIPORTS"
   },
- 
   {
     "Symbol": "ANGELONE"
   },
@@ -46,11 +39,9 @@
   {
     "Symbol": "BANKBARODA"
   },
- 
   {
     "Symbol": "BEL"
   },
- 
   {
     "Symbol": "BHARTIARTL"
   },
@@ -66,7 +57,6 @@
   {
     "Symbol": "BSE"
   },
- 
   {
     "Symbol": "CANBK"
   },
@@ -76,25 +66,14 @@
   {
     "Symbol": "CGPOWER"
   },
- 
   {
     "Symbol": "CIPLA"
   },
   {
     "Symbol": "COFORGE"
   },
- 
-  
-  {
-    "Symbol": "CUMMINSIND"
-  },
- 
   {
     "Symbol": "DABUR"
-  },
- 
-  {
-    "Symbol": "DELHIVERY"
   },
   {
     "Symbol": "DIVISLAB"
@@ -105,7 +84,6 @@
   {
     "Symbol": "DLF"
   },
- 
   {
     "Symbol": "DRREDDY"
   },
@@ -114,12 +92,7 @@
   },
   {
     "Symbol": "ETERNAL"
-  },
- 
-  {
-    "Symbol": "FEDERALBNK"
-  },
- 
+  }, 
   {
     "Symbol": "GMRAIRPORT"
   },
@@ -210,33 +183,21 @@
   {
     "Symbol": "MOTHERSON"
   },
-
   {
     "Symbol": "MUTHOOTFIN"
   },
-  
-  
-  {
-    "Symbol": "OBEROIRLTY"
-  },
- 
- 
   {
     "Symbol": "ONGC"
   },
-  
   {
     "Symbol": "PERSISTENT"
   },
-
   {
     "Symbol": "PFC"
   },
-  
   {
     "Symbol": "PNB"
   }, 
-
   {
     "Symbol": "RBLBANK"
   },
@@ -249,29 +210,24 @@
   {
     "Symbol": "SBIN"
   },
- 
   {
     "Symbol": "SHRIRAMFIN"
   },
-  
   {
     "Symbol": "SRF"
   },
   {
     "Symbol": "SUNPHARMA"
   },
- 
   {
     "Symbol": "TATACONSUM"
   },
-  
   {
     "Symbol": "TATAPOWER"
   },
   {
     "Symbol": "TATASTEEL"
   },
- 
   {
     "Symbol": "TCS"
   },
@@ -296,12 +252,8 @@
   {
     "Symbol": "UNITDSPR"
   },
-
   {
     "Symbol": "VBL"
-  },
-  {
-    "Symbol": "VEDL"
   },
   {
     "Symbol": "VOLTAS"
