@@ -144,6 +144,7 @@
         bottom: 0.2,
       },
       borderColor: '#444444',
+      mode :1,
     });
 
     updateChartData();
