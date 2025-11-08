@@ -5,7 +5,7 @@
 
   export let data: StockData[] = [];
   export let stockName: string = '';
-  export let interval: Interval = { label: 'D', value: '1d', range: '3mo' };
+  export let interval: Interval = { label: 'D', value: '1d', range: '6mo' };
 
   let chartContainer: HTMLElement;
   let legendContainer: HTMLElement;
