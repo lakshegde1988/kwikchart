@@ -193,8 +193,8 @@
       barSeries.setData(barData);
       volumeSeries.setData(volumeData);
 
-    //  maSeries1.setData(calculateMovingAverage(data, 10));
-     // maSeries2.setData(calculateMovingAverage(data, 21));
+    maSeries1.setData(calculateMovingAverage(data, 10));
+    maSeries2.setData(calculateMovingAverage(data, 21));
 
       
       
