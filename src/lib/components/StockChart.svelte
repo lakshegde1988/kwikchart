@@ -141,7 +141,7 @@
     barSeries.priceScale().applyOptions({
       scaleMargins: {
         top: 0.2,
-        bottom: 0.3,
+        bottom: 0.2,
       },
       borderColor: '#444444',
     });
