@@ -274,7 +274,7 @@ chart.priceScale('right').applyOptions({ autoScale: false });
   }
 </script>
 
-<div class="chart-container relative w-full h-full min-h-[300px]">
+<div class="chart-container relative w-full min-h-[300px]">
   <div bind:this={chartContainer} class="w-full h-full"></div>
   <div 
     bind:this={legendContainer} 
