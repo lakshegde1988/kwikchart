@@ -12,13 +12,7 @@
     "Symbol": "ADANIENSOL"
   },
   {
-    "Symbol": "ADANIENT"
-  },
-  {
     "Symbol": "ADANIGREEN"
-  },
-  {
-    "Symbol": "ADANIPORTS"
   },
   {
     "Symbol": "ALKEM"
@@ -36,13 +30,7 @@
     "Symbol": "APLAPOLLO"
   },
   {
-    "Symbol": "APOLLOHOSP"
-  },
-  {
     "Symbol": "ASHOKLEY"
-  },
-  {
-    "Symbol": "ASIANPAINT"
   },
   {
     "Symbol": "ASTRAL"
@@ -52,18 +40,6 @@
   },
   {
     "Symbol": "AUROPHARMA"
-  },
-  {
-    "Symbol": "AXISBANK"
-  },
-  {
-    "Symbol": "BAJAJ-AUTO"
-  },
-  {
-    "Symbol": "BAJAJFINSV"
-  },
-  {
-    "Symbol": "BAJFINANCE"
   },
   {
     "Symbol": "BANDHANBNK"
@@ -78,13 +54,7 @@
     "Symbol": "BDL"
   },
   {
-    "Symbol": "BEL"
-  },
-  {
     "Symbol": "BHARATFORG"
-  },
-  {
-    "Symbol": "BHARTIARTL"
   },
   {
     "Symbol": "BHEL"
@@ -96,13 +66,7 @@
     "Symbol": "BLUESTARCO"
   },
   {
-    "Symbol": "BOSCHLTD"
-  },
-  {
     "Symbol": "BPCL"
-  },
-  {
-    "Symbol": "BRITANNIA"
   },
   {
     "Symbol": "BSE"
@@ -121,12 +85,6 @@
   },
   {
     "Symbol": "CHOLAFIN"
-  },
-  {
-    "Symbol": "CIPLA"
-  },
-  {
-    "Symbol": "COALINDIA"
   },
   {
     "Symbol": "COFORGE"
@@ -168,15 +126,6 @@
     "Symbol": "DMART"
   },
   {
-    "Symbol": "DRREDDY"
-  },
-  {
-    "Symbol": "EICHERMOT"
-  },
-  {
-    "Symbol": "ETERNAL"
-  },
-  {
     "Symbol": "EXIDEIND"
   },
   {
@@ -201,49 +150,25 @@
     "Symbol": "GODREJPROP"
   },
   {
-    "Symbol": "GRASIM"
-  },
-  {
     "Symbol": "HAL"
   },
   {
     "Symbol": "HAVELLS"
   },
   {
-    "Symbol": "HCLTECH"
-  },
-  {
     "Symbol": "HDFCAMC"
-  },
-  {
-    "Symbol": "HDFCBANK"
-  },
-  {
-    "Symbol": "HDFCLIFE"
-  },
-  {
-    "Symbol": "HEROMOTOCO"
   },
   {
     "Symbol": "HFCL"
   },
   {
-    "Symbol": "HINDALCO"
-  },
-  {
     "Symbol": "HINDPETRO"
-  },
-  {
-    "Symbol": "HINDUNILVR"
   },
   {
     "Symbol": "HINDZINC"
   },
   {
     "Symbol": "HUDCO"
-  },
-  {
-    "Symbol": "ICICIBANK"
   },
   {
     "Symbol": "ICICIGI"
@@ -276,13 +201,7 @@
     "Symbol": "INDIGO"
   },
   {
-    "Symbol": "INDUSINDBK"
-  },
-  {
     "Symbol": "INDUSTOWER"
-  },
-  {
-    "Symbol": "INFY"
   },
   {
     "Symbol": "INOXWIND"
@@ -298,9 +217,6 @@
   },
   {
     "Symbol": "IRFC"
-  },
-  {
-    "Symbol": "ITC"
   },
   {
     "Symbol": "JINDALSTEL"
@@ -330,9 +246,6 @@
     "Symbol": "KFINTECH"
   },
   {
-    "Symbol": "KOTAKBANK"
-  },
-  {
     "Symbol": "KPITTECH"
   },
   {
@@ -348,9 +261,6 @@
     "Symbol": "LODHA"
   },
   {
-    "Symbol": "LT"
-  },
-  {
     "Symbol": "LTF"
   },
   {
@@ -360,9 +270,6 @@
     "Symbol": "LUPIN"
   },
   {
-    "Symbol": "M&M"
-  },
-  {
     "Symbol": "MANAPPURAM"
   },
   {
@@ -370,12 +277,6 @@
   },
   {
     "Symbol": "MARICO"
-  },
-  {
-    "Symbol": "MARUTI"
-  },
-  {
-    "Symbol": "MAXHEALTH"
   },
   {
     "Symbol": "MAZDOCK"
@@ -420,9 +321,6 @@
     "Symbol": "NTPC"
   },
   {
-    "Symbol": "NUVAMA"
-  },
-  {
     "Symbol": "NYKAA"
   },
   {
@@ -436,9 +334,6 @@
   },
   {
     "Symbol": "ONGC"
-  },
-  {
-    "Symbol": "PAGEIND"
   },
   {
     "Symbol": "PATANJALI"
@@ -483,9 +378,6 @@
     "Symbol": "POWERGRID"
   },
   {
-    "Symbol": "POWERINDIA"
-  },
-  {
     "Symbol": "PPLPHARMA"
   },
   {
@@ -496,9 +388,6 @@
   },
   {
     "Symbol": "RECLTD"
-  },
-  {
-    "Symbol": "RELIANCE"
   },
   {
     "Symbol": "RVNL"
@@ -516,28 +405,13 @@
     "Symbol": "SBILIFE"
   },
   {
-    "Symbol": "SBIN"
-  },
-  {
-    "Symbol": "SHREECEM"
-  },
-  {
-    "Symbol": "SHRIRAMFIN"
-  },
-  {
     "Symbol": "SIEMENS"
-  },
-  {
-    "Symbol": "SOLARINDS"
   },
   {
     "Symbol": "SONACOMS"
   },
   {
     "Symbol": "SRF"
-  },
-  {
-    "Symbol": "SUNPHARMA"
   },
   {
     "Symbol": "SUPREMEIND"
@@ -549,25 +423,13 @@
     "Symbol": "SYNGENE"
   },
   {
-    "Symbol": "TATACONSUM"
-  },
-  {
     "Symbol": "TATAELXSI"
   },
   {
     "Symbol": "TATAPOWER"
   },
   {
-    "Symbol": "TATASTEEL"
-  },
-  {
     "Symbol": "TATATECH"
-  },
-  {
-    "Symbol": "TCS"
-  },
-  {
-    "Symbol": "TECHM"
   },
   {
     "Symbol": "TIINDIA"
@@ -576,22 +438,10 @@
     "Symbol": "TITAGARH"
   },
   {
-    "Symbol": "TITAN"
-  },
-  {
-    "Symbol": "TORNTPHARM"
-  },
-  {
     "Symbol": "TORNTPOWER"
   },
   {
-    "Symbol": "TRENT"
-  },
-  {
     "Symbol": "TVSMOTOR"
-  },
-  {
-    "Symbol": "ULTRACEMCO"
   },
   {
     "Symbol": "UNIONBANK"
@@ -613,9 +463,6 @@
   },
   {
     "Symbol": "VOLTAS"
-  },
-  {
-    "Symbol": "WIPRO"
   },
   {
     "Symbol": "YESBANK"
