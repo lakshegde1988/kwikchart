@@ -140,8 +140,8 @@
 
     barSeries.priceScale().applyOptions({
       scaleMargins: {
-        top: 0.2,
-        bottom: 0.2,
+        top: 0.5,
+        bottom: 0.5,
       },
       borderColor: '#444444',
     });
