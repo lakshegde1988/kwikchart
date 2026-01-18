@@ -97,7 +97,7 @@
       timeScale: {
         timeVisible: false,
         rightOffset: 5,
-        minBarSpacing: 2,
+        minBarSpacing: 3,
         borderColor: '#444444',
       },
     });
