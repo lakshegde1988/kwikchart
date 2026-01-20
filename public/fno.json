@@ -63,6 +63,9 @@
     "Symbol": "BAJAJFINSV"
   },
   {
+    "Symbol": "BAJAJHLDNG"
+  },
+  {
     "Symbol": "BAJFINANCE"
   },
   {
@@ -73,6 +76,9 @@
   },
   {
     "Symbol": "BANKINDIA"
+  },
+  {
+    "Symbol": "BANKNIFTY"
   },
   {
     "Symbol": "BDL"
@@ -143,7 +149,6 @@
   {
     "Symbol": "CUMMINSIND"
   },
-
   {
     "Symbol": "DABUR"
   },
@@ -222,7 +227,6 @@
   {
     "Symbol": "HEROMOTOCO"
   },
-  
   {
     "Symbol": "HINDALCO"
   },
@@ -255,9 +259,6 @@
   },
   {
     "Symbol": "IEX"
-  },
-  {
-    "Symbol": "IGL"
   },
   {
     "Symbol": "IIFL"
@@ -397,12 +398,17 @@
   {
     "Symbol": "NAUKRI"
   },
-
+  {
+    "Symbol": "NBCC"
+  },
   {
     "Symbol": "NESTLEIND"
   },
   {
     "Symbol": "NHPC"
+  },
+  {
+    "Symbol": "NIFTY"
   },
   {
     "Symbol": "NMDC"
@@ -480,6 +486,9 @@
     "Symbol": "PPLPHARMA"
   },
   {
+    "Symbol": "PREMIERENE"
+  },
+  {
     "Symbol": "PRESTIGE"
   },
   {
@@ -537,6 +546,9 @@
     "Symbol": "SUZLON"
   },
   {
+    "Symbol": "SWIGGY"
+  },
+  {
     "Symbol": "SYNGENE"
   },
   {
@@ -565,6 +577,9 @@
   },
   {
     "Symbol": "TITAN"
+  },
+  {
+    "Symbol": "TMPV"
   },
   {
     "Symbol": "TORNTPHARM"
@@ -601,6 +616,9 @@
   },
   {
     "Symbol": "VOLTAS"
+  },
+  {
+    "Symbol": "WAAREEENER"
   },
   {
     "Symbol": "WIPRO"
